@@ -10,6 +10,9 @@ importers:
       "@radix-ui/react-slot":
         specifier: ^1.1.0
         version: 1.1.0(@types/react@18.3.12)(react@18.3.1)
+      "@tabler/icons-react":
+        specifier: ^3.21.0
+        version: 3.21.0(react@18.3.1)
       class-variance-authority:
         specifier: ^0.7.0
         version: 0.7.0
@@ -33,7 +36,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.14)
       team-a-frontend:
         specifier: "file:"
-        version: file:(tailwindcss@3.4.14)
+        version: file:(@types/react@18.3.12)(tailwindcss@3.4.14)
     devDependencies:
       "@commitlint/cli":
         specifier: ^19.5.0
@@ -889,6 +892,20 @@ packages:
     resolution:
       {
         integrity: sha512-PbSmTiYCN+GMrvfjrMo9bdY+f2COnwbdnoMw7rqU/PI5jXpKjxOGZ0qqZCImxnT81NkNsKnmEpvu+hRXLBeCJg==,
+      }
+
+  "@tabler/icons-react@3.21.0":
+    resolution:
+      {
+        integrity: sha512-Qq0GnZzzccbv/zuMyXAUUPlogNAqx9KsF8cr/ev3bxs+GMObqNEjXv1eZl9GFzxyQTS435siJNU8A1BaIYhX8g==,
+      }
+    peerDependencies:
+      react: ">= 16"
+
+  "@tabler/icons@3.21.0":
+    resolution:
+      {
+        integrity: sha512-5+GkkmWCr1wgMor5cOF1/YYflTQdc15y10FUikJ3HW8hDiFjfbuoAHJi17FT1vwsr1sA78rkJMn+fDoOOjnnPA==,
       }
 
   "@types/conventional-commits-parser@5.0.0":
@@ -3407,6 +3424,13 @@ snapshots:
     dependencies:
       "@swc/counter": 0.1.3
 
+  "@tabler/icons-react@3.21.0(react@18.3.1)":
+    dependencies:
+      "@tabler/icons": 3.21.0
+      react: 18.3.1
+
+  "@tabler/icons@3.21.0": {}
+
   "@types/conventional-commits-parser@5.0.0":
     dependencies:
       "@types/node": 22.9.0
@@ -4483,8 +4507,9 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  team-a-frontend@file:(tailwindcss@3.4.14):
+  team-a-frontend@file:(@types/react@18.3.12)(tailwindcss@3.4.14):
     dependencies:
+      "@radix-ui/react-slot": 1.1.0(@types/react@18.3.12)(react@18.3.1)
       class-variance-authority: 0.7.0
       clsx: 2.1.1
       lucide-react: 0.456.0(react@18.3.1)
@@ -4493,6 +4518,7 @@ snapshots:
       tailwind-merge: 2.5.4
       tailwindcss-animate: 1.0.7(tailwindcss@3.4.14)
     transitivePeerDependencies:
+      - "@types/react"
       - tailwindcss
 
   text-extensions@2.4.0: {}
