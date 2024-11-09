@@ -5,7 +5,7 @@ function hero() {
   return (
     <div className="flex flex-col w-full items-center justify-center bg-primary-midnight-blue text-start text-white h-screen small-mobile:pl-10">
       <div className="space-y-5 md:text-start">
-        <h1 className="font-semibold text-5xl md:text-6xl">
+        <h1 className="font-semibold text-4xl md:text-6xl">
           Empowering change <br></br> Through Collective Goodwill
         </h1>
         <p className="text-base font-light">
