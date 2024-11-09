@@ -17,7 +17,7 @@ const NavigationBar: React.FC = () => {
     { name: "Volunteer", link: "/" },
   ];
 
-  let [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   return (
     <div className="w-full bg-primary-midnight-blue fixed top-0 left-0">
       <div className="md:px-10 py-4 px-7 md:flex justify-between items-center bg-primary-midnight-blue">
