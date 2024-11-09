@@ -13,6 +13,9 @@ export default {
         "secondary-peach": "#FFD3AC",
         "secondary-golden-sand": "#DBB06B",
       },
+      fontFamily: {
+        poppins: ["Poppins", "sans-serif"],
+      },
     },
   },
   plugins: [],
