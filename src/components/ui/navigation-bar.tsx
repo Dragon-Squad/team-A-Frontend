@@ -46,8 +46,8 @@ const NavigationBar: React.FC = () => {
               </a>
             </li>
           ))}
-          <Button className="bg-white text-primary-midnight-blue py-1 px-3 md:ml-8">
-            Sign up / Login{" "}
+          <Button className="bg-white text-primary-midnight-blue py-1 px-3 md:ml-8 hover:text-white hover:bg-primary-steel-blue">
+            <a href="/">Sign up / Login </a>
           </Button>
         </ul>
       </div>
