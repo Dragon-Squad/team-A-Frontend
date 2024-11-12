@@ -1,14 +1,15 @@
 import React, { useState } from "react";
 import { IconHeart, IconMenu3, IconX } from "@tabler/icons-react";
+import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import { Button } from "./button";
 
-interface Link {
+interface LinkType {
   name: string;
   link: string;
 }
 
 const NavigationBar: React.FC = () => {
-  const Links: Link[] = [
+  const Links: LinkType[] = [
     { name: "Home", link: "/" },
     { name: "About", link: "/" },
     { name: "FAQs", link: "/" },
@@ -18,13 +19,14 @@ const NavigationBar: React.FC = () => {
   ];
 
   const [isOpen, setIsOpen] = useState(false);
+
   return (
     <div className="w-full bg-primary-midnight-blue fixed top-0 left-0">
       <div className="md:px-10 py-4 px-7 md:flex justify-between items-center bg-primary-midnight-blue">
         {/* Logo */}
         <div className="flex text-3xl cursor-pointer items-center gap-2">
           <IconHeart className="w-11 h-11 text-white" />
-          <span className="font-semibold">Chartian</span>
+          <span className="font-semibold text-white">Chartian</span>
         </div>
         {/* Menu Icon */}
         <div
@@ -47,7 +49,7 @@ const NavigationBar: React.FC = () => {
             </li>
           ))}
           <Button className="bg-white text-primary-midnight-blue py-1 px-3 md:ml-8 hover:text-white hover:bg-primary-steel-blue">
-            <a href="/">Sign up / Login </a>
+            <Link to="/register">Sign up / Login</Link>
           </Button>
         </ul>
       </div>

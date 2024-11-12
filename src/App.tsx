@@ -1,14 +1,15 @@
-import "./App.css";
-import Hero from "./components/ui/hero";
-import NavigationBar from "./components/ui/navigation-bar";
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import LandingPage from "./LandingPage";
+import RegisterForm from "./components/auth/RegisterForm";
 
-function LandingPage() {
+const App: React.FC = () => {
   return (
-    <>
-      <NavigationBar />
-      <Hero />
-    </>
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/register" element={<RegisterForm />} />
+    </Routes>
   );
-}
+};
 
-export default LandingPage;
+export default App;
