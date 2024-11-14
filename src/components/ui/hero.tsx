@@ -15,7 +15,7 @@ function hero() {
           resonate with your values, and help create a better world for all
         </p>
         <Link to="/register">
-          <Button className="bg-white text-primary-midnight-blue w-40 h-14 font-bold text-base hover:text-white hover:bg-primary-steel-blue">
+          <Button className="bg-white text-primary-midnight-blue w-40 h-14 font-bold text-base hover:text-white hover:bg-primary-steel-blue mt-10">
             DONATE NOW
           </Button>
         </Link>
