@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  IconBrandGithub,
+  IconBrandFacebook,
   IconBrandGoogle,
   IconEye,
   IconEyeOff,
@@ -74,7 +74,7 @@ const LoginPage = () => {
           {/* Log in with GitHub and Google */}
           <div className="flex space-x-4 mb-4">
             <Button className="w-full bg-white text-black py-2 rounded-md hover:bg-gray-100 flex items-center justify-center shadow">
-              <IconBrandGithub className="mr-2" /> GitHub
+              <IconBrandFacebook className="mr-2" /> Facebook
             </Button>
             <Button className="w-full bg-white text-black py-2 rounded-md hover:bg-gray-100 flex items-center justify-center shadow">
               <IconBrandGoogle className="mr-2" /> Google
