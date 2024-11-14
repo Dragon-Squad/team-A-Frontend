@@ -73,7 +73,7 @@ const RegisterPage = () => {
       <NavigationBar />
 
       {/* Register Form */}
-      <div className="flex flex-grow items-center justify-center px-4 py-6 text-white">
+      <div className="flex flex-grow items-center justify-center px-4 py-6 mt-20 text-white">
         <div className="bg-white text-primary-midnight-blue p-8 rounded-lg shadow-lg max-w-md w-full">
           <div className="flex justify-start mb-6">
             <h2 className="text-2xl font-semibold">Create Account</h2>
