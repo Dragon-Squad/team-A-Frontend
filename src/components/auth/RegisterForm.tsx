@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import {
-  IconBrandGithub,
   IconBrandGoogle,
   IconEye,
   IconEyeOff,
+  IconBrandFacebook,
 } from "@tabler/icons-react"; // Icons from Tabler
 import { Button } from "../ui/button";
 import NavigationBar from "../ui/navigation-bar";
@@ -27,7 +27,6 @@ const RegisterPage = () => {
     let valid = true;
     const newErrors: { [key: string]: string } = {};
 
-    // Basic validation for empty fields
     if (!email || !phone || !password || !confirmPassword) {
       valid = false;
       if (!email) newErrors.email = "Email is required.";
@@ -37,35 +36,29 @@ const RegisterPage = () => {
         newErrors.confirmPassword = "Please confirm your password.";
     }
 
-    // Ensure the password and confirm password match
     if (password !== confirmPassword) {
       valid = false;
       newErrors.confirmPassword = "Passwords do not match.";
     }
 
-    // Validate email format (basic)
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (email && !emailRegex.test(email)) {
       valid = false;
       newErrors.email = "Invalid email address.";
     }
 
-    // Validate phone number format (basic)
     const phoneRegex = /^[0-9]{10}$/; // Assuming a 10-digit phone number format
     if (phone && !phoneRegex.test(phone)) {
       valid = false;
       newErrors.phone = "Invalid phone number.";
     }
 
-    // If validation failed, update errors state
     setErrors(newErrors);
 
-    // If all fields are valid, proceed with registration logic
     if (valid) {
       const registerData = { email, phone, password };
       console.log("Registering:", registerData);
 
-      // Reset fields after successful registration
       setEmail("");
       setPhone("");
       setPassword("");
@@ -80,16 +73,16 @@ const RegisterPage = () => {
       <NavigationBar />
 
       {/* Register Form */}
-      <div className="flex flex-grow items-center justify-center px-4 py-6 text-white mt-20">
+      <div className="flex flex-grow items-center justify-center px-4 py-6 mt-20 text-white">
         <div className="bg-white text-primary-midnight-blue p-8 rounded-lg shadow-lg max-w-md w-full">
           <div className="flex justify-start mb-6">
             <h2 className="text-2xl font-semibold">Create Account</h2>
           </div>
 
-          {/* GitHub and Google Login */}
+          {/* Facebook and Google Login */}
           <div className="flex space-x-4 mb-4">
             <Button className="w-full bg-white text-black py-2 rounded-md hover:bg-gray-100 flex items-center justify-center shadow">
-              <IconBrandGithub className="mr-2" /> GitHub
+              <IconBrandFacebook className="mr-2" /> Facebook
             </Button>
             <Button className="w-full bg-white text-black py-2 rounded-md hover:bg-gray-100 flex items-center justify-center shadow">
               <IconBrandGoogle className="mr-2" /> Google
@@ -115,7 +108,9 @@ const RegisterPage = () => {
               placeholder="Email@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className={`w-full px-4 py-2 border border-gray-300 bg-white rounded-md focus:ring-2 focus:ring-blue-500 mb-4 ${errors.email ? "border-red-500" : ""}`}
+              className={`w-full px-4 py-2 border border-gray-300 bg-white rounded-md focus:ring-2 focus:ring-blue-500 mb-4 ${
+                errors.email ? "border-red-500" : ""
+              }`}
             />
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email}</p>
@@ -131,7 +126,9 @@ const RegisterPage = () => {
               placeholder="1234567890"
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className={`w-full px-4 py-2 border border-gray-300 rounded-md  bg-white focus:ring-2 focus:ring-blue-500 mb-4 ${errors.phone ? "border-red-500" : ""}`}
+              className={`w-full px-4 py-2 border border-gray-300 rounded-md  bg-white focus:ring-2 focus:ring-blue-500 mb-4 ${
+                errors.phone ? "border-red-500" : ""
+              }`}
             />
             {errors.phone && (
               <p className="text-red-500 text-sm">{errors.phone}</p>
@@ -148,13 +145,19 @@ const RegisterPage = () => {
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className={`w-full px-4 py-2 border border-gray-300 rounded-md  bg-white focus:ring-2 focus:ring-blue-500 mb-4 ${errors.password ? "border-red-500" : ""}`}
+                className={`w-full px-4 py-2 border border-gray-300 rounded-md bg-white focus:ring-2 focus:ring-blue-500 mb-4 ${
+                  errors.password ? "border-red-500" : ""
+                }`}
               />
               <span
                 onClick={() => setPasswordVisible(!passwordVisible)}
-                className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+                className="absolute inset-y-0 right-3 flex items-top justify-center py-2 cursor-pointer text-gray-500 h-full"
               >
-                {passwordVisible ? <IconEyeOff /> : <IconEye />}
+                {passwordVisible ? (
+                  <IconEyeOff className=" contain-size" />
+                ) : (
+                  <IconEye className=" contain-size" />
+                )}
               </span>
             </div>
             {errors.password && (
@@ -175,15 +178,21 @@ const RegisterPage = () => {
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className={`w-full px-4 py-2 border border-gray-300  bg-white rounded-md focus:ring-2 focus:ring-blue-500 mb-4 ${errors.confirmPassword ? "border-red-500" : ""}`}
+                className={`w-full px-4 py-2 border border-gray-300 bg-white rounded-md  focus:ring-2 focus:ring-blue-500 mb-4 ${
+                  errors.confirmPassword ? "border-red-500" : ""
+                }`}
               />
               <span
                 onClick={() =>
                   setConfirmPasswordVisible(!confirmPasswordVisible)
                 }
-                className="absolute inset-y-0 right-3 flex items-center cursor-pointer text-gray-500"
+                className="absolute inset-y-0 right-3 flex items-top justify-center cursor-pointer py-2 text-gray-500 h-full"
               >
-                {confirmPasswordVisible ? <IconEyeOff /> : <IconEye />}
+                {confirmPasswordVisible ? (
+                  <IconEyeOff className=" contain-size" />
+                ) : (
+                  <IconEye className=" contain-size" />
+                )}
               </span>
             </div>
             {errors.confirmPassword && (
