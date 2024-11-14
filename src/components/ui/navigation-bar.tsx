@@ -24,10 +24,12 @@ const NavigationBar: React.FC = () => {
     <div className="w-full bg-primary-midnight-blue fixed top-0 left-0">
       <div className="md:px-10 py-4 px-7 md:flex justify-between items-center bg-primary-midnight-blue">
         {/* Logo */}
-        <div className="flex text-3xl cursor-pointer items-center gap-2">
-          <IconHeart className="w-11 h-11 text-white" />
-          <span className="font-semibold text-white">Chartian</span>
-        </div>
+        <a href="/">
+          <div className="flex text-3xl cursor-pointer items-center gap-2">
+            <IconHeart className="w-11 h-11 text-white" />
+            <span className="font-semibold text-white">Chartian</span>
+          </div>
+        </a>
         {/* Menu Icon */}
         <div
           onClick={() => setIsOpen(!isOpen)}

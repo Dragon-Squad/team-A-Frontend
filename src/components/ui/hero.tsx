@@ -1,5 +1,6 @@
 import React from "react";
 import { Button } from "./button";
+import { Link } from "react-router-dom";
 
 function hero() {
   return (
@@ -13,9 +14,11 @@ function hero() {
           <br />
           resonate with your values, and help create a better world for all
         </p>
-        <Button className="bg-white text-primary-midnight-blue w-40 h-14 font-bold text-base hover:text-white hover:bg-primary-steel-blue">
-          DONATE NOW
-        </Button>
+        <Link to="/register">
+          <Button className="bg-white text-primary-midnight-blue w-40 h-14 font-bold text-base hover:text-white hover:bg-primary-steel-blue mt-10">
+            DONATE NOW
+          </Button>
+        </Link>
       </div>
     </div>
   );
