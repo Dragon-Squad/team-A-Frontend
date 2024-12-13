@@ -48,7 +48,7 @@ importers:
         version: 1.0.7(tailwindcss@3.4.14)
       team-a-frontend:
         specifier: "file:"
-        version: file:(@types/react@18.3.12)(tailwindcss@3.4.14)
+        version: file:(@types/react-dom@18.3.1)(@types/react@18.3.12)(tailwindcss@3.4.14)
       zod:
         specifier: ^3.24.1
         version: 3.24.1
@@ -4680,8 +4680,10 @@ snapshots:
     transitivePeerDependencies:
       - ts-node
 
-  team-a-frontend@file:(@types/react@18.3.12)(tailwindcss@3.4.14):
+  team-a-frontend@file:(@types/react-dom@18.3.1)(@types/react@18.3.12)(tailwindcss@3.4.14):
     dependencies:
+      "@hookform/resolvers": 3.9.1(react-hook-form@7.54.1(react@18.3.1))
+      "@radix-ui/react-label": 2.1.1(@types/react-dom@18.3.1)(@types/react@18.3.12)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       "@radix-ui/react-slot": 1.1.0(@types/react@18.3.12)(react@18.3.1)
       "@tabler/icons-react": 3.21.0(react@18.3.1)
       class-variance-authority: 0.7.0
@@ -4689,11 +4691,14 @@ snapshots:
       lucide-react: 0.456.0(react@18.3.1)
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+      react-hook-form: 7.54.1(react@18.3.1)
       react-router-dom: 6.28.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       tailwind-merge: 2.5.4
       tailwindcss-animate: 1.0.7(tailwindcss@3.4.14)
+      zod: 3.24.1
     transitivePeerDependencies:
       - "@types/react"
+      - "@types/react-dom"
       - tailwindcss
 
   text-extensions@2.4.0: {}
