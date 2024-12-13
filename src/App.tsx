@@ -1,8 +1,8 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
-import RegisterForm from "./components/auth/RegisterForm";
-import LoginForm from "./components/auth/LoginForm";
+import RegisterForm from "./components/auth/RegisterPage";
+import LoginForm from "./components/auth/LoginPage";
 const App: React.FC = () => {
   return (
     <Routes>
