@@ -1,14 +1,14 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
-import RegisterForm from "./components/auth/RegisterPage";
-import LoginForm from "./components/auth/LoginPage";
+import { AuthForm } from "./components/auth/authform";
+
 const App: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/register" element={<RegisterForm />} />
-      <Route path="/login" element={<LoginForm />} />
+      <Route path="/register" element={<AuthForm mode="register" />} />
+      <Route path="/login" element={<AuthForm mode="login" />} />
     </Routes>
   );
 };
