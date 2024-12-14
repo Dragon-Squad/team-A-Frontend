@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
+import LoginPage from "./components/auth/LoginPage";
 
 const AuthForm = React.lazy(() =>
   import("./components/auth/authform").then((module) => ({
@@ -14,7 +15,7 @@ const App: React.FC = () => {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/register" element={<AuthForm mode="register" />} />
-        <Route path="/login" element={<AuthForm mode="login" />} />
+        <Route path="/login" element={<LoginPage />} />
       </Routes>
     </Suspense>
   );

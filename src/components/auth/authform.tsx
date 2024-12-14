@@ -23,19 +23,18 @@ const RegisterSchema = LoginSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters."),
 });
 
-// Props to change auth form to different form
 interface AuthFormProps {
-  mode: "login" | "register";
+  mode: "login" | "register"; // To differentiate forms
+  className?: string; // Allow passing custom styles
 }
 
-export function AuthForm({ mode }: AuthFormProps) {
+export function AuthForm({ mode, className }: AuthFormProps) {
   const schema = mode === "login" ? LoginSchema : RegisterSchema;
 
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
       email: "",
-      username: "",
       password: "",
       ...(mode === "register" ? { username: "" } : {}),
     },
@@ -46,8 +45,10 @@ export function AuthForm({ mode }: AuthFormProps) {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+    <Form {...form} className={className}>
+      {" "}
+      {/* Apply custom styles here */}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {mode === "register" && (
           <FormField
             control={form.control}
