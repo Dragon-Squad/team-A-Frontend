@@ -59,7 +59,7 @@ export function AuthForm({ mode, className }: AuthFormProps) {
                   <Input
                     type="username"
                     placeholder="Enter your username"
-                    className="focus-visible:ring-primary-orange"
+                    className="focus-visible:ring-primary-orange text-primary-orange"
                     {...field}
                   />
                 </FormControl>
@@ -73,12 +73,12 @@ export function AuthForm({ mode, className }: AuthFormProps) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Email Address</FormLabel>
               <FormControl>
                 <Input
                   type="email"
                   placeholder="Enter your email"
-                  className="focus-visible:ring-primary-orange"
+                  className="focus-visible:ring-primary-orange text-primary-orange"
                   {...field}
                 />
               </FormControl>
@@ -96,7 +96,7 @@ export function AuthForm({ mode, className }: AuthFormProps) {
                 <Input
                   type="password"
                   placeholder="Enter your password"
-                  className="focus-visible:ring-primary-orange"
+                  className="focus-visible:ring-primary-orange text-primary-orange"
                   {...field}
                 />
               </FormControl>
@@ -105,9 +105,19 @@ export function AuthForm({ mode, className }: AuthFormProps) {
           )}
         />
         <CustomText className="text-[0.8rem] text-neutral-500 dark:text-neutral-400">
-          Forgot Password
+          Forgot Password?
         </CustomText>
-        <Button type="submit">{mode === "login" ? "Login" : "Register"}</Button>
+        <Button className="w-full bg-primary-orange" type="submit">
+          {mode === "login" ? "Login" : "Register"}
+        </Button>
+        <CustomText
+          className="text-[0.8rem] text-neutral-800 dark:text-neutral-400 flex justify-center gap-1"
+          withSpan={true}
+          spanClassName="text-primary-orange"
+          additionalText=" Create an account"
+        >
+          Don’t have an Account?
+        </CustomText>
       </form>
     </Form>
   );
