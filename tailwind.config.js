@@ -5,6 +5,7 @@ export default {
   theme: {
     extend: {
       colors: {
+        "primary-orange": "#FF7400",
         "primary-midnight-blue": "#384959",
         "primary-sky-blue": "#88BDF2",
         "primary-pale-blue": "#BDDDFC",

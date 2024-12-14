@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import CustomText from "../ui/text";
 
 const LoginSchema = z.object({
   email: z.string().email("Invalid email address."),
@@ -24,8 +25,8 @@ const RegisterSchema = LoginSchema.extend({
 });
 
 interface AuthFormProps {
-  mode: "login" | "register"; // To differentiate forms
-  className?: string; // Allow passing custom styles
+  mode: "login" | "register";
+  className?: string;
 }
 
 export function AuthForm({ mode, className }: AuthFormProps) {
@@ -46,8 +47,6 @@ export function AuthForm({ mode, className }: AuthFormProps) {
 
   return (
     <Form {...form} className={className}>
-      {" "}
-      {/* Apply custom styles here */}
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {mode === "register" && (
           <FormField
@@ -57,7 +56,12 @@ export function AuthForm({ mode, className }: AuthFormProps) {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input placeholder="Enter your username" {...field} />
+                  <Input
+                    type="username"
+                    placeholder="Enter your username"
+                    className="focus-visible:ring-primary-orange"
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -71,7 +75,12 @@ export function AuthForm({ mode, className }: AuthFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Enter your email" {...field} />
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  className="focus-visible:ring-primary-orange"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -87,6 +96,7 @@ export function AuthForm({ mode, className }: AuthFormProps) {
                 <Input
                   type="password"
                   placeholder="Enter your password"
+                  className="focus-visible:ring-primary-orange"
                   {...field}
                 />
               </FormControl>
@@ -94,6 +104,9 @@ export function AuthForm({ mode, className }: AuthFormProps) {
             </FormItem>
           )}
         />
+        <CustomText className="text-[0.8rem] text-neutral-500 dark:text-neutral-400">
+          Forgot Password
+        </CustomText>
         <Button type="submit">{mode === "login" ? "Login" : "Register"}</Button>
       </form>
     </Form>
