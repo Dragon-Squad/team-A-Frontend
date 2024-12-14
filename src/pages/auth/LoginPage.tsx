@@ -10,7 +10,7 @@ const LoginPage = () => {
         <div className="flex justify-center mb-6">
           <Logo type={"logo1"} width={300} height={240} />
         </div>
-        <AuthForm mode="login" className="w-full" />
+        <AuthForm mode="login" />
       </Card>
     </div>
   );

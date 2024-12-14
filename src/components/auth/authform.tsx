@@ -29,7 +29,7 @@ interface AuthFormProps {
   className?: string;
 }
 
-export function AuthForm({ mode, className }: AuthFormProps) {
+export function AuthForm({ mode }: AuthFormProps) {
   const schema = mode === "login" ? LoginSchema : RegisterSchema;
 
   const form = useForm<z.infer<typeof schema>>({
@@ -46,7 +46,7 @@ export function AuthForm({ mode, className }: AuthFormProps) {
   }
 
   return (
-    <Form {...form} className={className}>
+    <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {mode === "register" && (
           <FormField
