@@ -1,60 +1,133 @@
 import React, { useState } from "react";
-import { IconHeart, IconMenu3, IconX } from "@tabler/icons-react";
-import { Link } from "react-router-dom"; // Import Link from react-router-dom
-import { Button } from "./button";
-
-interface LinkType {
-  name: string;
-  link: string;
-}
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import Logo from "../logo";
+import { Menu, Transition } from "@headlessui/react";
+import { IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
 
 const NavigationBar: React.FC = () => {
-  const Links: LinkType[] = [
-    { name: "Home", link: "/" },
-    { name: "About", link: "/" },
-    { name: "FAQs", link: "/" },
-    { name: "News", link: "/" },
-    { name: "Donate", link: "/" },
-    { name: "Volunteer", link: "/" },
+  const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
+
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "Projects", path: "/projects" },
+    { name: "Single Project", path: "/single-project" },
+    { name: "About Us", path: "/about" },
+    { name: "Contact Us", path: "/contact" },
   ];
 
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="w-full bg-primary-midnight-blue fixed top-0 left-0">
-      <div className="md:px-10 py-4 px-7 md:flex justify-between items-center bg-primary-midnight-blue">
-        {/* Logo */}
-        <a href="/">
-          <div className="flex text-3xl cursor-pointer items-center gap-2">
-            <IconHeart className="w-11 h-11 text-white" />
-            <span className="font-semibold text-white">Chartian</span>
-          </div>
-        </a>
-        {/* Menu Icon */}
-        <div
-          onClick={() => setIsOpen(!isOpen)}
-          className="w-7 h-7 absolute right-8 top-6 cursor-pointer md:hidden"
-        >
-          {isOpen ? <IconX /> : <IconMenu3 />}
+    <div className="w-full bg-black fixed top-0 left-0 z-50 shadow-lg">
+      <div className="flex justify-between items-center px-6 md:px-10 py-2">
+        {/* Left Section: Logo and Tabs */}
+        <div className="flex items-center space-x-6">
+          {/* Logo */}
+          <Link to="/">
+            <Logo type="logo4" width={110} height="auto" />
+          </Link>
+
+          {/* Desktop Tabs */}
+          <ul className="hidden md:flex space-x-4 text-white font-medium">
+            {navLinks.map((link) => (
+              <li key={link.name}>
+                <Link
+                  to={link.path}
+                  className={`${
+                    location.pathname === link.path
+                      ? "text-primary-orange border-b-2 border-primary-orange pb-1"
+                      : "text-gray-300"
+                  } hover:text-primary-orange transition`}
+                >
+                  {link.name}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
-        {/* Navigation Links */}
-        <ul
-          className={`md:flex md:items-center md:static absolute left-0 w-full transition-all duration-500 ease-in bg-primary-midnight-blue ${
-            isOpen ? "top-12" : "hidden"
-          } md:flex-row md:space-x-8 md:z-auto z-[-1] small-mobile:pl-9 small-mobile:pb-10 md:justify-end`}
-        >
-          {Links.map((link, index) => (
-            <li className="font-semibold my-7 md:my-0 md:ml-8" key={index}>
-              <a href={link.link} className="text-white">
-                {link.name}
-              </a>
-            </li>
-          ))}
-          <Button className="bg-white text-primary-midnight-blue py-1 px-3 md:ml-8 hover:text-white hover:bg-primary-steel-blue">
-            <Link to="/register">Sign up / Login</Link>
+
+        {/* Middle Section: Search Bar */}
+        <div className="hidden md:flex items-center bg-transparent px-4 py-1">
+          <IconSearch size={24} className="text-white mr-2" />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="focus:outline-none text-white placeholder-white bg-transparent w-32 md:w-48"
+          />
+        </div>
+
+        {/* Right Section: CTA Buttons */}
+        <div className="hidden md:flex space-x-3">
+          <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
+            <Link to="/donate">DONATE</Link>
           </Button>
-        </ul>
+          <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
+            <Link to="/login">SIGN IN</Link>
+          </Button>
+          <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
+            <Link to="/register">SIGN UP</Link>
+          </Button>
+        </div>
+
+        {/* Mobile Menu */}
+        <div className="md:hidden flex items-center">
+          <button onClick={() => setIsOpen(!isOpen)} className="text-white">
+            {isOpen ? <IconX size={24} /> : <IconMenu2 size={24} />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu Dropdown */}
+      {isOpen && (
+        <Transition
+          show={isOpen}
+          enter="transition ease-out duration-300"
+          enterFrom="opacity-0 scale-95"
+          enterTo="opacity-100 scale-100"
+          leave="transition ease-in duration-300"
+          leaveFrom="opacity-100 scale-100"
+          leaveTo="opacity-0 scale-95"
+        >
+          <div className="md:hidden bg-black text-white">
+            <ul className="flex flex-col space-y-4 px-6 py-4">
+              {navLinks.map((link) => (
+                <li key={link.name}>
+                  <Link
+                    to={link.path}
+                    className={`${
+                      location.pathname === link.path
+                        ? "text-primary-orange"
+                        : "text-gray-300"
+                    } hover:text-primary-orange transition`}
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+              <div className="flex flex-col space-y-2">
+                <Button className="bg-primary-orange text-white hover:bg-orange-600">
+                  <Link to="/donate">DONATE</Link>
+                </Button>
+                <Button className="bg-primary-orange text-white hover:bg-orange-600">
+                  <Link to="/login">SIGN IN</Link>
+                </Button>
+                <Button className="bg-primary-orange text-white hover:bg-orange-600">
+                  <Link to="/register">SIGN UP</Link>
+                </Button>
+              </div>
+              {/* Mobile Search */}
+              <div className="flex items-center px-4 py-1">
+                <IconSearch size={24} className="text-white mr-2" />
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="focus:outline-none text-white placeholder-white bg-transparent w-full"
+                />
+              </div>
+            </ul>
+          </div>
+        </Transition>
+      )}
     </div>
   );
 };
