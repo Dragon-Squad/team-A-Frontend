@@ -48,7 +48,7 @@ export function AuthForm({ mode }: AuthFormProps) {
   const toggleModeText =
     mode === "login" ? "Don’t have an account? " : "Already have an account? ";
   const toggleModeActionText = mode === "login" ? "Register" : "Login";
-  const toggleModeHref = mode === "login" ? "/register" : "/login";
+  const toggleModeHref = mode === "login" ? "/signup" : "/signin";
   const forgotPasswordHref = "/forgot-password";
 
   return (

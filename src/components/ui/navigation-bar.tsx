@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Logo from "../logo";
-import { Menu, Transition } from "@headlessui/react";
+import { Transition } from "@headlessui/react";
 import { IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
 
 const NavigationBar: React.FC = () => {
@@ -62,10 +62,10 @@ const NavigationBar: React.FC = () => {
             <Link to="/donate">DONATE</Link>
           </Button>
           <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
-            <Link to="/login">SIGN IN</Link>
+            <Link to="/signin">SIGN IN</Link>
           </Button>
           <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
-            <Link to="/register">SIGN UP</Link>
+            <Link to="/signup">SIGN UP</Link>
           </Button>
         </div>
 
@@ -109,10 +109,10 @@ const NavigationBar: React.FC = () => {
                   <Link to="/donate">DONATE</Link>
                 </Button>
                 <Button className="bg-primary-orange text-white hover:bg-orange-600">
-                  <Link to="/login">SIGN IN</Link>
+                  <Link to="/signin">SIGN IN</Link>
                 </Button>
                 <Button className="bg-primary-orange text-white hover:bg-orange-600">
-                  <Link to="/register">SIGN UP</Link>
+                  <Link to="/signup">SIGN UP</Link>
                 </Button>
               </div>
               {/* Mobile Search */}
