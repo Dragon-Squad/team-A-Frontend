@@ -6,12 +6,6 @@ const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));
 const RegisterPage = React.lazy(() => import("./pages/auth/SignUpPage"));
 const ForgotPage = React.lazy(() => import("./pages/auth/ForgotPassword"));
 
-const AuthForm = React.lazy(() =>
-  import("./components/auth/authform").then((module) => ({
-    default: module.AuthForm,
-  })),
-);
-
 const App: React.FC = () => {
   return (
     <Suspense fallback={<div>Loading...</div>}>
