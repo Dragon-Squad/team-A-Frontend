@@ -45,6 +45,12 @@ export function AuthForm({ mode }: AuthFormProps) {
     console.log(mode === "login" ? "Login Data:" : "Register Data:", data);
   }
 
+  const toggleModeText =
+    mode === "login" ? "Don’t have an account? " : "Already have an account? ";
+  const toggleModeActionText = mode === "login" ? "Register" : "Login";
+  const toggleModeHref = mode === "login" ? "/register" : "/login";
+  const forgotPasswordHref = "/forgot-password";
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -57,7 +63,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input
-                    type="username"
+                    type="text"
                     placeholder="Enter your username"
                     className="focus-visible:ring-primary-orange text-primary-orange"
                     {...field}
@@ -104,19 +110,23 @@ export function AuthForm({ mode }: AuthFormProps) {
             </FormItem>
           )}
         />
-        <CustomText className="text-[0.8rem] text-neutral-500 dark:text-neutral-400">
-          Forgot Password?
-        </CustomText>
+        <CustomText
+          withSpan={true}
+          spanClassName="text-[0.8rem] text-neutral-500 dark:text-neutral-400 cursor-pointer"
+          additionalText="Forgot Password?"
+          additionalTextHref={forgotPasswordHref}
+        />
         <Button className="w-full bg-primary-orange" type="submit">
           {mode === "login" ? "Login" : "Register"}
         </Button>
         <CustomText
           className="text-[0.8rem] text-neutral-800 dark:text-neutral-400 flex justify-center gap-1"
           withSpan={true}
-          spanClassName="text-primary-orange"
-          additionalText=" Create an account"
+          spanClassName="text-primary-orange cursor-pointer"
+          additionalText={toggleModeActionText}
+          additionalTextHref={toggleModeHref}
         >
-          Don’t have an Account?
+          {toggleModeText}
         </CustomText>
       </form>
     </Form>

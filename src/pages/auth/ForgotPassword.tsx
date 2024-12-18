@@ -4,7 +4,7 @@ import { Card } from "../../components/ui/card";
 import Logo from "../../components/logo";
 import NavigationBar from "@/components/ui/navigation-bar";
 
-const LoginPage = () => {
+const ForgotPage = () => {
   return (
     <>
       <NavigationBar />
@@ -20,4 +20,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ForgotPage;
