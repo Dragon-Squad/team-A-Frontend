@@ -22,33 +22,56 @@ const RegisterSchema = LoginSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters."),
 });
 
+const OTPSchema = z.object({
+  email: z.string().email("Invalid email address."),
+  otpCode: z.string().length(6, "OTP must be exactly 6 characters."),
+});
+
 type LoginFormValues = z.infer<typeof LoginSchema>;
 type RegisterFormValues = z.infer<typeof RegisterSchema>;
+type OTPFormValues = z.infer<typeof OTPSchema>;
 
 interface AuthFormProps {
-  mode: "login" | "register" | "forgot-password";
-  onSubmit: (data: LoginFormValues | RegisterFormValues) => void;
+  mode: "login" | "register" | "otp";
+  onSubmit: (
+    data: LoginFormValues | RegisterFormValues | OTPFormValues,
+  ) => void;
   loading: boolean;
   error?: string;
   className?: string;
 }
 
 export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
-  const schema = mode === "login" ? LoginSchema : RegisterSchema;
+  const schema =
+    mode === "login"
+      ? LoginSchema
+      : mode === "register"
+        ? RegisterSchema
+        : OTPSchema;
 
-  const form = useForm<LoginFormValues | RegisterFormValues>({
+  const form = useForm<LoginFormValues | RegisterFormValues | OTPFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       email: "",
       password: "",
       ...(mode === "register" ? { username: "" } : {}),
+      ...(mode === "otp" ? { otpCode: "" } : {}),
     },
   });
 
   const toggleModeText =
-    mode === "login" ? "Don’t have an account? " : "Already have an account? ";
-  const toggleModeActionText = mode === "login" ? "Register" : "Login";
-  const toggleModeHref = mode === "login" ? "/signup" : "/signin";
+    mode === "login"
+      ? "Don’t have an account? "
+      : mode === "register"
+        ? "Already have an account? "
+        : "Return to Login? ";
+
+  const toggleModeActionText =
+    mode === "login" ? "Register" : mode === "register" ? "Login" : "Login";
+
+  const toggleModeHref =
+    mode === "login" ? "/signup" : mode === "register" ? "/signin" : "/signin";
+
   const forgotPasswordHref = "/forgot-password";
 
   return (
@@ -92,24 +115,46 @@ export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Enter your password"
-                  className="focus-visible:ring-primary-orange text-primary-orange"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {mode !== "otp" && (
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    placeholder="Enter your password"
+                    className="focus-visible:ring-primary-orange text-primary-orange"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
+        {mode === "otp" && (
+          <FormField
+            control={form.control}
+            name="otpCode"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>OTP Code</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="Enter your OTP code"
+                    className="focus-visible:ring-primary-orange text-primary-orange"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
         {mode === "login" && (
           <CustomText
             withSpan={true}
@@ -126,10 +171,14 @@ export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
           {loading
             ? mode === "login"
               ? "Logging in..."
-              : "Registering..."
+              : mode === "register"
+                ? "Registering..."
+                : "Verifying..."
             : mode === "login"
               ? "Login"
-              : "Register"}
+              : mode === "register"
+                ? "Register"
+                : "Verify OTP"}
         </Button>
         {error && <p className="text-red-500 text-center mt-2">{error}</p>}
         <CustomText

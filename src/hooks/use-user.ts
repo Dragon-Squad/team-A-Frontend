@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { encodeCredentials } from "@/utils/encoder";
 
 //register hook
 interface RegisterResponse {
@@ -56,8 +57,7 @@ export function useRegister() {
 interface LoginResponse {
   success: boolean;
   message: string;
-  token?: string; // Assuming your API returns a token for authentication
-  userId?: string;
+  token?: string;
 }
 
 export function useLogin() {
@@ -72,15 +72,17 @@ export function useLogin() {
     setError(null);
 
     try {
+      const headers = {
+        "Content-Type": "application/json",
+        authorization: encodeCredentials(email, password),
+      };
+
       const response = await fetch(
         "http://localhost:3000/api/auth/auth/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic",
-          },
-          body: JSON.stringify({ email, password }),
+          headers,
+          body: JSON.stringify({}),
         },
       );
 
@@ -102,4 +104,54 @@ export function useLogin() {
   };
 
   return { loginUser, loading, error };
+}
+
+//OTP hook
+interface OTPResponse {
+  success: boolean;
+  message: string;
+  userId?: string;
+}
+
+export function useOTP() {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const otpUser = async (
+    email: string,
+    otpCode: string,
+  ): Promise<OTPResponse> => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/auth/auth/verify-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, otpCode }),
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as { message: string };
+        throw new Error(errorData.message || "Failed to otp");
+      }
+
+      const data = (await response.json()) as RegisterResponse;
+      return data;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      setError(message);
+      throw new Error(message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { otpUser, loading, error };
 }
