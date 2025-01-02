@@ -117,19 +117,22 @@ export function useOTP() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const otpUser = async (email: string, otp: string): Promise<OTPResponse> => {
+  const otpUser = async (
+    email: string,
+    otpCode: string,
+  ): Promise<OTPResponse> => {
     setLoading(true);
     setError(null);
 
     try {
       const response = await fetch(
-        "http://localhost:3000/api/auth/auth/register",
+        "http://localhost:3000/api/auth/auth/verify-email",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, otp }),
+          body: JSON.stringify({ email, otpCode }),
         },
       );
 
