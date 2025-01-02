@@ -12,7 +12,7 @@ const Logo: React.FC<LogoProps> = ({ type, width, height }) => {
       case "logo1":
         return (
           <img
-            src="/public/img/Logo_black.png"
+            src="img/Logo_black.png"
             alt="Black logo with text"
             style={{ width: width, height: height }}
           />
@@ -20,7 +20,7 @@ const Logo: React.FC<LogoProps> = ({ type, width, height }) => {
       case "logo2":
         return (
           <img
-            src="/public/img/Logo_no_text_black.png"
+            src="img/Logo_no_text_black.png"
             alt="Black logo with no text"
             style={{ width: width, height: height }}
           />
@@ -28,7 +28,7 @@ const Logo: React.FC<LogoProps> = ({ type, width, height }) => {
       case "logo3":
         return (
           <img
-            src="/public/img/Logo_no_text_white.png"
+            src="img/Logo_no_text_white.png"
             alt="White logo with no text"
             style={{ width: width, height: height }}
           />
@@ -36,7 +36,7 @@ const Logo: React.FC<LogoProps> = ({ type, width, height }) => {
       case "logo4":
         return (
           <img
-            src="/public/img/Logo_white.png"
+            src="img/Logo_white.png"
             alt="White logo with text"
             style={{ width: width, height: height }}
           />
@@ -44,7 +44,7 @@ const Logo: React.FC<LogoProps> = ({ type, width, height }) => {
       default:
         return (
           <img
-            src="/public/img/Logo_white.png"
+            src="img/Logo_white.png"
             alt="Fallback logo using white logo with text"
             style={{ width: width, height: height }}
           />

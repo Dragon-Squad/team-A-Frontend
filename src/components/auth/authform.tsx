@@ -1,5 +1,3 @@
-"use client";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -24,15 +22,21 @@ const RegisterSchema = LoginSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters."),
 });
 
+type LoginFormValues = z.infer<typeof LoginSchema>;
+type RegisterFormValues = z.infer<typeof RegisterSchema>;
+
 interface AuthFormProps {
-  mode: "login" | "register";
+  mode: "login" | "register" | "forgot-password";
+  onSubmit: (data: LoginFormValues | RegisterFormValues) => void;
+  loading: boolean;
+  error?: string;
   className?: string;
 }
 
-export function AuthForm({ mode }: AuthFormProps) {
+export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
   const schema = mode === "login" ? LoginSchema : RegisterSchema;
 
-  const form = useForm<z.infer<typeof schema>>({
+  const form = useForm<LoginFormValues | RegisterFormValues>({
     resolver: zodResolver(schema),
     defaultValues: {
       email: "",
@@ -41,9 +45,11 @@ export function AuthForm({ mode }: AuthFormProps) {
     },
   });
 
-  function onSubmit(data: z.infer<typeof schema>) {
-    console.log(mode === "login" ? "Login Data:" : "Register Data:", data);
-  }
+  const toggleModeText =
+    mode === "login" ? "Don’t have an account? " : "Already have an account? ";
+  const toggleModeActionText = mode === "login" ? "Register" : "Login";
+  const toggleModeHref = mode === "login" ? "/signup" : "/signin";
+  const forgotPasswordHref = "/forgot-password";
 
   return (
     <Form {...form}>
@@ -57,7 +63,7 @@ export function AuthForm({ mode }: AuthFormProps) {
                 <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input
-                    type="username"
+                    type="text"
                     placeholder="Enter your username"
                     className="focus-visible:ring-primary-orange text-primary-orange"
                     {...field}
@@ -104,19 +110,36 @@ export function AuthForm({ mode }: AuthFormProps) {
             </FormItem>
           )}
         />
-        <CustomText className="text-[0.8rem] text-neutral-500 dark:text-neutral-400">
-          Forgot Password?
-        </CustomText>
-        <Button className="w-full bg-primary-orange" type="submit">
-          {mode === "login" ? "Login" : "Register"}
+        {mode === "login" && (
+          <CustomText
+            withSpan={true}
+            spanClassName="text-[0.8rem] text-neutral-500 dark:text-neutral-400 cursor-pointer"
+            additionalText="Forgot Password?"
+            additionalTextHref={forgotPasswordHref}
+          />
+        )}
+        <Button
+          className="w-full bg-primary-orange"
+          type="submit"
+          disabled={loading}
+        >
+          {loading
+            ? mode === "login"
+              ? "Logging in..."
+              : "Registering..."
+            : mode === "login"
+              ? "Login"
+              : "Register"}
         </Button>
+        {error && <p className="text-red-500 text-center mt-2">{error}</p>}
         <CustomText
           className="text-[0.8rem] text-neutral-800 dark:text-neutral-400 flex justify-center gap-1"
           withSpan={true}
-          spanClassName="text-primary-orange"
-          additionalText=" Create an account"
+          spanClassName="text-primary-orange cursor-pointer"
+          additionalText={toggleModeActionText}
+          additionalTextHref={toggleModeHref}
         >
-          Don’t have an Account?
+          {toggleModeText}
         </CustomText>
       </form>
     </Form>
