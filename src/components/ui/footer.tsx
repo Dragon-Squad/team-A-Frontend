@@ -90,61 +90,6 @@ const Footer: React.FC = () => {
             </li>
           </ul>
         </div>
-
-        {/* Projects Section */}
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Projects</h3>
-          <div className="grid grid-cols-3 gap-3">
-            <div className="text-center">
-              <img
-                src="/project1.png"
-                alt="Project 1"
-                className="w-16 h-16 mx-auto object-cover"
-              />
-              <p className="text-xs mt-2">Project 1</p>
-            </div>
-            <div className="text-center">
-              <img
-                src="/project2.png"
-                alt="Project 2"
-                className="w-16 h-16 mx-auto object-cover"
-              />
-              <p className="text-xs mt-2">Project 2</p>
-            </div>
-            <div className="text-center">
-              <img
-                src="/project3.png"
-                alt="Project 3"
-                className="w-16 h-16 mx-auto object-cover"
-              />
-              <p className="text-xs mt-2">Project 3</p>
-            </div>
-            <div className="text-center">
-              <img
-                src="/project4.png"
-                alt="Project 4"
-                className="w-16 h-16 mx-auto object-cover"
-              />
-              <p className="text-xs mt-2">Project 4</p>
-            </div>
-            <div className="text-center">
-              <img
-                src="/project5.png"
-                alt="Project 5"
-                className="w-16 h-16 mx-auto object-cover"
-              />
-              <p className="text-xs mt-2">Project 5</p>
-            </div>
-            <div className="text-center">
-              <img
-                src="/project6.png"
-                alt="Project 6"
-                className="w-16 h-16 mx-auto object-cover"
-              />
-              <p className="text-xs mt-2">Project 6</p>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Bottom Section */}

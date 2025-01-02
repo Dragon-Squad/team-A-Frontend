@@ -1,6 +1,7 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import OTPPage from "./pages/auth/OTPPage";
+import ProjectDetailsPage from "./pages/project/projectdetails";
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
 const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));
@@ -16,6 +17,7 @@ const App: React.FC = () => {
         <Route path="/signin" element={<LoginPage />} />
         <Route path="/forgot" element={<ForgotPage />} />
         <Route path="/otp" element={<OTPPage />} />
+        <Route path="/details/:id" element={<ProjectDetailsPage />} />
       </Routes>
     </Suspense>
   );
