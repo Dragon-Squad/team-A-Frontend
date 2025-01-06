@@ -2,7 +2,7 @@ import React from "react";
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="bg-white py-16 text-center">
+    <section className="bg-white py-16 text-center pt-16 md:pt-40">
       <h2 className="text-3xl font-bold text-black">
         Donate Today: Save a Life
       </h2>
