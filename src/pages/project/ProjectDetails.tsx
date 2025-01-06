@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useProjects } from "@/hooks/use-project";
+import { Button } from "@/components/ui/button";
+import { useDonate } from "@/hooks/use-donate";
 
 type Category = {
   _id: string;
@@ -25,6 +27,7 @@ type Project = {
 
 const ProjectDetailsPage: React.FC = () => {
   const { id } = useParams();
+  const { donate } = useDonate();
 
   const { data: projects, loading, error } = useProjects();
   const [project, setProject] = useState<Project | null>(null); // Use the Project type here
@@ -48,7 +51,7 @@ const ProjectDetailsPage: React.FC = () => {
     <div className="container mx-auto px-6 py-16">
       <div className="bg-white shadow-lg rounded-lg">
         <img
-          src={project.images[0]} // Use the first image as the thumbnail
+          src={project.images[0]}
           alt={project.title}
           className="w-full h-64 object-cover rounded-t-lg"
         />
@@ -82,6 +85,29 @@ const ProjectDetailsPage: React.FC = () => {
               }}
             ></div>
           </div>
+          {/* Progress Bar */}
+          <Button
+            onClick={() =>
+              donate(
+                "677b7fed598963ace8c3e6d8",
+                100.0,
+                "677b8013598963ace8c3e7d3",
+                "one-time",
+                "",
+              )
+                .then((response) => {
+                  console.log("Donation successful:", response);
+                  if (response.checkoutUrl) {
+                    window.location.href = response.checkoutUrl;
+                  } else {
+                    console.error("Checkout URL not found in response");
+                  }
+                })
+                .catch((error) => console.error("Donation failed:", error))
+            }
+          >
+            Donate
+          </Button>
         </div>
       </div>
     </div>
