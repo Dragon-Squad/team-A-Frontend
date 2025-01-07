@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProjects } from "@/hooks/use-project";
 
 const ProjectsGrid: React.FC = () => {
   const { data: projects, loading, error, refresh } = useProjects();
   const navigate = useNavigate();
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("");
 
   if (loading) {
     return (
@@ -22,6 +25,17 @@ const ProjectsGrid: React.FC = () => {
     );
   }
 
+  // Filter projects
+  const filteredProjects = projects.filter((project) => {
+    const matchesCategory =
+      !selectedCategory ||
+      project.categoryIds.some((cat) => cat.name === selectedCategory);
+    const matchesRegion =
+      !selectedRegion || project.regionId.name === selectedRegion;
+
+    return matchesCategory && matchesRegion;
+  });
+
   const handleViewDetails = (id: string) => {
     navigate(`/details/${id}`);
   };
@@ -37,9 +51,60 @@ const ProjectsGrid: React.FC = () => {
           </p>
         </div>
 
+        {/* Filters */}
+        <div className="flex flex-wrap gap-4 mb-8">
+          {/* Category Filter */}
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            className="border border-gray-300 rounded-md p-2 bg-white text-black"
+          >
+            <option value="">All Categories</option>
+            {/* Categories from requirements */}
+            {[
+              "Food",
+              "Health",
+              "Education",
+              "Environment",
+              "Religion",
+              "Humanitarian",
+              "Housing",
+              "Other",
+            ].map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+
+          {/* Region Filter */}
+          <select
+            value={selectedRegion}
+            onChange={(e) => setSelectedRegion(e.target.value)}
+            className="border border-gray-300 rounded-md p-2  bg-white text-black"
+          >
+            <option value="">All Regions</option>
+
+            {[
+              "Asia",
+              "Africa",
+              "Antarctica",
+              "Australia",
+              "Europe",
+              "North America",
+              "South America",
+              "Global",
+            ].map((region) => (
+              <option key={region} value={region}>
+                {region}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Projects Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <div
               key={project._id}
               className="bg-white border border-gray-200 rounded-lg shadow-lg"

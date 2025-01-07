@@ -1,5 +1,4 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import {
   IconApple,
   IconHeart,
@@ -55,20 +54,13 @@ const categories = [
 ];
 
 const CategoryCardsSection: React.FC = () => {
-  const navigate = useNavigate();
-
-  const handleCategoryClick = (categoryName: string) => {
-    navigate(`/project/${categoryName}`);
-  };
-
   return (
     <section className="bg-gray-50 py-16">
       <div className="container mx-auto flex justify-center gap-8 flex-wrap">
         {categories.map((category, index) => (
           <div
             key={index}
-            className="bg-white p-8 rounded-lg shadow-md text-center flex flex-col items-center w-60 cursor-pointer hover:shadow-lg transition-shadow"
-            onClick={() => handleCategoryClick(category.name)}
+            className="bg-white p-8 rounded-lg shadow-md text-center flex flex-col items-center w-60 hover:shadow-lg transition-shadow"
           >
             {/* Icon */}
             <div className="mb-4">{category.icon}</div>
