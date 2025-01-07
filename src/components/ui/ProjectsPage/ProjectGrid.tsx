@@ -107,7 +107,7 @@ const ProjectsGrid: React.FC = () => {
           {filteredProjects.map((project) => (
             <div
               key={project._id}
-              className="bg-white border border-gray-200 rounded-lg shadow-lg"
+              className="bg-white border border-gray-200 rounded-lg shadow-lg text-black"
             >
               {/* Project Image */}
               <img
