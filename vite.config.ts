@@ -10,4 +10,9 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    proxy: {
+      "/projects/all": "https://crack-rightly-cow.ngrok-free.app",
+    },
+  },
 });
