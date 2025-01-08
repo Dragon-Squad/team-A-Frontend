@@ -4,7 +4,7 @@ import {
   IconDroplet,
   IconHeartbeat,
   IconUsers,
-} from "@tabler/icons-react"; // Replace with your preferred icons
+} from "@tabler/icons-react";
 
 const ImpactAreasSection: React.FC = () => {
   const impactAreas = [
