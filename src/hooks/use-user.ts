@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { encodeCredentials } from "@/utils/encoder";
+import { encodeSecureCredentials } from "@/utils/encoder";
 
 //register hook
 interface RegisterResponse {
@@ -22,12 +22,14 @@ export function useRegister() {
     setError(null);
 
     try {
+      const encryptedHeader = await encodeSecureCredentials(email, password);
       const response = await fetch(
         "http://localhost:3000/api/auth/auth/register",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Authorization: encryptedHeader,
           },
           body: JSON.stringify({ email, password, username, role }),
         },
@@ -57,7 +59,8 @@ export function useRegister() {
 interface LoginResponse {
   success: boolean;
   message: string;
-  token?: string;
+  accessToken?: string;
+  refreshToken?: string;
 }
 
 export function useLogin() {
@@ -72,9 +75,10 @@ export function useLogin() {
     setError(null);
 
     try {
+      const encryptedHeader = await encodeSecureCredentials(email, password);
       const headers = {
         "Content-Type": "application/json",
-        authorization: encodeCredentials(email, password),
+        Authorization: encryptedHeader,
       };
 
       const response = await fetch(
@@ -82,7 +86,7 @@ export function useLogin() {
         {
           method: "POST",
           headers,
-          body: JSON.stringify({}),
+          body: JSON.stringify({ email, password }),
         },
       );
 
@@ -92,6 +96,17 @@ export function useLogin() {
       }
 
       const data = (await response.json()) as LoginResponse;
+
+      // Store tokens securely
+      if (data.accessToken) {
+        console.log("Saving accessToken:", data.accessToken);
+        localStorage.setItem("accessToken", data.accessToken);
+      }
+      if (data.refreshToken) {
+        console.log("Saving refreshToken:", data.refreshToken);
+        localStorage.setItem("refreshToken", data.refreshToken);
+      }
+
       return data;
     } catch (err) {
       const message =
@@ -117,10 +132,7 @@ export function useOTP() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const otpUser = async (
-    email: string,
-    otpCode: string,
-  ): Promise<OTPResponse> => {
+  const otpUser = async (email: string, otp: string): Promise<OTPResponse> => {
     setLoading(true);
     setError(null);
 
@@ -132,7 +144,7 @@ export function useOTP() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, otpCode }),
+          body: JSON.stringify({ email, otp }),
         },
       );
 
