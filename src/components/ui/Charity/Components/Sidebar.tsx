@@ -1,0 +1,107 @@
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import {
+  IconLayoutDashboard,
+  IconFolder,
+  IconArrowsExchange,
+  IconCreditCard,
+  IconChartBar,
+  IconSettings,
+  IconLogout,
+  IconDotsVertical,
+} from "@tabler/icons-react";
+
+interface SidebarProps {
+  activeTab: string;
+  setActiveTab: (tab: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
+  const location = useLocation();
+
+  const navLinks = [
+    {
+      name: "Dashboard",
+      path: "/dashboard",
+      icon: <IconLayoutDashboard size={20} />,
+    },
+    { name: "Projects", path: "/projects", icon: <IconFolder size={20} /> },
+    {
+      name: "Donations Record",
+      path: "/donations",
+      icon: <IconArrowsExchange size={20} />,
+    },
+    {
+      name: "Payment Information",
+      path: "/payments",
+      icon: <IconCreditCard size={20} />,
+    },
+    {
+      name: "Projects Statistics",
+      path: "/statistics",
+      icon: <IconChartBar size={20} />,
+    },
+    { name: "Settings", path: "/settings", icon: <IconSettings size={20} /> },
+  ];
+
+  return (
+    <div className="bg-gradient-to-b from-orange-700 to-orange-900 w-64 h-screen flex flex-col text-white shadow-lg">
+      {/* Logo */}
+      <div className="p-6">
+        <Link to="/">
+          <div className="text-white text-2xl font-bold">CHARITAN</div>
+        </Link>
+      </div>
+
+      {/* Navigation Links */}
+      <nav className="mt-4 flex-grow">
+        <ul className="space-y-2">
+          {navLinks.map((link) => (
+            <li key={link.name}>
+              <button
+                onClick={() => setActiveTab(link.name)}
+                className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg ${
+                  activeTab === link.name
+                    ? "bg-orange-500 text-white shadow-lg rounded-r-full"
+                    : "hover:bg-orange-800"
+                } transition`}
+              >
+                {link.icon}
+                <span className="ml-3">{link.name}</span>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Logout */}
+      <div className="p-4">
+        <button className="flex items-center w-full px-4 py-3 text-sm font-medium bg-orange-500 text-white hover:bg-orange-600 transition rounded-lg">
+          <IconLogout size={20} />
+          <span className="ml-3">Logout</span>
+        </button>
+      </div>
+
+      {/* User Profile */}
+      <div className="border-t border-orange-600 mt-auto p-4 flex items-center">
+        <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
+          {/* Placeholder for Profile Picture */}
+          <img
+            src="https://via.placeholder.com/40"
+            alt="Profile"
+            className="w-full h-full object-cover"
+          />
+        </div>
+        <div className="ml-3">
+          <p className="text-sm font-medium">Charity Name</p>
+          <p className="text-xs text-gray-300">View profile</p>
+        </div>
+        <button className="ml-auto">
+          <IconDotsVertical size={20} className="text-gray-300" />
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export default Sidebar;
