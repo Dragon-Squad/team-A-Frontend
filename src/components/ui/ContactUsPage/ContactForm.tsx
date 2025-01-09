@@ -3,13 +3,17 @@ const ContactForm: React.FC = () => {
     <section className="bg-gray-50 py-12">
       <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Left Section */}
-        <div className="bg-black text-white p-8 rounded-lg">
-          <h2 className="text-2xl font-bold">Share love, donate hope.</h2>
-          <p className="mt-4 text-sm text-gray-300">
-            Spread kindness by sharing love, giving generously, and inspiring
-            hope for a brighter future.
-          </p>
-          <div className="mt-6 space-y-4 text-sm">
+        <div className="bg-black text-white p-12 rounded-lg flex flex-col justify-between">
+          <div>
+            <h2 className="text-3xl font-bold leading-tight">
+              Share love, donate hope.
+            </h2>
+            <p className="mt-4 text-base text-gray-300 leading-relaxed">
+              Spread kindness by sharing love, giving generously, and inspiring
+              hope for a brighter future.
+            </p>
+          </div>
+          <div className="mt-8 space-y-4 text-base">
             <p>
               <span className="block font-semibold">69 Huynh Tan Phat,</span>
               Ho Chi Minh, 70000
@@ -24,6 +28,11 @@ const ContactForm: React.FC = () => {
             <p className="flex items-center gap-2">
               <span className="text-primary-orange">⏰</span> Mon-Fri: 8:00am -
               6:00pm
+            </p>
+          </div>
+          <div className="mt-8">
+            <p className="italic text-gray-400">
+              "Every small act of kindness creates ripples of change."
             </p>
           </div>
           <div className="mt-6 flex space-x-4">

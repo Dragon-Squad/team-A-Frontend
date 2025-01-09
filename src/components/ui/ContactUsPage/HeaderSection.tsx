@@ -4,12 +4,6 @@ const HeaderSection: React.FC = () => {
   return (
     <header className="bg-white py-12 pt-40">
       <div className="container mx-auto px-6 md:px-12 text-center">
-        {/* Breadcrumb */}
-        <p className="text-sm text-gray-500 mb-4">
-          <span>Home</span> <span className="mx-2">›</span>{" "}
-          <span>Contact Us</span>
-        </p>
-
         {/* Main Heading */}
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900">
           Every Act of Kindness Counts
