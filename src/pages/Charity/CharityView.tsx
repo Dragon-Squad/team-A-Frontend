@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/ui/Charity/Components/Sidebar";
 import Header from "@/components/ui/Charity/Components/Header";
+import Dashboard from "@/components/ui/Charity/Components/Dashbord/Dashboard";
 
 const CharityView: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -18,9 +19,7 @@ const CharityView: React.FC = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "Dashboard":
-        return (
-          <h1 className="text-2xl font-bold">Dashboard Content Goes Here</h1>
-        );
+        return <Dashboard />;
       case "Projects":
         return (
           <h1 className="text-2xl font-bold">Projects Content Goes Here</h1>
@@ -50,7 +49,7 @@ const CharityView: React.FC = () => {
       {/* Main Content */}
       <div className="flex-1 flex flex-col ">
         <Header onToggleSidebar={handleToggleSidebar} />
-        <div className="mt-16 p-6 mr-16 ml-60">{renderContent()}</div>
+        <div className=" ml-60 mt-14">{renderContent()}</div>
       </div>
     </div>
   );
