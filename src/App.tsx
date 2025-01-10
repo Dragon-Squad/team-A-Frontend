@@ -6,7 +6,7 @@ import PaymentSuccessPage from "./pages/payment/PaymentSuccessPage";
 import ProjectDetailsPage from "./pages/project/ProjectDetails";
 import ProjectsPage from "./pages/project/ProjectPage";
 import ContactUsPage from "./pages/ContactUsPage";
-import CharityView from "./pages/Charity/CharityView";
+import DashboardView from "./pages/Charity/CharityView";
 import DonationRecord from "./components/ui/Charity/Pages/RecentDonations";
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
@@ -28,7 +28,7 @@ const App: React.FC = () => {
         <Route path="/success" element={<PaymentSuccessPage />} />
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
-        <Route path="/charity" element={<CharityView />} />
+        <Route path="/dashboard" element={<DashboardView />} />
         <Route path="/donations" element={<DonationRecord />} />
       </Routes>
     </Suspense>

@@ -4,7 +4,7 @@ import Header from "@/components/ui/Charity/Components/Header";
 import Dashboard from "@/components/ui/Charity/Components/Dashbord/Dashboard";
 import DonationRecord from "@/components/ui/Charity/Pages/RecentDonations";
 
-const CharityView: React.FC = () => {
+const DashboardView: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("Dashboard");
 
@@ -52,4 +52,4 @@ const CharityView: React.FC = () => {
   );
 };
 
-export default CharityView;
+export default DashboardView;
