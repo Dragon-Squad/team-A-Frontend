@@ -3,6 +3,7 @@ import Sidebar from "@/components/ui/Charity/Components/Sidebar";
 import Header from "@/components/ui/Charity/Components/Header";
 import Dashboard from "@/components/ui/Charity/Components/Dashbord/Dashboard";
 import DonationRecord from "@/components/ui/Charity/Pages/RecentDonations";
+import ProjectsPage from "@/components/ui/Charity/Pages/ProjectsPage";
 
 const DashboardView: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -22,9 +23,7 @@ const DashboardView: React.FC = () => {
       case "Dashboard":
         return <Dashboard />;
       case "Projects":
-        return (
-          <h1 className="text-2xl font-bold">Projects Content Goes Here</h1>
-        );
+        return <ProjectsPage />;
       case "Donations Record":
         return <DonationRecord />;
       default:
