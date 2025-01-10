@@ -1,12 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const ComparativeAnalysis: React.FC = () => {
-  const comparisonData = [
-    { name: "Project A", value: "$20,000" },
-    { name: "Project B", value: "$35,000" },
-    { name: "Project C", value: "$15,000" },
-    { name: "Project D", value: "$30,000" },
-  ];
+  const [comparisonData, setComparisonData] = useState<any[]>([]);
+
+  useEffect(() => {
+    // Simulate API call for fetching comparative data
+    async function fetchComparativeData() {
+      // Replace with actual API endpoint
+      const data = [
+        { name: "Project A", value: "$20,000" },
+        { name: "Project B", value: "$35,000" },
+        { name: "Project C", value: "$15,000" },
+        { name: "Project D", value: "$30,000" },
+      ];
+      setComparisonData(data);
+    }
+
+    fetchComparativeData();
+  }, []);
 
   return (
     <div className="bg-white shadow-md border border-gray-200 rounded-xl p-6">
