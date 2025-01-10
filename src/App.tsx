@@ -7,6 +7,7 @@ import ProjectDetailsPage from "./pages/project/ProjectDetails";
 import ProjectsPage from "./pages/project/ProjectPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import CharityView from "./pages/Charity/CharityView";
+import DonationRecord from "./components/ui/Charity/Pages/RecentDonations";
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
 const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));
@@ -28,6 +29,7 @@ const App: React.FC = () => {
         <Route path="/projects" element={<ProjectsPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/charity" element={<CharityView />} />
+        <Route path="/donations" element={<DonationRecord />} />
       </Routes>
     </Suspense>
   );
