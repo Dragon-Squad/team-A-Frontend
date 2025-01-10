@@ -3,6 +3,7 @@ import Sidebar from "@/components/ui/Charity/Components/Sidebar";
 import Header from "@/components/ui/Charity/Components/Header";
 import Dashboard from "@/components/ui/Charity/Components/Dashbord/Dashboard";
 import DonationRecord from "@/components/ui/Charity/Pages/RecentDonations";
+import ProjectStatisticsPage from "@/components/ui/Charity/Pages/ProjectsStatisticsPage";
 
 const DashboardView: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -27,6 +28,9 @@ const DashboardView: React.FC = () => {
         );
       case "Donations Record":
         return <DonationRecord />;
+      case "Projects Statistics":
+        return <ProjectStatisticsPage />;
+
       default:
         return <h1 className="text-2xl font-bold">Page Not Found</h1>;
     }
