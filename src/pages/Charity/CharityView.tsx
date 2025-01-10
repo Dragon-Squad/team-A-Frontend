@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/ui/Charity/Components/Sidebar";
 import Header from "@/components/ui/Charity/Components/Header";
 import Dashboard from "@/components/ui/Charity/Components/Dashbord/Dashboard";
+import DonationRecord from "@/components/ui/Charity/Pages/RecentDonations";
 
 const CharityView: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -25,11 +26,7 @@ const CharityView: React.FC = () => {
           <h1 className="text-2xl font-bold">Projects Content Goes Here</h1>
         );
       case "Donations Record":
-        return (
-          <h1 className="text-2xl font-bold">
-            Donations Record Content Goes Here
-          </h1>
-        );
+        return <DonationRecord />;
       default:
         return <h1 className="text-2xl font-bold">Page Not Found</h1>;
     }
