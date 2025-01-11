@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { encodeSecureCredentials } from "@/utils/encoder";
 
 //register hook
@@ -158,3 +158,50 @@ export function useOTP() {
 
   return { otpUser, loading, error };
 }
+
+//Get user by id
+interface User {
+  username: string;
+  email: string;
+  role: string;
+  avatar: string;
+  introVideo: string;
+}
+
+export const useFetchUser = (userId: string) => {
+  const [user, setUser] = useState<User | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetch(
+          `http://100.112.207.9:3000/api/users/${userId}`,
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch user: ${response.status} ${response.statusText}`,
+          );
+        }
+
+        const data: User = await response.json();
+        setUser(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "An unexpected error occurred",
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUser();
+  }, [userId]);
+
+  return { user, loading, error };
+};
