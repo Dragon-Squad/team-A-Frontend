@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useProjects } from "@/hooks/use-project";
+import { useProjectById } from "@/hooks/use-project";
 import { useDonate } from "@/hooks/use-donate";
 
 type Region = {
   _id: string;
+  name: string;
+};
+
+type Category = {
+  id: string;
   name: string;
 };
 
@@ -16,6 +21,7 @@ type Project = {
   goalAmount: number;
   raisedAmount: number;
   regionId: Region;
+  categories: Category[];
 };
 
 const categories = [
@@ -66,22 +72,15 @@ const ProjectDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const { donate } = useDonate();
 
-  const { data: projects, loading, error } = useProjects();
-  const [project, setProject] = useState<Project | null>(null);
+  // Use the API hook to get project data
+  const { data: project, loading, error } = useProjectById(id!);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState<string>("");
-  const [creditCard, setCreditCard] = useState<string>("");
+  const [note, setNote] = useState<string>("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-
-  useEffect(() => {
-    if (id && projects) {
-      const foundProject = projects.find((project) => project._id === id);
-      setProject(foundProject || null);
-    }
-  }, [id, projects]);
 
   const handleAmountClick = (amount: number) => {
     setSelectedAmount(amount);
@@ -96,7 +95,7 @@ const ProjectDetailsPage: React.FC = () => {
   const handleDonate = () => {
     // Form validation
     if (
-      !creditCard ||
+      !note ||
       !firstName ||
       !lastName ||
       !email ||
@@ -193,7 +192,7 @@ const ProjectDetailsPage: React.FC = () => {
               />
             </div>
             <h3 className="text-lg font-semibold text-gray-800">
-              Enter Payment Details
+              Enter Message
             </h3>
             <div className="mt-4">
               <input
