@@ -4,41 +4,25 @@ import { Button } from "@/components/ui/button";
 import Logo from "../logo";
 import { Transition } from "@headlessui/react";
 import { IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
-import { jwtDecode } from "jwt-decode";
-
-interface JwtPayload {
-  userID: string;
-  username: string;
-  exp: number;
-  iat: number;
-  [key: string]: unknown;
-}
 
 const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [userName, setUserName] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
   const location = useLocation();
 
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Projects", path: "/projects" },
-
     { name: "About Us", path: "/about" },
     { name: "Contact Us", path: "/contact" },
   ];
 
-  // Decode the access token to extract user details
+  // Retrieve userId from localStorage
   useEffect(() => {
-    const accessToken = localStorage.getItem("accessToken");
-    if (accessToken) {
-      try {
-        const payload = jwtDecode<JwtPayload>(accessToken);
-        // Assume you fetch the username from the token or an API
-        setUserName(payload.userID || "User"); // Replace `userID` with the appropriate claim
-      } catch (err) {
-        console.error("Failed to decode token:", err);
-        setUserName(null); // Reset if decoding fails
-      }
+    const storedUserId = localStorage.getItem("userId");
+    console.log("Retrieved userId:", storedUserId); // Debugging log
+    if (storedUserId) {
+      setUserId(storedUserId);
     }
   }, []);
 
@@ -80,8 +64,13 @@ const NavigationBar: React.FC = () => {
 
         {/* Right Section: User Info or Buttons */}
         <div className="hidden md:flex items-center space-x-3">
-          {userName ? (
-            <span className="text-white">Hello, {userName}!</span>
+          {userId ? (
+            <>
+              <span className="text-white">Hello, User!</span>
+              <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
+                <Link to={`/dashboard/${userId}`}>Dashboard</Link>
+              </Button>
+            </>
           ) : (
             <>
               <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
@@ -130,10 +119,13 @@ const NavigationBar: React.FC = () => {
                 </li>
               ))}
               <div className="flex flex-col space-y-2">
-                {userName ? (
-                  <span className="text-white text-center">
-                    Hello, {userName}!
-                  </span>
+                {userId ? (
+                  <>
+                    <span className="text-white text-center">Hello, User!</span>
+                    <Button className="bg-primary-orange text-white hover:bg-orange-600">
+                      <Link to={`/dashboard/${userId}`}>Dashboard</Link>
+                    </Button>
+                  </>
                 ) : (
                   <>
                     <Button className="bg-primary-orange text-white hover:bg-orange-600">
