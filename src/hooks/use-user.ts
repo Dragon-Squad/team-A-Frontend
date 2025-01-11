@@ -74,6 +74,7 @@ export function useLogin() {
     try {
       const encryptedHeader = await encodeSecureCredentials(email, password);
       const headers = {
+        credentials: "include",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin":
           "https://crack-rightly-cow.ngrok-free.app",

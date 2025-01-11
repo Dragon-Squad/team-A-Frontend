@@ -72,14 +72,10 @@ const ProjectDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const { donate } = useDonate();
 
-  // Use the API hook to get project data
   const { data: project, loading, error } = useProjectById(id!);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState<string>("");
-  const [note, setNote] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [message, setmessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleAmountClick = (amount: number) => {
@@ -94,13 +90,7 @@ const ProjectDetailsPage: React.FC = () => {
 
   const handleDonate = () => {
     // Form validation
-    if (
-      !note ||
-      !firstName ||
-      !lastName ||
-      !email ||
-      (!selectedAmount && !customAmount)
-    ) {
+    if (!message || (!selectedAmount && !customAmount)) {
       setErrorMessage("Please fill in all fields before donating.");
       return;
     }
@@ -108,7 +98,13 @@ const ProjectDetailsPage: React.FC = () => {
     // Clear error and proceed with donation
     setErrorMessage("");
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount!;
-    donate(id!, amount, creditCard, "one-time", email)
+    donate(
+      localStorage.getItem("userId")!,
+      amount,
+      "6780e32c8f09518b69a9a6a4",
+      "one-time",
+      message,
+    )
       .then((response) => {
         console.log("Donation successful:", response);
         if (response.checkoutUrl) {
@@ -197,33 +193,10 @@ const ProjectDetailsPage: React.FC = () => {
             <div className="mt-4">
               <input
                 type="text"
-                placeholder="Credit Card Number"
-                value={creditCard}
-                onChange={(e) => setCreditCard(e.target.value)}
+                placeholder="Message"
+                value={message}
+                onChange={(e) => setmessage(e.target.value)}
                 className="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="px-4 py-2 border rounded-lg focus:outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  className="px-4 py-2 border rounded-lg focus:outline-none"
-                />
-              </div>
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 mt-4 border rounded-lg focus:outline-none"
               />
             </div>
             {errorMessage && (
