@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { encodeSecureCredentials } from "@/utils/encoder";
+import { AUTH_URL, USER_URL } from "@/config/httpConfig";
 
 //register hook
 interface RegisterResponse {
@@ -23,17 +24,14 @@ export function useRegister() {
 
     try {
       const encryptedHeader = await encodeSecureCredentials(email, password);
-      const response = await fetch(
-        "http://localhost:3000/api/auth/auth/register",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: encryptedHeader,
-          },
-          body: JSON.stringify({ email, password, username, role }),
+      const response = await fetch(`${AUTH_URL}/register`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: encryptedHeader,
         },
-      );
+        body: JSON.stringify({ email, password, username, role }),
+      });
 
       if (!response.ok) {
         const errorData = (await response.json()) as { message: string };
@@ -80,7 +78,7 @@ export function useLogin() {
         Authorization: encryptedHeader,
       };
 
-      const response = await fetch("http://100.112.207.9:3000/api/auth/login", {
+      const response = await fetch(`${AUTH_URL}/login`, {
         method: "POST",
         headers,
         body: JSON.stringify({ email, password }),
@@ -128,16 +126,13 @@ export function useOTP() {
     setError(null);
 
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/auth/auth/verify-email",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, otp }),
+      const response = await fetch(`${AUTH_URL}/verify-email`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({ email, otp }),
+      });
 
       if (!response.ok) {
         const errorData = (await response.json()) as { message: string };
@@ -183,7 +178,7 @@ export const useFetchUser = () => {
 
         try {
           const response = await fetch(
-            `http://100.112.207.9:3000/api/users/${storedUserId}`,
+            `${USER_URL}/${storedUserId}`
           );
 
           if (!response.ok) {
