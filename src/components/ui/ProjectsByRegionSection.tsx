@@ -1,19 +1,28 @@
 import React, { useState } from "react";
 
 const ProjectsByRegionSection: React.FC = () => {
-  const [activeRegion, setActiveRegion] = useState("Central Africa");
+  const [activeRegion, setActiveRegion] = useState("Asia");
 
   const regions = [
-    "Central Africa",
-    "Eastern Europe",
-    "Southeast Asia",
-    "Central America",
+    "Asia",
+    "Africa",
+    "Antarctica",
+    "Australia",
+    "Europe",
+    "North America",
+    "South America",
+    "Global",
   ];
+
   const regionDetails = {
-    "Central Africa": ["Project A", "Project B", "Project C"],
-    "Eastern Europe": ["Project D", "Project E"],
-    "Southeast Asia": ["Project F", "Project G", "Project H"],
-    "Central America": ["Project I", "Project J"],
+    Asia: ["Project A", "Project B", "Project C"],
+    Africa: ["Project D", "Project E", "Project F"],
+    Antarctica: ["Project G"],
+    Australia: ["Project H", "Project I"],
+    Europe: ["Project J", "Project K"],
+    "North America": ["Project L", "Project M"],
+    "South America": ["Project N", "Project O"],
+    Global: ["Project P", "Project Q", "Project R", "Project S"],
   };
 
   return (
@@ -51,7 +60,8 @@ const ProjectsByRegionSection: React.FC = () => {
           <div
             className="w-full h-96 bg-no-repeat bg-center bg-cover"
             style={{
-              backgroundImage: "url('/images/world-map.jpg')", // Replace with your map image
+              backgroundImage:
+                "url('https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg')", // Free world map
             }}
           >
             {/* Example Markers */}
@@ -65,11 +75,15 @@ const ProjectsByRegionSection: React.FC = () => {
         <div className="mt-8 text-center">
           <h3 className="text-2xl font-bold text-black">{activeRegion}</h3>
           <ul className="mt-4 space-y-2">
-            {regionDetails[activeRegion].map((project, index) => (
+            {regionDetails[activeRegion]?.map((project, index) => (
               <li key={index} className="text-gray-700 text-sm">
                 {project}
               </li>
-            ))}
+            )) || (
+              <li className="text-gray-700 text-sm">
+                No projects available for this region.
+              </li>
+            )}
           </ul>
         </div>
       </div>
