@@ -98,13 +98,7 @@ const ProjectDetailsPage: React.FC = () => {
     // Clear error and proceed with donation
     setErrorMessage("");
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount!;
-    donate(
-      localStorage.getItem("userId")!,
-      amount,
-      "6780e32c8f09518b69a9a6a4",
-      "one-time",
-      message,
-    )
+    donate(localStorage.getItem("userId")!, amount, id!, "one-time", message)
       .then((response) => {
         console.log("Donation successful:", response);
         if (response.checkoutUrl) {
