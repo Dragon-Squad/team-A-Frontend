@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 
-const API_URL = "https://crack-rightly-cow.ngrok-free.app/projects/all";
+import { PROJECT_URL } from "@/config/httpConfig";
 
 type Project = {
   _id: string;
@@ -31,14 +31,17 @@ export const useProjects = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(API_URL, {
-        method: "GET",
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          "Cache-Control": "no-cache",
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${PROJECT_URL}/all`,
+        {
+          method: "GET",
+          headers: {
+            "ngrok-skip-browser-warning": "69420",
+            "Cache-Control": "no-cache",
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error(
