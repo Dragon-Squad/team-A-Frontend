@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import axios, { AxiosError } from "axios";
 
 const API_URL = "https://crack-rightly-cow.ngrok-free.app/projects/all";
 
@@ -32,18 +31,26 @@ export const useProjects = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await axios.get<ApiResponse>(API_URL, {
+      const response = await fetch(API_URL, {
+        method: "GET",
         headers: {
           "ngrok-skip-browser-warning": "69420",
           "Cache-Control": "no-cache",
           "Content-Type": "application/json",
         },
       });
-      setData(response.data.projects || []);
-      setTotal(response.data.total || 0);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data: ApiResponse = await response.json();
+      setData(data.projects || []);
+      setTotal(data.total || 0);
     } catch (err) {
-      const axiosError = err as AxiosError;
-      setError(axiosError.message || "An error occurred.");
+      setError(err instanceof Error ? err.message : "An error occurred.");
     } finally {
       setLoading(false);
     }

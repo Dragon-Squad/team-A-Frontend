@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import Logo from "../logo";
@@ -8,7 +8,6 @@ import { useFetchUser } from "@/hooks/use-user";
 
 const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [userId, setUserId] = useState<string | null>(null);
   const location = useLocation();
 
   const navLinks = [
@@ -18,16 +17,7 @@ const NavigationBar: React.FC = () => {
     { name: "Contact Us", path: "/contact" },
   ];
 
-  // Retrieve userId from localStorage
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-    console.log("Retrieved userId:", storedUserId); // Debugging log
-    if (storedUserId) {
-      setUserId(storedUserId);
-    }
-  }, []);
-
-  const { user, loading, error } = useFetchUser(userId || "");
+  const { user, loading, error } = useFetchUser(); // No need to pass userId here
 
   return (
     <div className="w-full bg-black fixed top-0 left-0 z-50 shadow-lg">
@@ -67,17 +57,17 @@ const NavigationBar: React.FC = () => {
 
         {/* Right Section: User Info or Buttons */}
         <div className="hidden md:flex items-center space-x-3">
-          {userId ? (
+          {user ? (
             <>
               <span className="text-white">
                 {loading
                   ? "Loading..."
                   : error
                     ? "Error loading user"
-                    : `Hello, ${user?.username || "User"}`}
+                    : `Hello, ${user.username}`}
               </span>
               <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
-                <Link to={`/dashboard/${userId}`}>Dashboard</Link>
+                <Link to={`/dashboard/${user.username}`}>Dashboard</Link>
               </Button>
             </>
           ) : (
@@ -128,11 +118,13 @@ const NavigationBar: React.FC = () => {
                 </li>
               ))}
               <div className="flex flex-col space-y-2">
-                {userId ? (
+                {user ? (
                   <>
-                    <span className="text-white text-center">Hello, User!</span>
+                    <span className="text-white text-center">
+                      Hello, {user.username}
+                    </span>
                     <Button className="bg-primary-orange text-white hover:bg-orange-600">
-                      <Link to={`/dashboard/${userId}`}>Dashboard</Link>
+                      <Link to={`/dashboard/${user.username}`}>Dashboard</Link>
                     </Button>
                   </>
                 ) : (
