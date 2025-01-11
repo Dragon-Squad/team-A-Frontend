@@ -13,14 +13,21 @@ export const useRegisterForm = () => {
     email: string;
     password: string;
     username: string;
-    role: string;
+    role: string | string[];
   }) => {
     setLoading(true);
     setError(null);
 
     try {
-      const { email, password, username } = data;
-      const response = await registerUser(email, password, username, role);
+      const { email, password, username, role } = data;
+
+      const transformedRole = Array.isArray(role) ? role[0] : role;
+      const response = await registerUser(
+        email,
+        password,
+        username,
+        transformedRole,
+      );
       console.log("Registration successful:", response);
 
       navigate("/otp", { state: { email } });
