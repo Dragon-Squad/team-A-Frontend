@@ -59,8 +59,7 @@ export function useRegister() {
 interface LoginResponse {
   success: boolean;
   message: string;
-  accessToken?: string;
-  refreshToken?: string;
+  userId: string;
 }
 
 export function useLogin() {
@@ -81,14 +80,11 @@ export function useLogin() {
         Authorization: encryptedHeader,
       };
 
-      const response = await fetch(
-        "http://localhost:3000/api/auth/auth/login",
-        {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ email, password }),
-        },
-      );
+      const response = await fetch("http://100.112.207.9:3000/api/auth/login", {
+        method: "POST",
+        headers,
+        body: JSON.stringify({ email, password }),
+      });
 
       if (!response.ok) {
         const errorData = (await response.json()) as { message: string };
@@ -97,14 +93,9 @@ export function useLogin() {
 
       const data = (await response.json()) as LoginResponse;
 
-      // Store tokens securely
-      if (data.accessToken) {
-        console.log("Saving accessToken:", data.accessToken);
-        localStorage.setItem("accessToken", data.accessToken);
-      }
-      if (data.refreshToken) {
-        console.log("Saving refreshToken:", data.refreshToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
+      if (data.userId) {
+        console.log("Saving userId:", data.userId);
+        localStorage.setItem("userId", data.userId);
       }
 
       return data;
