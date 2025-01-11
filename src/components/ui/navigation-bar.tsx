@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import Logo from "../logo";
 import { Transition } from "@headlessui/react";
 import { IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
+import { useFetchUser } from "@/hooks/use-user";
 
 const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,6 +26,8 @@ const NavigationBar: React.FC = () => {
       setUserId(storedUserId);
     }
   }, []);
+
+  const { user, loading, error } = useFetchUser(userId || "");
 
   return (
     <div className="w-full bg-black fixed top-0 left-0 z-50 shadow-lg">
@@ -66,7 +69,13 @@ const NavigationBar: React.FC = () => {
         <div className="hidden md:flex items-center space-x-3">
           {userId ? (
             <>
-              <span className="text-white">Hello, User!</span>
+              <span className="text-white">
+                {loading
+                  ? "Loading..."
+                  : error
+                    ? "Error loading user"
+                    : `Hello, ${user?.username || "User"}`}
+              </span>
               <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
                 <Link to={`/dashboard/${userId}`}>Dashboard</Link>
               </Button>
