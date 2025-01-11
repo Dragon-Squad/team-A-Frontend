@@ -1,3 +1,4 @@
+import { DONATION_URL } from "@/config/httpConfig";
 import { useState } from "react";
 
 interface DonateResponse {
@@ -22,23 +23,20 @@ export function useDonate() {
     setError(null);
 
     try {
-      const response = await fetch(
-        "https://crack-rightly-cow.ngrok-free.app/donation/new",
-        {
-          method: "POST",
-          headers: {
-            "Cache-Control": "no-cache",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            donorId,
-            amount,
-            projectId,
-            donationType,
-            message,
-          }),
+      const response = await fetch(`${DONATION_URL}/new`, {
+        method: "POST",
+        headers: {
+          "Cache-Control": "no-cache",
+          "Content-Type": "application/json",
         },
-      );
+        body: JSON.stringify({
+          donorId,
+          amount,
+          projectId,
+          donationType,
+          message,
+        }),
+      });
 
       if (!response.ok) {
         const errorData = (await response.json()) as { message: string };
