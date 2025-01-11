@@ -163,38 +163,47 @@ interface User {
   introVideo: string;
 }
 
-export const useFetchUser = (userId: string) => {
+export const useFetchUser = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      setLoading(true);
-      setError(null);
+    const storedUserId = localStorage.getItem("userId");
 
-      try {
-        const response = await fetch(`${USER_URL}/${userId}`);
+    if (storedUserId) {
+      const fetchUser = async () => {
+        setLoading(true);
+        setError(null);
 
-        if (!response.ok) {
-          throw new Error(
-            `Failed to fetch user: ${response.status} ${response.statusText}`,
+        try {
+          const response = await fetch(
+            `${USER_URL}/${storedUserId}`
           );
+
+          if (!response.ok) {
+            throw new Error(
+              `Failed to fetch user: ${response.status} ${response.statusText}`,
+            );
+          }
+
+          const data: User = await response.json();
+          setUser(data);
+        } catch (err) {
+          setError(
+            err instanceof Error ? err.message : "An unexpected error occurred",
+          );
+        } finally {
+          setLoading(false);
         }
+      };
 
-        const data: User = await response.json();
-        setUser(data);
-      } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "An unexpected error occurred",
-        );
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchUser();
-  }, [userId]);
+      fetchUser();
+    } else {
+      setError("User ID is not available in localStorage");
+      setLoading(false);
+    }
+  }, []);
 
   return { user, loading, error };
 };
