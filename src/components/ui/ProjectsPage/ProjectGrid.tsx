@@ -118,7 +118,9 @@ const ProjectsGrid: React.FC = () => {
 
               {/* Project Content */}
               <div className="p-4">
-                <h3 className="text-lg font-bold">{project.title}</h3>
+                <h3 className="text-lg font-bold text-black ">
+                  {project.title}
+                </h3>
                 <p className="text-sm text-gray-500 mt-1">
                   <strong>Region:</strong> {project.regionId.name}
                 </p>
