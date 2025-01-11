@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomText from "../ui/text";
+import { Checkbox } from "../ui/checkbox";
 
 const LoginSchema = z.object({
   email: z.string().email("Invalid email address."),
@@ -20,6 +21,9 @@ const LoginSchema = z.object({
 
 const RegisterSchema = LoginSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters."),
+  role: z
+    .array(z.enum(["donor", "charity"]))
+    .min(1, "Please select at least one role."),
 });
 
 const OTPSchema = z.object({
@@ -54,7 +58,7 @@ export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
     defaultValues: {
       email: "",
       password: "",
-      ...(mode === "register" ? { username: "" } : {}),
+      ...(mode === "register" ? { username: "", role: [] } : {}),
       ...(mode === "otp" ? { otpCode: "" } : {}),
     },
   });
@@ -78,24 +82,66 @@ export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         {mode === "register" && (
-          <FormField
-            control={form.control}
-            name="username"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="Enter your username"
-                    className="focus-visible:ring-primary-orange text-primary-orange"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <>
+            <FormField
+              control={form.control}
+              name="username"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Username</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="Enter your username"
+                      className="focus-visible:ring-primary-orange text-primary-orange"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Select your roles</FormLabel>
+                  <FormControl>
+                    <div className="flex gap-4">
+                      <label className="flex items-center gap-2">
+                        <Checkbox
+                          checked={field.value.includes("donor")}
+                          onCheckedChange={(checked) => {
+                            const newRoles = checked
+                              ? [...field.value, "donor"]
+                              : field.value.filter((role) => role !== "donor");
+                            field.onChange(newRoles);
+                          }}
+                        />
+                        <span>Donor</span>
+                      </label>
+                      <label className="flex items-center gap-2">
+                        <Checkbox
+                          checked={field.value.includes("charity")}
+                          onCheckedChange={(checked) => {
+                            const newRoles = checked
+                              ? [...field.value, "charity"]
+                              : field.value.filter(
+                                  (role) => role !== "charity",
+                                );
+                            field.onChange(newRoles);
+                          }}
+                        />
+                        <span>Charity</span>
+                      </label>
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </>
         )}
         <FormField
           control={form.control}
