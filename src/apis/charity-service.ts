@@ -68,6 +68,7 @@ export default class CharityService {
 
       const headers = new Headers({
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
       });
       const body = JSON.stringify(updateData);
       const response = await httpRequest(url, "PUT", headers, body);

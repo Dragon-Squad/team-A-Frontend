@@ -70,6 +70,9 @@ const NavigationBar: React.FC = () => {
               <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
                 <Link to={`/dashboard`}>Dashboard</Link>
               </Button>
+              <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
+                <Link to={`/test-api`}>Test API</Link>
+              </Button>
               <Button
                 className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
                 onClick={logout}

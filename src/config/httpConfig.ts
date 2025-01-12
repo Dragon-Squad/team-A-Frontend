@@ -1,4 +1,4 @@
-const TEAM_A_BACKEND: string = "http://kafka:8000";
+const TEAM_A_BACKEND: string = "https://kafka.tail8c88ab.ts.net:8000";
 
 export const DONATION_URL: string = `${TEAM_A_BACKEND}/donation`;
 
