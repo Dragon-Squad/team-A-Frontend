@@ -31,17 +31,14 @@ export const useProjects = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        `${PROJECT_URL}/all`,
-        {
-          method: "GET",
-          headers: {
-            "ngrok-skip-browser-warning": "69420",
-            "Cache-Control": "no-cache",
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await fetch(`${PROJECT_URL}/all`, {
+        method: "GET",
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Cache-Control": "no-cache",
+          "Content-Type": "application/json",
+        },
+      });
 
       if (!response.ok) {
         throw new Error(
@@ -69,5 +66,92 @@ export const useProjects = () => {
     loading,
     error,
     refresh: fetchProjects,
+  };
+};
+
+type Charity = {
+  _id: string;
+  userId: string;
+  name: string;
+  address: string[];
+  region: any[];
+  category: string[];
+  type: string;
+  hashedStripeId: string;
+  taxCode: string;
+  __v: number;
+};
+
+type Category = {
+  id: string;
+  name: string;
+};
+
+type Region = {
+  id: string;
+  name: string;
+};
+
+type ProjectByIdDetail = {
+  id: string;
+  title: string;
+  description: string;
+  goalAmount: number;
+  raisedAmount: number;
+  startDate: string;
+  endDate: string;
+  status: string;
+  charity: Charity;
+  categories: Category[];
+  region: Region;
+  createdAt: string;
+  images: string[];
+  videos: string[];
+};
+
+export const useProjectById = (id: string) => {
+  const [data, setData] = useState<ProjectByIdDetail | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchProjectById = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${PROJECT_URL}/${id}`, {
+        method: "GET",
+        headers: {
+          "ngrok-skip-browser-warning": "69420",
+          "Cache-Control": "no-cache",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const projectData: ProjectByIdDetail = await response.json();
+      setData(projectData); // Set the data to the state
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id) {
+      fetchProjectById();
+    }
+  }, [fetchProjectById, id]);
+
+  return {
+    data,
+    loading,
+    error,
+    refresh: fetchProjectById,
   };
 };

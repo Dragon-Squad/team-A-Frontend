@@ -10,6 +10,8 @@ import {
   IconLogout,
   IconDotsVertical,
 } from "@tabler/icons-react";
+import { useFetchUser } from "@/hooks/use-user";
+import useLogout from "@/hooks/use-user";
 
 interface SidebarProps {
   activeTab: string;
@@ -18,6 +20,8 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   const location = useLocation();
+  const { user, loading, error } = useFetchUser();
+  const { logout } = useLogout();
 
   const navLinks = [
     {
@@ -76,7 +80,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
 
       {/* Logout */}
       <div className="p-4">
-        <button className="flex items-center w-full px-4 py-3 text-sm font-medium bg-orange-500 text-white hover:bg-orange-600 transition rounded-lg">
+        <button
+          className="flex items-center w-full px-4 py-3 text-sm font-medium bg-orange-500 text-white hover:bg-orange-600 transition rounded-lg"
+          onClick={logout}
+        >
           <IconLogout size={20} />
           <span className="ml-3">Logout</span>
         </button>
@@ -85,15 +92,21 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
       {/* User Profile */}
       <div className="border-t border-orange-600 mt-auto p-4 flex items-center">
         <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
-          {/* Placeholder for Profile Picture */}
+          {/* Display user's avatar or fallback image */}
           <img
-            src="https://via.placeholder.com/40"
+            src={user?.avatar || "https://via.placeholder.com/40"}
             alt="Profile"
             className="w-full h-full object-cover"
           />
         </div>
         <div className="ml-3">
-          <p className="text-sm font-medium">Charity Name</p>
+          <p className="text-sm font-medium">
+            {loading
+              ? "Loading..."
+              : error
+                ? "Error"
+                : user?.username || "Guest"}
+          </p>
           <p className="text-xs text-gray-300">View profile</p>
         </div>
         <button className="ml-auto">

@@ -1,11 +1,6 @@
-import { useProjects } from "@/hooks/use-project";
 import React from "react";
+import { useProjects } from "@/hooks/use-project";
 import { useNavigate } from "react-router-dom";
-
-type Category = {
-  _id: string;
-  name: string;
-};
 
 const LatestProjectsSection: React.FC = () => {
   const { data: projects, loading, error, refresh } = useProjects();
@@ -14,12 +9,12 @@ const LatestProjectsSection: React.FC = () => {
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error loading projects: {error}</div>;
 
+  // Filter active projects
   const activeProjects = projects.filter(
     (project) => project.status === "active",
   );
 
   const handleViewDetails = (id: string) => {
-    // Navigate to /details/{_id}
     navigate(`/details/${id}`);
   };
 
@@ -35,59 +30,48 @@ const LatestProjectsSection: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {activeProjects.map((project) => (
             <div
-              key={project._id}
+              key={project.id}
               className="bg-white border border-gray-200 rounded-lg shadow-lg"
             >
-              {/* Project Image */}
+              {/* If you really need an image, provide a fallback or remove this */}
               <img
-                src={project.images[0]} // Use the first image as the thumbnail
+                src={project.images?.[0] ?? "path/to/fallback.jpg"}
                 alt={project.title}
                 className="w-full h-48 object-cover rounded-t-lg"
               />
 
               {/* Project Content */}
               <div className="p-6">
-                <h3 className="text-lg font-bold">{project.title}</h3>
+                <h3 className="text-lg font-bold text-black">
+                  {project.title}
+                </h3>
                 <p className="text-sm text-gray-500 mt-1">
-                  <strong>Region:</strong> {project.regionId.name}
+                  <strong>Region:</strong> {project.region?.name ?? "N/A"}
                 </p>
-
                 {/* Display the category names */}
                 <p className="text-sm text-gray-500">
                   <strong>Category:</strong>{" "}
-                  {project.categoryIds
-                    .map((category: Category) => category.name)
-                    .join(", ")}
+                  {project.categories?.map((cat) => cat.name).join(", ") ??
+                    "N/A"}
                 </p>
-
                 <p className="text-sm text-gray-600 mt-4 line-clamp-3">
-                  {project.description}
+                  {project.description ?? "No description available."}
                 </p>
-
-                {/* Goal, Raised, and Donations */}
+                {/* Goal, (Raised?), and Donations */}
                 <div className="mt-4">
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>Goal: ${project.goalAmount.toLocaleString()}</span>
+
                     <span>
                       Raised: ${project.raisedAmount.toLocaleString()}
                     </span>
                   </div>
                 </div>
-
-                {/* Progress Bar */}
-                <div className="relative mt-4 bg-gray-200 rounded-full h-2">
-                  <div
-                    className="absolute top-0 left-0 h-2 bg-primary-orange rounded-full"
-                    style={{
-                      width: `${(project.raisedAmount / project.goalAmount) * 100}%`,
-                    }}
-                  ></div>
-                </div>
-
+                {/* Progress Bar (only if you have raisedAmount) */}l
                 {/* View Details Button */}
                 <button
                   className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
-                  onClick={() => handleViewDetails(project._id)} // Navigate on click
+                  onClick={() => handleViewDetails(project.id)}
                 >
                   View Details
                 </button>
@@ -100,7 +84,7 @@ const LatestProjectsSection: React.FC = () => {
         <div className="text-center mt-10">
           <button
             className="border border-black text-black py-2 px-6 rounded-md hover:bg-gray-100"
-            onClick={refresh} // Refresh data when the button is clicked
+            onClick={refresh}
           >
             Refresh Projects
           </button>

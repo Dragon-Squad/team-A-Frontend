@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { encodeSecureCredentials } from "@/utils/encoder";
-import { AUTH_URL, USER_URL } from "@/config/httpConfig";
+import { AUTH_URL, CHARITY_URL, USER_URL } from "@/config/httpConfig";
 
 //register hook
 interface RegisterResponse {
@@ -58,6 +58,7 @@ interface LoginResponse {
   success: boolean;
   message: string;
   userId: string;
+  accessToken: string;
 }
 
 export function useLogin() {
@@ -75,6 +76,8 @@ export function useLogin() {
       const encryptedHeader = await encodeSecureCredentials(email, password);
       const headers = {
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin":
+          "https://crack-rightly-cow.ngrok-free.app",
         Authorization: encryptedHeader,
       };
 
@@ -82,6 +85,7 @@ export function useLogin() {
         method: "POST",
         headers,
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -91,9 +95,14 @@ export function useLogin() {
 
       const data = (await response.json()) as LoginResponse;
 
-      if (data.userId) {
+      if (data) {
         console.log("Saving userId:", data.userId);
         localStorage.setItem("userId", data.userId);
+      }
+
+      if (data.accessToken) {
+        console.log("Saving access token:", data.accessToken);
+        localStorage.setItem("accessToken", data.accessToken);
       }
 
       return data;
@@ -177,9 +186,7 @@ export const useFetchUser = () => {
         setError(null);
 
         try {
-          const response = await fetch(
-            `${USER_URL}/${storedUserId}`
-          );
+          const response = await fetch(`${USER_URL}/${storedUserId}`);
 
           if (!response.ok) {
             throw new Error(
@@ -188,6 +195,63 @@ export const useFetchUser = () => {
           }
 
           const data: User = await response.json();
+          setUser(data);
+          localStorage.setItem("userRole", data.role);
+        } catch (err) {
+          setError(
+            err instanceof Error ? err.message : "An unexpected error occurred",
+          );
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchUser();
+    } else {
+      setError("User ID is not available in localStorage");
+      setLoading(false);
+    }
+  }, []);
+
+  return { user, loading, error };
+};
+
+interface Charity {
+  _id: string;
+  userId: string;
+  name: string;
+  address: string[];
+  region: string[];
+  category: string[];
+  type: string;
+  hashedStripeId: string;
+  taxCode: string;
+  __v: number;
+}
+
+export const useFetchCharity = () => {
+  const [user, setUser] = useState<Charity | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const storedUserId = localStorage.getItem("userId");
+
+    if (storedUserId) {
+      const fetchUser = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+          const response = await fetch(`${CHARITY_URL}/${storedUserId}`);
+
+          if (!response.ok) {
+            throw new Error(
+              `Failed to fetch user: ${response.status} ${response.statusText}`,
+            );
+          }
+
+          const data: Charity = await response.json();
           setUser(data);
         } catch (err) {
           setError(
@@ -207,3 +271,15 @@ export const useFetchUser = () => {
 
   return { user, loading, error };
 };
+
+const useLogout = () => {
+  const logout = useCallback(() => {
+    localStorage.clear();
+
+    window.location.href = "/";
+  }, []);
+
+  return { logout };
+};
+
+export default useLogout;

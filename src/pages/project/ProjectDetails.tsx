@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { useProjects } from "@/hooks/use-project";
+import { useProjectById } from "@/hooks/use-project";
 import { useDonate } from "@/hooks/use-donate";
 
 type Region = {
   _id: string;
+  name: string;
+};
+
+type Category = {
+  id: string;
   name: string;
 };
 
@@ -16,6 +21,7 @@ type Project = {
   goalAmount: number;
   raisedAmount: number;
   regionId: Region;
+  categories: Category[];
 };
 
 const categories = [
@@ -66,24 +72,12 @@ const ProjectDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const { donate } = useDonate();
 
-  const { data: projects, loading, error } = useProjects();
-  const [project, setProject] = useState<Project | null>(null);
+  const { data: project, loading, error } = useProjectById(id!);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [customAmount, setCustomAmount] = useState<string>("");
-  const [creditCard, setCreditCard] = useState<string>("");
-  const [firstName, setFirstName] = useState<string>("");
-  const [lastName, setLastName] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [paymentType, setPaymentType] = useState<string>("one-time");
-  const [donationMessage, setDonationMessage] = useState<string>("");
-
-  useEffect(() => {
-    if (id && projects) {
-      const foundProject = projects.find((project) => project._id === id);
-      setProject(foundProject || null);
-    }
-  }, [id, projects]);
 
   const handleAmountClick = (amount: number) => {
     setSelectedAmount(amount);
@@ -96,15 +90,7 @@ const ProjectDetailsPage: React.FC = () => {
   };
 
   const handleDonate = () => {
-    // Form validation
-    if (
-      !creditCard ||
-      !firstName ||
-      !lastName ||
-      !email ||
-      (!selectedAmount && !customAmount) ||
-      !paymentType
-    ) {
+    if (!selectedAmount && !customAmount) {
       setErrorMessage("Please fill in all fields before donating.");
       return;
     }
@@ -112,7 +98,7 @@ const ProjectDetailsPage: React.FC = () => {
     // Clear error and proceed with donation
     setErrorMessage("");
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount!;
-    donate(id!, amount, creditCard, paymentType, email, donationMessage)
+    donate(localStorage.getItem("userId")!, amount, id!, "one-time", message)
       .then((response) => {
         console.log("Donation successful:", response);
         if (response.checkoutUrl) {
@@ -142,7 +128,6 @@ const ProjectDetailsPage: React.FC = () => {
           >
             Back
           </button>
-
           <img
             src={project.images[0]}
             alt={project.title}
@@ -161,11 +146,10 @@ const ProjectDetailsPage: React.FC = () => {
               <div
                 className="absolute top-0 left-0 h-4 bg-orange-500 rounded-full"
                 style={{ width: `${donationPercentage}%` }}
+                style={{ width: `${donationPercentage}%` }}
               ></div>
             </div>
           </div>
-
-          {/* Donation Section */}
           <div className="mt-8 p-6 bg-gray-100 rounded-lg shadow-lg">
             <h2 className="text-xl font-bold text-gray-800 mb-4">
               Donation Amount
@@ -175,11 +159,11 @@ const ProjectDetailsPage: React.FC = () => {
                 <button
                   key={amount}
                   onClick={() => handleAmountClick(amount)}
-                  className={`px-4 py-2 rounded-full focus:outline-none ${
+                  className={`px-4 py-2 rounded-full ${
                     selectedAmount === amount
-                      ? "bg-orange-600 text-white"
-                      : "bg-orange-500 text-white hover:bg-orange-600"
-                  }`}
+                      ? "bg-orange-600"
+                      : "bg-orange-500"
+                  } text-white hover:bg-orange-600`}
                 >
                   ${amount}
                 </button>
@@ -192,12 +176,8 @@ const ProjectDetailsPage: React.FC = () => {
                 className="w-32 px-4 py-2 border rounded-lg focus:outline-none"
               />
             </div>
-
-            <h3 className="text-lg font-semibold text-gray-800">
-              Payment Type
-            </h3>
             <div className="flex gap-4 mb-6">
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 text-black">
                 <input
                   type="radio"
                   value="one-time"
@@ -206,7 +186,7 @@ const ProjectDetailsPage: React.FC = () => {
                 />
                 One-time
               </label>
-              <label className="flex items-center gap-2">
+              <label className="flex items-center gap-2 text-black">
                 <input
                   type="radio"
                   value="monthly"
@@ -216,55 +196,17 @@ const ProjectDetailsPage: React.FC = () => {
                 Monthly
               </label>
             </div>
-
-            <h3 className="text-lg font-semibold text-gray-800">Message</h3>
             <textarea
               placeholder="Add a message (optional, up to 250 characters)"
-              value={donationMessage}
-              onChange={(e) => setDonationMessage(e.target.value)}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               maxLength={250}
-              className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none"
+              className="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none"
             />
-
-            <h3 className="text-lg font-semibold text-gray-800 mt-4">
-              Enter Payment Details
-            </h3>
-            <div className="mt-4">
-              <input
-                type="text"
-                placeholder="Credit Card Number"
-                value={creditCard}
-                onChange={(e) => setCreditCard(e.target.value)}
-                className="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <input
-                  type="text"
-                  placeholder="First Name"
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  className="px-4 py-2 border rounded-lg focus:outline-none"
-                />
-                <input
-                  type="text"
-                  placeholder="Last Name"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  className="px-4 py-2 border rounded-lg focus:outline-none"
-                />
-              </div>
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-2 mt-4 border rounded-lg focus:outline-none"
-              />
-            </div>
             {errorMessage && (
-              <p className="mt-4 text-red-500 text-sm">{errorMessage}</p>
+              <p className="text-red-500 text-sm">{errorMessage}</p>
             )}
-            <div className="mt-6 text-xl font-bold text-gray-800">
+            <div className="text-xl font-bold text-gray-800">
               Donation Total: $
               {customAmount
                 ? customAmount
@@ -280,8 +222,6 @@ const ProjectDetailsPage: React.FC = () => {
             </button>
           </div>
         </div>
-
-        {/* Right Sidebar */}
         <div className="md:col-span-4 space-y-6">
           <div className="p-6 bg-gray-100 rounded-lg shadow-lg">
             <h3 className="text-lg font-bold text-gray-800">Categories</h3>

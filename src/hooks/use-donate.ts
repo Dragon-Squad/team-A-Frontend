@@ -26,6 +26,7 @@ export function useDonate() {
       const response = await fetch(`${DONATION_URL}/new`, {
         method: "POST",
         headers: {
+          credentials: "include",
           "Cache-Control": "no-cache",
           "Content-Type": "application/json",
         },
@@ -36,11 +37,12 @@ export function useDonate() {
           donationType,
           message,
         }),
+        credentials: "include",
       });
 
       if (!response.ok) {
         const errorData = (await response.json()) as { message: string };
-        throw new Error(errorData.message || "Failed to register");
+        throw new Error(errorData.message || "Failed to donate");
       }
 
       const data = (await response.json()) as DonateResponse;
