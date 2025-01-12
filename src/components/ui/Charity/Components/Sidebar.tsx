@@ -107,7 +107,9 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
                 ? "Error"
                 : user?.username || "Guest"}
           </p>
-          <p className="text-xs text-gray-300">View profile</p>
+          <Link to="/profile" className="text-xs text-gray-300">
+            View profile
+          </Link>
         </div>
         <button className="ml-auto">
           <IconDotsVertical size={20} className="text-gray-300" />
