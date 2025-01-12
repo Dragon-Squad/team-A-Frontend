@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { encodeSecureCredentials } from "@/utils/encoder";
 import { AUTH_URL, CHARITY_URL, USER_URL } from "@/config/httpConfig";
 
@@ -58,6 +58,7 @@ interface LoginResponse {
   success: boolean;
   message: string;
   userId: string;
+  accessToken: string;
 }
 
 export function useLogin() {
@@ -74,7 +75,6 @@ export function useLogin() {
     try {
       const encryptedHeader = await encodeSecureCredentials(email, password);
       const headers = {
-        credentials: "include",
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin":
           "https://crack-rightly-cow.ngrok-free.app",
@@ -85,6 +85,7 @@ export function useLogin() {
         method: "POST",
         headers,
         body: JSON.stringify({ email, password }),
+        credentials: "include",
       });
 
       if (!response.ok) {
@@ -94,9 +95,14 @@ export function useLogin() {
 
       const data = (await response.json()) as LoginResponse;
 
-      if (data.userId) {
+      if (data) {
         console.log("Saving userId:", data.userId);
         localStorage.setItem("userId", data.userId);
+      }
+
+      if (data.accessToken) {
+        console.log("Saving access token:", data.accessToken);
+        localStorage.setItem("accessToken", data.accessToken);
       }
 
       return data;
@@ -190,6 +196,7 @@ export const useFetchUser = () => {
 
           const data: User = await response.json();
           setUser(data);
+          localStorage.setItem("userRole", data.role);
         } catch (err) {
           setError(
             err instanceof Error ? err.message : "An unexpected error occurred",
@@ -264,3 +271,15 @@ export const useFetchCharity = () => {
 
   return { user, loading, error };
 };
+
+const useLogout = () => {
+  const logout = useCallback(() => {
+    localStorage.clear();
+
+    window.location.href = "/";
+  }, []);
+
+  return { logout };
+};
+
+export default useLogout;
