@@ -78,7 +78,6 @@ const ProjectDetailsPage: React.FC = () => {
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [paymentType, setPaymentType] = useState<string>("one-time");
-  const [donationMessage, setDonationMessage] = useState<string>("");
 
   const handleAmountClick = (amount: number) => {
     setSelectedAmount(amount);
