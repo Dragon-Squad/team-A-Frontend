@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,7 +15,13 @@ function CharityCard({
 }: updateCharityReponseObject) {
   const { updateCharity } = useUpdateCharity();
 
-  // Handle the save changes
+  const [charityData, setCharityData] = useState({
+    name,
+    type,
+    category,
+    region,
+  });
+
   const handleSaveChanges = (
     name: string,
     type: string,
@@ -22,7 +29,9 @@ function CharityCard({
     region: string[],
   ) => {
     const updatedCharityData = { name, type, category, region };
-    updateCharity(updatedCharityData); // Call the API to update the charity
+    updateCharity(updatedCharityData);
+
+    setCharityData(updatedCharityData);
   };
 
   return (
@@ -44,7 +53,12 @@ function CharityCard({
             >
               Charity Name
             </Label>
-            <Input id="name" value={name} disabled className="mt-1 " />
+            <Input
+              id="name"
+              value={charityData.name}
+              disabled
+              className="mt-1"
+            />
           </div>
           <div>
             <Label
@@ -53,7 +67,12 @@ function CharityCard({
             >
               Type
             </Label>
-            <Input id="type" value={type} disabled className="mt-1 " />
+            <Input
+              id="type"
+              value={charityData.type}
+              disabled
+              className="mt-1"
+            />
           </div>
           <div>
             <Label
@@ -64,7 +83,7 @@ function CharityCard({
             </Label>
             <Input
               id="category"
-              value={category.join(", ")}
+              value={charityData.category.join(", ")}
               disabled
               className="mt-1 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -78,7 +97,7 @@ function CharityCard({
             </Label>
             <Input
               id="region"
-              value={region.join(", ")}
+              value={charityData.region.join(", ")}
               disabled
               className="mt-1 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             />
@@ -90,10 +109,10 @@ function CharityCard({
               title="Edit Charity"
               buttonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
               submitButtonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
-              name={name}
-              type={type}
-              category={category}
-              region={region}
+              name={charityData.name}
+              type={charityData.type}
+              category={charityData.category}
+              region={charityData.region}
               onSaveChanges={handleSaveChanges}
             />
           </div>
