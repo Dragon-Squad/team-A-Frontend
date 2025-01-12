@@ -1,25 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
-
-import { PROJECT_URL } from "@/config/httpConfig";
-
-type Project = {
-  _id: string;
-  title: string;
-  description: string;
-  images: string[];
-  status: string;
-  goalAmount: number;
-  raisedAmount: number;
-  regionId: {
-    name: string;
-  };
-  categoryId: string[];
-};
-
-type ApiResponse = {
-  projects: Project[];
-  total: number;
-};
+import { ApiResponse, Project, ProjectByIdDetail } from "@/types/project";
+import ProjectService from "@/apis/project-service";
 
 export const useProjects = () => {
   const [data, setData] = useState<Project[]>([]);
@@ -31,22 +12,7 @@ export const useProjects = () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${PROJECT_URL}/all`, {
-        method: "GET",
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          "Cache-Control": "no-cache",
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const data: ApiResponse = await response.json();
+      const data: ApiResponse = await ProjectService.getAllProjects();
       setData(data.projects || []);
       setTotal(data.total || 0);
     } catch (err) {
@@ -69,46 +35,6 @@ export const useProjects = () => {
   };
 };
 
-type Charity = {
-  _id: string;
-  userId: string;
-  name: string;
-  address: string[];
-  region: any[];
-  category: string[];
-  type: string;
-  hashedStripeId: string;
-  taxCode: string;
-  __v: number;
-};
-
-type Category = {
-  id: string;
-  name: string;
-};
-
-type Region = {
-  id: string;
-  name: string;
-};
-
-type ProjectByIdDetail = {
-  id: string;
-  title: string;
-  description: string;
-  goalAmount: number;
-  raisedAmount: number;
-  startDate: string;
-  endDate: string;
-  status: string;
-  charity: Charity;
-  categories: Category[];
-  region: Region;
-  createdAt: string;
-  images: string[];
-  videos: string[];
-};
-
 export const useProjectById = (id: string) => {
   const [data, setData] = useState<ProjectByIdDetail | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -118,22 +44,8 @@ export const useProjectById = (id: string) => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${PROJECT_URL}/${id}`, {
-        method: "GET",
-        headers: {
-          "ngrok-skip-browser-warning": "69420",
-          "Cache-Control": "no-cache",
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(
-          `Failed to fetch: ${response.status} ${response.statusText}`,
-        );
-      }
-
-      const projectData: ProjectByIdDetail = await response.json();
+      const projectData: ProjectByIdDetail =
+        await ProjectService.getProjectById(id);
       setData(projectData); // Set the data to the state
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred.");
