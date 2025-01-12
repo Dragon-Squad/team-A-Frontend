@@ -1,5 +1,4 @@
 import { useState, useEffect, useCallback } from "react";
-import { Charity } from "@/types/charity";
 import {
   LoginResponse,
   OTPResponse,
@@ -7,7 +6,6 @@ import {
   User,
 } from "@/types/auth";
 import AuthService from "@/apis/auth-service";
-import CharityService from "@/apis/charity-service";
 
 //register hook
 export function useRegister() {
@@ -126,41 +124,6 @@ export const useFetchUser = () => {
           const data: User = await AuthService.getUser(storedUserId);
           setUser(data);
           localStorage.setItem("userRole", data.role);
-        } catch (err) {
-          setError(
-            err instanceof Error ? err.message : "An unexpected error occurred",
-          );
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchUser();
-    } else {
-      setError("User ID is not available in localStorage");
-      setLoading(false);
-    }
-  }, []);
-
-  return { user, loading, error };
-};
-
-export const useFetchCharity = () => {
-  const [user, setUser] = useState<Charity | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const storedUserId = localStorage.getItem("userId");
-
-    if (storedUserId) {
-      const fetchUser = async () => {
-        setLoading(true);
-        setError(null);
-
-        try {
-          const data: Charity = await CharityService.getCharity(storedUserId);
-          setUser(data);
         } catch (err) {
           setError(
             err instanceof Error ? err.message : "An unexpected error occurred",

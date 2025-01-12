@@ -18,6 +18,13 @@ export type updatedCharityObject = {
   region: string[];
 };
 
+export type updateCharity = {
+  name: string;
+  category: string[];
+  type: string;
+  region: string[];
+};
+
 export type updateCharityReponseObject = {
   id: string;
   name: string;
