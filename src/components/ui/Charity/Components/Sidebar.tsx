@@ -11,6 +11,7 @@ import {
   IconDotsVertical,
 } from "@tabler/icons-react";
 import { useFetchUser } from "@/hooks/use-user";
+import useLogout from "@/hooks/use-user";
 
 interface SidebarProps {
   activeTab: string;
@@ -20,6 +21,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
   const location = useLocation();
   const { user, loading, error } = useFetchUser();
+  const { logout } = useLogout();
 
   const navLinks = [
     {
@@ -78,7 +80,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
 
       {/* Logout */}
       <div className="p-4">
-        <button className="flex items-center w-full px-4 py-3 text-sm font-medium bg-orange-500 text-white hover:bg-orange-600 transition rounded-lg">
+        <button
+          className="flex items-center w-full px-4 py-3 text-sm font-medium bg-orange-500 text-white hover:bg-orange-600 transition rounded-lg"
+          onClick={logout}
+        >
           <IconLogout size={20} />
           <span className="ml-3">Logout</span>
         </button>
