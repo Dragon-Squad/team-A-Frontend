@@ -6,6 +6,7 @@ import {
   User,
 } from "@/types/auth";
 import AuthService from "@/apis/auth-service";
+import { useToast } from "./use-toast";
 
 //register hook
 export function useRegister() {
@@ -144,8 +145,13 @@ export const useFetchUser = () => {
 };
 
 const useLogout = () => {
+  const { toast } = useToast();
   const logout = useCallback(() => {
     localStorage.clear();
+    toast({
+      description: `You have successfully logged out`,
+      variant: "success",
+    });
 
     window.location.href = "/";
   }, []);
