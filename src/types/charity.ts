@@ -3,7 +3,7 @@ export type Charity = {
   userId: string;
   name: string;
   address: string[];
-  region: unknown[];
+  region: string[];
   category: string[];
   type: string;
   hashedStripeId: string;
@@ -11,7 +11,27 @@ export type Charity = {
   __v: number;
 };
 
+export type updatedCharityObject = {
+  name: string;
+  category: string[];
+  type: string;
+  region: string[];
+};
+
+export type updateCharityReponseObject = {
+  id: string;
+  name: string;
+  category: string[];
+  type: string;
+  region: string[];
+};
+
 export type CharityByIdResponse = {
   _id: string;
   name: string;
+};
+
+export type updateCharityResponse = {
+  message: string;
+  charity: updateCharityReponseObject;
 };

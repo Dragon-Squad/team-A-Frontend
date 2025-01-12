@@ -4,7 +4,8 @@ export const DONATION_URL: string = `${TEAM_A_BACKEND}/donation`;
 
 export const PROJECT_URL: string = `${TEAM_A_BACKEND}/projects`;
 
-const TEAM_B_BACKEND: string = "http://100.112.207.9:3000/api";
+const TEAM_B_BACKEND: string =
+  "https://team-b-backend.tail8c88ab.ts.net:3000/api";
 
 export const AUTH_URL: string = `${TEAM_B_BACKEND}/auth`;
 
