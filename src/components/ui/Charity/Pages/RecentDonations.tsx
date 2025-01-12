@@ -300,7 +300,6 @@ const RecentDonationsTable: React.FC = () => {
                     <IconArrowDown size={16} />
                   ))}
               </th>
-              <th className="py-2">Payment Method</th>
               <th
                 className={`py-2 cursor-pointer ${sortConfig?.key === "amount" ? "text-orange-500" : ""}`}
                 onClick={() => handleSort("amount")}
@@ -313,7 +312,6 @@ const RecentDonationsTable: React.FC = () => {
                     <IconArrowDown size={16} />
                   ))}
               </th>
-              <th className="py-2 text-right">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -324,16 +322,8 @@ const RecentDonationsTable: React.FC = () => {
                 </td>
                 <td className="py-3">{donation.project}</td>
                 <td className="py-3">{donation.date}</td>
-                <td className="py-3">{donation.paymentMethod}</td>
                 <td className="py-3">{donation.amount}</td>
-                <td className="py-3 text-right space-x-2">
-                  <button className="p-2 text-gray-500 hover:text-gray-700">
-                    <IconEdit size={16} />
-                  </button>
-                  <button className="p-2 text-gray-500 hover:text-gray-700">
-                    <IconTrash size={16} />
-                  </button>
-                </td>
+                <td className="py-3 text-right space-x-2"></td>
               </tr>
             ))}
           </tbody>
@@ -379,10 +369,6 @@ const RecentDonationsTable: React.FC = () => {
             <IconChevronRight size={16} />
           </button>
         </div>
-
-        <button className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg text-sm">
-          Export as...
-        </button>
       </div>
     </div>
   );
