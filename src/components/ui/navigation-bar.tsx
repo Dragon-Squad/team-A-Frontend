@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import Logo from "../logo";
 import { Transition } from "@headlessui/react";
 import { IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
-import { useFetchUser } from "@/hooks/use-user";
+import useLogout, { useFetchUser } from "@/hooks/use-user";
 
 const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +17,8 @@ const NavigationBar: React.FC = () => {
     { name: "Contact Us", path: "/contact" },
   ];
 
-  const { user, loading, error } = useFetchUser(); // No need to pass userId here
+  const { user, loading, error } = useFetchUser();
+  const { logout } = useLogout();
 
   return (
     <div className="w-full bg-black fixed top-0 left-0 z-50 shadow-lg">
@@ -68,6 +69,12 @@ const NavigationBar: React.FC = () => {
               </span>
               <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
                 <Link to={`/dashboard`}>Dashboard</Link>
+              </Button>
+              <Button
+                className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
+                onClick={logout}
+              >
+                Logout
               </Button>
             </>
           ) : (

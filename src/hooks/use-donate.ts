@@ -37,6 +37,7 @@ export function useDonate() {
           donationType,
           message,
         }),
+        credentials: "include",
       });
 
       if (!response.ok) {
