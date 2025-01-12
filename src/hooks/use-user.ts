@@ -1,14 +1,15 @@
 import { useState, useEffect, useCallback } from "react";
-import { encodeSecureCredentials } from "@/utils/encoder";
-import { AUTH_URL, CHARITY_URL, USER_URL } from "@/config/httpConfig";
+import { Charity } from "@/types/charity";
+import {
+  LoginResponse,
+  OTPResponse,
+  RegisterResponse,
+  User,
+} from "@/types/auth";
+import AuthService from "@/apis/auth-service";
+import CharityService from "@/apis/charity-service";
 
 //register hook
-interface RegisterResponse {
-  success: boolean;
-  message: string;
-  userId?: string;
-}
-
 export function useRegister() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -23,22 +24,12 @@ export function useRegister() {
     setError(null);
 
     try {
-      const encryptedHeader = await encodeSecureCredentials(email, password);
-      const response = await fetch(`${AUTH_URL}/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: encryptedHeader,
-        },
-        body: JSON.stringify({ email, password, username, role }),
-      });
-
-      if (!response.ok) {
-        const errorData = (await response.json()) as { message: string };
-        throw new Error(errorData.message || "Failed to register");
-      }
-
-      const data = (await response.json()) as RegisterResponse;
+      const data: RegisterResponse = await AuthService.register(
+        email,
+        password,
+        username,
+        role,
+      );
       return data;
     } catch (err) {
       const message =
@@ -54,13 +45,6 @@ export function useRegister() {
 }
 
 //login hook
-interface LoginResponse {
-  success: boolean;
-  message: string;
-  userId: string;
-  accessToken: string;
-}
-
 export function useLogin() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -73,27 +57,7 @@ export function useLogin() {
     setError(null);
 
     try {
-      const encryptedHeader = await encodeSecureCredentials(email, password);
-      const headers = {
-        "Content-Type": "application/json",
-        "Access-Control-Allow-Origin":
-          "https://crack-rightly-cow.ngrok-free.app",
-        Authorization: encryptedHeader,
-      };
-
-      const response = await fetch(`${AUTH_URL}/login`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({ email, password }),
-        credentials: "include",
-      });
-
-      if (!response.ok) {
-        const errorData = (await response.json()) as { message: string };
-        throw new Error(errorData.message || "Failed to login");
-      }
-
-      const data = (await response.json()) as LoginResponse;
+      const data = await AuthService.login(email, password);
 
       if (data) {
         console.log("Saving userId:", data.userId);
@@ -120,12 +84,6 @@ export function useLogin() {
 }
 
 //OTP hook
-interface OTPResponse {
-  success: boolean;
-  message: string;
-  userId?: string;
-}
-
 export function useOTP() {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -135,20 +93,7 @@ export function useOTP() {
     setError(null);
 
     try {
-      const response = await fetch(`${AUTH_URL}/verify-email`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email, otp }),
-      });
-
-      if (!response.ok) {
-        const errorData = (await response.json()) as { message: string };
-        throw new Error(errorData.message || "Failed to otp");
-      }
-
-      const data = (await response.json()) as RegisterResponse;
+      const data: OTPResponse = await AuthService.verifyOTP(email, otp);
       return data;
     } catch (err) {
       const message =
@@ -164,14 +109,6 @@ export function useOTP() {
 }
 
 //Get user by id
-interface User {
-  username: string;
-  email: string;
-  role: string;
-  avatar: string;
-  introVideo: string;
-}
-
 export const useFetchUser = () => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -186,15 +123,7 @@ export const useFetchUser = () => {
         setError(null);
 
         try {
-          const response = await fetch(`${USER_URL}/${storedUserId}`);
-
-          if (!response.ok) {
-            throw new Error(
-              `Failed to fetch user: ${response.status} ${response.statusText}`,
-            );
-          }
-
-          const data: User = await response.json();
+          const data: User = await AuthService.getUser(storedUserId);
           setUser(data);
           localStorage.setItem("userRole", data.role);
         } catch (err) {
@@ -216,19 +145,6 @@ export const useFetchUser = () => {
   return { user, loading, error };
 };
 
-interface Charity {
-  _id: string;
-  userId: string;
-  name: string;
-  address: string[];
-  region: string[];
-  category: string[];
-  type: string;
-  hashedStripeId: string;
-  taxCode: string;
-  __v: number;
-}
-
 export const useFetchCharity = () => {
   const [user, setUser] = useState<Charity | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
@@ -243,15 +159,7 @@ export const useFetchCharity = () => {
         setError(null);
 
         try {
-          const response = await fetch(`${CHARITY_URL}/${storedUserId}`);
-
-          if (!response.ok) {
-            throw new Error(
-              `Failed to fetch user: ${response.status} ${response.statusText}`,
-            );
-          }
-
-          const data: Charity = await response.json();
+          const data: Charity = await CharityService.getCharity(storedUserId);
           setUser(data);
         } catch (err) {
           setError(

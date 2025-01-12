@@ -22,7 +22,7 @@ const LoginSchema = z.object({
 const RegisterSchema = LoginSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters."),
   role: z
-    .array(z.enum(["donor", "charity"]))
+    .array(z.enum(["Donor", "Charity"]))
     .min(1, "Please select at least one role."),
 });
 
@@ -111,11 +111,11 @@ export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
                     <div className="flex gap-4">
                       <label className="flex items-center gap-2">
                         <Checkbox
-                          checked={field.value.includes("donor")}
+                          checked={field.value.includes("Donor")}
                           onCheckedChange={(checked) => {
                             const newRoles = checked
-                              ? [...field.value, "donor"]
-                              : field.value.filter((role) => role !== "donor");
+                              ? [...field.value, "Donor"]
+                              : field.value.filter((role) => role !== "Donor");
                             field.onChange(newRoles);
                           }}
                         />
@@ -123,12 +123,12 @@ export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
                       </label>
                       <label className="flex items-center gap-2">
                         <Checkbox
-                          checked={field.value.includes("charity")}
+                          checked={field.value.includes("Charity")}
                           onCheckedChange={(checked) => {
                             const newRoles = checked
-                              ? [...field.value, "charity"]
+                              ? [...field.value, "Charity"]
                               : field.value.filter(
-                                  (role) => role !== "charity",
+                                  (role) => role !== "Charity",
                                 );
                             field.onChange(newRoles);
                           }}
