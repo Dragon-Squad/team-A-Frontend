@@ -113,9 +113,17 @@ export const useOTPForm = () => {
       const { email, otpCode } = data;
       const response = await otpUser(email, otpCode);
       console.log("OTP verification successful:", response);
+      toast({
+        description: `You have been successfully verified your email please log in.`,
+        variant: "success",
+      });
+
       navigate("/signin");
     } catch (err) {
-      setError("OTP verification failed. Please try again.");
+      toast({
+        description: `Logged in failed please try again: ${err}`,
+        variant: "destructive",
+      });
       console.error("OTP verification error:", err);
     } finally {
       setLoading(false);

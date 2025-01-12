@@ -56,4 +56,33 @@ export default class ProjectService {
       throw new Error(message);
     }
   };
+
+  static getProjectByCharityIds = async (
+    charityId: string,
+  ): Promise<ProjectByIdDetail> => {
+    try {
+      const url = `${PROJECT_URL}/all?charityIds=${charityId}`;
+
+      const headers = new Headers({
+        "ngrok-skip-browser-warning": "69420",
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json",
+      });
+
+      const response = await httpRequest(url, "GET", headers);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = (await response.json()) as ProjectByIdDetail;
+      return data;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      throw new Error(message);
+    }
+  };
 }

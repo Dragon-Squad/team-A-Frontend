@@ -67,3 +67,36 @@ export const useProjectById = (id: string) => {
     refresh: fetchProjectById,
   };
 };
+
+export const useProjectByCharityId = (charityId: string) => {
+  const [data, setData] = useState<ProjectByIdDetail | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const fetchProjectByCharityIds = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const projectData: ProjectByIdDetail =
+        await ProjectService.getProjectByCharityIds(charityId);
+      setData(projectData); // Set the data to the state
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [charityId]);
+
+  useEffect(() => {
+    if (charityId) {
+      fetchProjectByCharityIds();
+    }
+  }, [fetchProjectByCharityIds, charityId]);
+
+  return {
+    data,
+    loading,
+    error,
+    refresh: fetchProjectByCharityIds,
+  };
+};
