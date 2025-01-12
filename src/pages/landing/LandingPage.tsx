@@ -21,7 +21,6 @@ function LandingPage() {
       <GallerySection />
       <TestimonialSection />
       <LatestNewsAndBlogSection />
-
       <Footer />
     </>
   );
