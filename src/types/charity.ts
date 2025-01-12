@@ -10,3 +10,8 @@ export type Charity = {
   taxCode: string;
   __v: number;
 };
+
+export type CharityByIdResponse = {
+  _id: string;
+  name: string;
+};
