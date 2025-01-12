@@ -12,7 +12,7 @@ const FetchCharityCard: React.FC = () => {
   return (
     <div className="flex">
       <CharityCard
-        id={charity._id}
+        id={charity.id}
         name={charity.name}
         type={charity.type}
         category={charity.category}
