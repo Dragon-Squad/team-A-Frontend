@@ -22,7 +22,7 @@ const IntroductionSection: React.FC = () => {
         {/* Right Section: Text and Steps */}
         <div className="w-full md:w-1/2">
           {/* Headline */}
-          <h2 className="text-3xl md:text-4xl font-bold leading-tight">
+          <h2 className="text-3xl md:text-4xl font-bold leading-tight text-black">
             Transforming Good Intentions into Good Actions
           </h2>
 
