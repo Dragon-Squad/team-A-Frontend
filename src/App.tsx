@@ -9,6 +9,7 @@ import ContactUsPage from "./pages/ContactUsPage";
 import DashboardView from "./pages/Charity/CharityView";
 import DonationRecord from "./components/ui/Charity/Pages/RecentDonations";
 import CreateProjectForm from "./components/ui/Charity/Components/CreateProjectForm";
+import TestUpdateCharityPage from "./components/ui/Charity/Pages/testpages";
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
 const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));
@@ -32,6 +33,7 @@ const App: React.FC = () => {
         <Route path="/dashboard" element={<DashboardView />} />
         <Route path="/donations" element={<DonationRecord />} />
         <Route path="/create-project" element={<CreateProjectForm />} />
+        <Route path="/test-api" element={<TestUpdateCharityPage />} />
       </Routes>
     </Suspense>
   );
