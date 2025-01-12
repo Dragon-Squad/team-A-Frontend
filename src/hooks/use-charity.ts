@@ -82,6 +82,8 @@ export const useFetchCharity = () => {
 
         try {
           const data: Charity = await CharityService.getCharity(storedUserId);
+          window.console.log(data.id);
+          localStorage.setItem("charityId", data.id);
           setCharity(data);
         } catch (err) {
           setError(
