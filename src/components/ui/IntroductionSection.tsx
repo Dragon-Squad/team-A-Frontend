@@ -13,7 +13,7 @@ const IntroductionSection: React.FC = () => {
         {/* Left Section: Image */}
         <div className="w-full md:w-1/2 mb-8 md:mb-0">
           <img
-            src="/images/volunteers.jpg" // Replace with your image path
+            src="https://media.istockphoto.com/id/1625310710/photo/happy-group-of-volunteer-people-stacking-hands-celebrating-together-outdoor-teamwork-and.jpg?s=612x612&w=0&k=20&c=KrkTdMYjObaAhhwzsTnHf8dIDpdmc5pvAujfCl6riXU=" // Replace with your image path
             alt="Volunteers"
             className="rounded-lg shadow-lg"
           />
