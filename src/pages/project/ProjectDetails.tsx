@@ -122,7 +122,6 @@ const ProjectDetailsPage: React.FC = () => {
       <div className="container mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* Left Section */}
         <div className="md:col-span-8">
-          {/* Back Button */}
           <button
             onClick={() => navigate(-1)}
             className="mb-4 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
@@ -146,6 +145,7 @@ const ProjectDetailsPage: React.FC = () => {
             <div className="relative mt-4 bg-gray-200 rounded-full h-4">
               <div
                 className="absolute top-0 left-0 h-4 bg-orange-500 rounded-full"
+                style={{ width: `${donationPercentage}%` }}
                 style={{ width: `${donationPercentage}%` }}
               ></div>
             </div>
