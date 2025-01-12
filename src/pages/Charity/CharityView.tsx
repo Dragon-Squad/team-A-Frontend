@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "@/components/ui/Charity/Components/Sidebar";
 import Header from "@/components/ui/Charity/Components/Header";
-import Dashboard from "@/components/ui/Charity/Components/Dashbord/Dashboard";
+import Dashboard from "@/components/ui/Charity/Components/Dashboard/Dashboard";
 import DonationRecord from "@/components/ui/Charity/Pages/RecentDonations";
 import ProjectStatisticsPage from "@/components/ui/Charity/Pages/ProjectsStatisticsPage";
 import ProjectDisplayPage from "@/components/ui/Charity/Pages/ProjectDisplayPage";

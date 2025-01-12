@@ -85,6 +85,7 @@ export const useOTPForm = () => {
   const { otpUser } = useOTP();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleOTPSubmit = async (data: { email: string; otpCode: string }) => {
     setLoading(true);
@@ -94,6 +95,7 @@ export const useOTPForm = () => {
       const { email, otpCode } = data;
       const response = await otpUser(email, otpCode);
       console.log("OTP verification successful:", response);
+      navigate("/signin");
     } catch (err) {
       setError("OTP verification failed. Please try again.");
       console.error("OTP verification error:", err);

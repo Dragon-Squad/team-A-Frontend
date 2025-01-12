@@ -65,21 +65,24 @@ export const useUpdateCharity = () => {
 };
 
 export const useFetchCharity = () => {
-  const [user, setUser] = useState<Charity | null>(null);
+  const [charity, setCharity] = useState<Charity | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [hasFetched, setHasFetched] = useState(false);
 
   useEffect(() => {
+    if (hasFetched) return;
+
     const storedUserId = localStorage.getItem("userId");
 
     if (storedUserId) {
-      const fetchUser = async () => {
+      const fetchCharity = async () => {
         setLoading(true);
         setError(null);
 
         try {
           const data: Charity = await CharityService.getCharity(storedUserId);
-          setUser(data);
+          setCharity(data);
         } catch (err) {
           setError(
             err instanceof Error ? err.message : "An unexpected error occurred",
@@ -89,12 +92,13 @@ export const useFetchCharity = () => {
         }
       };
 
-      fetchUser();
+      fetchCharity();
+      setHasFetched(true);
     } else {
       setError("User ID is not available in localStorage");
       setLoading(false);
     }
-  }, []);
+  }, [hasFetched]);
 
-  return { user, loading, error };
+  return { charity, loading, error };
 };
