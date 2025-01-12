@@ -1,16 +1,13 @@
-import { useFetchCharityByKeyword } from "@/hooks/use-charity";
-import { Button } from "@headlessui/react";
 import React from "react";
+import FetchProjectCard from "../Components/Dashboard/Card/FetchProjectCard";
 
 function ProjectDisplayPage() {
-  const { FetchCharityByKeyword } = useFetchCharityByKeyword();
-  const handleSearchClick = () => {
-    FetchCharityByKeyword("s");
-  };
   return (
-    <Button onClick={handleSearchClick} className={"bg-orange-100"}>
-      Hello
-    </Button>
+    <div className="fixed ml-4 flex flex-col h-full w-full bg-gray-100">
+      <div className="mt-10">
+        <FetchProjectCard />
+      </div>
+    </div>
   );
 }
 

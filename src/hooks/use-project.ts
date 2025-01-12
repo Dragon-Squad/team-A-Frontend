@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { ApiResponse, Project, ProjectByIdDetail } from "@/types/project";
 import ProjectService from "@/apis/project-service";
+import { updateCharityResponse } from "@/types/charity";
 
 export const useProjects = () => {
   const [data, setData] = useState<Project[]>([]);
@@ -99,4 +100,36 @@ export const useProjectByCharityId = (charityId: string) => {
     error,
     refresh: fetchProjectByCharityIds,
   };
+};
+
+export const useUpdateProjectByProjectId = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [updatedCharity, setUpdatedCharity] =
+    useState<updateCharityResponse | null>(null);
+
+  const updateCharity = async (
+    updateData: updatedCharityObject,
+  ): Promise<void> => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const storedUserId = localStorage.getItem("userId");
+      if (!storedUserId) {
+        throw new Error("The user is not logged in ");
+      }
+      const data: updateCharityResponse =
+        await CharityService.updateCharityById(storedUserId, updateData);
+      setUpdatedCharity(data);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { updatedCharity, loading, error, updateCharity };
 };

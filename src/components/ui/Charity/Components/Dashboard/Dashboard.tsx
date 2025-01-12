@@ -32,7 +32,11 @@ const DashboardView: React.FC = () => {
     }
   };
 
-  return <div className="flex h-screen">{renderDashboard()}</div>;
+  return (
+    <div className="flex flex-col h-screen w-full bg-gray-100">
+      {renderDashboard()}
+    </div>
+  );
 };
 
 export default DashboardView;

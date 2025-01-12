@@ -1,5 +1,5 @@
 import React from "react";
-import FetchCharityCard from "./FetchCharityCard";
+import FetchCharityCard from "./Card/FetchCharityCard";
 
 function CharityDashboard() {
   return (
