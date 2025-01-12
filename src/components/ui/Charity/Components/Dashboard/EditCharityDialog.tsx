@@ -46,21 +46,34 @@ export function EditCharityDialog({
   const [typeInput, setTypeInput] = useState(type);
   const [categoryInput, setCategoryInput] = useState(category.join(", "));
   const [regionInput, setRegionInput] = useState(region.join(", "));
+  const [isOpen, setIsOpen] = useState(false); // Track dialog open/close state
 
-  const handleSaveChanges = () => {
+  const handleSaveChanges = async () => {
     const updatedCategory = categoryInput.split(",").map((cat) => cat.trim());
     const updatedRegion = regionInput.split(",").map((reg) => reg.trim());
-    onSaveChanges(nameInput, typeInput, updatedCategory, updatedRegion);
+    try {
+      await onSaveChanges(nameInput, typeInput, updatedCategory, updatedRegion);
 
-    toast({
-      description: "The changes have been saved successfully",
-    });
+      toast({
+        description: "The changes have been saved successfully",
+        variant: "success",
+      });
+
+      setIsOpen(false);
+    } catch (error) {
+      toast({
+        description: `Failed to save the changes: ${error}`,
+        variant: "destructive",
+      });
+    }
   };
 
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className={buttonStyle}>{buttonText}</Button>
+        <Button className={buttonStyle} onClick={() => setIsOpen(true)}>
+          {buttonText}
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
