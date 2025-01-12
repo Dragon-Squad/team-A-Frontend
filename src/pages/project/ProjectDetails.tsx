@@ -146,7 +146,6 @@ const ProjectDetailsPage: React.FC = () => {
               <div
                 className="absolute top-0 left-0 h-4 bg-orange-500 rounded-full"
                 style={{ width: `${donationPercentage}%` }}
-                style={{ width: `${donationPercentage}%` }}
               ></div>
             </div>
           </div>
@@ -240,6 +239,12 @@ const ProjectDetailsPage: React.FC = () => {
                 </li>
               ))}
             </ul>
+          </div>
+          <div className="p-6 bg-gray-100 rounded-lg shadow-lg text-center">
+            <h3 className="text-lg font-bold text-gray-800 mb-4">Subscribe</h3>
+            <button className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+              Subscribe
+            </button>
           </div>
         </div>
       </div>
