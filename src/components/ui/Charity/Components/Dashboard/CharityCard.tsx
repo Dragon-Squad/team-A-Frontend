@@ -1,8 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
 import { updateCharityReponseObject } from "@/types/charity";
+import { EditCharityDialog } from "./EditCharityDialog";
+import { useUpdateCharity } from "@/hooks/use-charity";
 
 function CharityCard({
   id,
@@ -11,6 +12,19 @@ function CharityCard({
   category,
   region,
 }: updateCharityReponseObject) {
+  const { updateCharity } = useUpdateCharity();
+
+  // Handle the save changes
+  const handleSaveChanges = (
+    name: string,
+    type: string,
+    category: string[],
+    region: string[],
+  ) => {
+    const updatedCharityData = { name, type, category, region };
+    updateCharity(updatedCharityData); // Call the API to update the charity
+  };
+
   return (
     <Card
       key={id}
@@ -30,12 +44,7 @@ function CharityCard({
             >
               Charity Name
             </Label>
-            <Input
-              id="name"
-              value={name}
-              disabled
-              className="mt-1 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            />
+            <Input id="name" value={name} disabled className="mt-1 " />
           </div>
           <div>
             <Label
@@ -44,12 +53,7 @@ function CharityCard({
             >
               Type
             </Label>
-            <Input
-              id="type"
-              value={type}
-              disabled
-              className="mt-1 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            />
+            <Input id="type" value={type} disabled className="mt-1 " />
           </div>
           <div>
             <Label
@@ -79,10 +83,19 @@ function CharityCard({
               className="mt-1 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
             />
           </div>
-          <div className="flex ">
-            <Button variant="outline" size="sm" className="text-blue-600">
-              Edit Charity
-            </Button>
+
+          <div className="flex">
+            <EditCharityDialog
+              buttonText="Edit Charity"
+              title="Edit Charity"
+              buttonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
+              submitButtonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
+              name={name}
+              type={type}
+              category={category}
+              region={region}
+              onSaveChanges={handleSaveChanges}
+            />
           </div>
         </form>
       </CardContent>
