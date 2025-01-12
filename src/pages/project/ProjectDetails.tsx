@@ -75,6 +75,8 @@ const ProjectDetailsPage: React.FC = () => {
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
+  const [paymentType, setPaymentType] = useState<string>("one-time");
+  const [donationMessage, setDonationMessage] = useState<string>("");
 
   useEffect(() => {
     if (id && projects) {
@@ -100,7 +102,8 @@ const ProjectDetailsPage: React.FC = () => {
       !firstName ||
       !lastName ||
       !email ||
-      (!selectedAmount && !customAmount)
+      (!selectedAmount && !customAmount) ||
+      !paymentType
     ) {
       setErrorMessage("Please fill in all fields before donating.");
       return;
@@ -109,7 +112,7 @@ const ProjectDetailsPage: React.FC = () => {
     // Clear error and proceed with donation
     setErrorMessage("");
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount!;
-    donate(id!, amount, creditCard, "one-time", email)
+    donate(id!, amount, creditCard, paymentType, email, donationMessage)
       .then((response) => {
         console.log("Donation successful:", response);
         if (response.checkoutUrl) {
@@ -133,7 +136,6 @@ const ProjectDetailsPage: React.FC = () => {
       <div className="container mx-auto px-6 py-16 grid grid-cols-1 md:grid-cols-12 gap-8">
         {/* Left Section */}
         <div className="md:col-span-8">
-          {/* Back Button */}
           <button
             onClick={() => navigate(-1)}
             className="mb-4 px-4 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300"
@@ -158,9 +160,7 @@ const ProjectDetailsPage: React.FC = () => {
             <div className="relative mt-4 bg-gray-200 rounded-full h-4">
               <div
                 className="absolute top-0 left-0 h-4 bg-orange-500 rounded-full"
-                style={{
-                  width: `${donationPercentage}%`,
-                }}
+                style={{ width: `${donationPercentage}%` }}
               ></div>
             </div>
           </div>
@@ -192,7 +192,41 @@ const ProjectDetailsPage: React.FC = () => {
                 className="w-32 px-4 py-2 border rounded-lg focus:outline-none"
               />
             </div>
+
             <h3 className="text-lg font-semibold text-gray-800">
+              Payment Type
+            </h3>
+            <div className="flex gap-4 mb-6">
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  value="one-time"
+                  checked={paymentType === "one-time"}
+                  onChange={() => setPaymentType("one-time")}
+                />
+                One-time
+              </label>
+              <label className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  value="monthly"
+                  checked={paymentType === "monthly"}
+                  onChange={() => setPaymentType("monthly")}
+                />
+                Monthly
+              </label>
+            </div>
+
+            <h3 className="text-lg font-semibold text-gray-800">Message</h3>
+            <textarea
+              placeholder="Add a message (optional, up to 250 characters)"
+              value={donationMessage}
+              onChange={(e) => setDonationMessage(e.target.value)}
+              maxLength={250}
+              className="w-full px-4 py-2 mt-2 border rounded-lg focus:outline-none"
+            />
+
+            <h3 className="text-lg font-semibold text-gray-800 mt-4">
               Enter Payment Details
             </h3>
             <div className="mt-4">
