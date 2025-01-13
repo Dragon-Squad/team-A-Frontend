@@ -22,6 +22,7 @@ import { DateTimePicker24h } from "@/components/datetimepicker";
 import { useEffect, useState } from "react";
 import { EditProject } from "@/types/project";
 import { useUpdateProject } from "@/hooks/use-project";
+import { showToast } from "@/components/ui/showToast";
 
 export function EditProjectDialog({
   triggerClassName,
@@ -78,6 +79,7 @@ export function EditProjectDialog({
       endDate: endDate?.toISOString() ?? "",
     };
     await updateProject(project.id, projectData);
+    showToast("Project updated successfully", "success");
   };
 
   return (

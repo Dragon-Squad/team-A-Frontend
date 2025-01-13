@@ -24,6 +24,7 @@ import { useState } from "react";
 import { getLocalStorageItem } from "@/utils/helper";
 import { CreateProject } from "@/types/project";
 import { useCreateProject } from "@/hooks/use-project";
+import { showToast } from "@/components/ui/showToast";
 
 export function CreateProjectDialog({
   triggerClassName,
@@ -67,6 +68,7 @@ export function CreateProjectDialog({
       endDate: endDate?.toString() ?? "",
     };
     await createProject(projectData);
+    showToast("Project created successfully", "success");
   };
 
   return (
