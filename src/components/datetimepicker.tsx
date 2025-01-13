@@ -14,7 +14,11 @@ import {
 } from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
-export function DateTimePicker24h() {
+export function DateTimePicker24h({
+  onChange,
+}: {
+  onChange: (date: Date | undefined) => void;
+}) {
   const [date, setDate] = React.useState<Date>();
   const [isOpen, setIsOpen] = React.useState(false);
 
@@ -22,6 +26,7 @@ export function DateTimePicker24h() {
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
+      onChange(selectedDate);
     }
   };
 
@@ -34,6 +39,7 @@ export function DateTimePicker24h() {
         newDate.setMinutes(parseInt(value));
       }
       setDate(newDate);
+      onChange(newDate);
     }
   };
 
@@ -43,7 +49,8 @@ export function DateTimePicker24h() {
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal text-black",
+            "w-full justify-start text-left font-normal",
+            !date && "text-muted-foreground",
           )}
         >
           <IconCalendarMonthFilled className="mr-2 h-4 w-4" />

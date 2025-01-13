@@ -13,14 +13,28 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Category, Props } from "@/types/category";
 import { Region } from "@/types/region";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { DateTimePicker24h } from "@/components/datetimepicker";
+import { useState } from "react";
 
 export function CreateProjectDialog({
   triggerClassName,
   categories,
   regions,
 }: Props) {
+  const [startDate, setStartDate] = useState<Date | undefined>();
+  const [endDate, setEndDate] = useState<Date | undefined>();
+
+  const handleSubmit = () => {
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
+  };
+
   return (
     <Dialog>
       <DialogTrigger asChild className="mx-5">
@@ -56,49 +70,62 @@ export function CreateProjectDialog({
               className="col-span-3"
             />
           </div>
-          <div className="flex flex-row">
-            <div className="flex flex-col">
-              <Label htmlFor="category" className="text-black ">
-                Category
-              </Label>
-              {categories.map((category: Category) => (
-                <div key={category.id} className="flex items-center space-x-2">
-                  <Checkbox id={`category-${category.id}`} />
-                  <Label
-                    className="text-black"
-                    htmlFor={`category-${category.id}`}
-                  >
-                    {category.name}
-                  </Label>
-                </div>
-              ))}
-              <Label htmlFor="region" className="text-black ">
-                Region
-              </Label>
-              <RadioGroup>
-                {regions.map((region: Region) => (
-                  <div key={region._id} className="flex items-center space-x-2">
-                    <RadioGroupItem
-                      id={`region-${region._id}`}
-                      value={region._id}
-                    />
-                    <Label
-                      className="text-black"
-                      htmlFor={`region-${region._id}`}
-                    >
-                      {region.name}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
-            </div>
-            <Label className="text-black">Start Time</Label>
-            <DateTimePicker24h></DateTimePicker24h>
+
+          <Label htmlFor="category" className="text-black ">
+            Category
+          </Label>
+          <div className="grid grid-cols-2 gap-4">
+            {categories.map((category: Category) => (
+              <div key={category.id} className="flex items-center space-x-2">
+                <Checkbox id={`category-${category.id}`} />
+                <Label
+                  className="text-black"
+                  htmlFor={`category-${category.id}`}
+                >
+                  {category.name}
+                </Label>
+              </div>
+            ))}
           </div>
-          <DialogFooter>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="region" className="text-black ">
+              Region
+            </Label>
+            <div className="col-span-3">
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button className="w-full" variant="outline">
+                    Select Region
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  {regions.map((region: Region) => (
+                    <DropdownMenuItem key={region._id} value={region._id}>
+                      {region.name}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
+          </div>
         </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label className="text-black">Start Time</Label>
+          <div className="col-span-3">
+            <DateTimePicker24h onChange={setStartDate} />
+          </div>
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label className="text-black">End Time</Label>
+          <div className="col-span-3">
+            <DateTimePicker24h onChange={setEndDate} />
+          </div>
+        </div>
+        <DialogFooter>
+          <Button type="submit" onClick={handleSubmit}>
+            Save changes
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
