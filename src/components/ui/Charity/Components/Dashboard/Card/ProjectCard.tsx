@@ -1,14 +1,14 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Project } from "@/types/project";
 import { Button } from "@headlessui/react";
 import { EditProjectDialog } from "../Dialog/EditProjectDialog";
+import { ProjectsCardProps } from "@/types/project";
 
-interface ProjectCardProps {
-  project: Project;
-}
-
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const ProjectCard: React.FC<ProjectsCardProps> = ({
+  project,
+  categories,
+  regions,
+}) => {
   return (
     <Card
       key={project._id}
@@ -26,7 +26,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       </CardHeader>
       <CardContent className="p-6">
         <p className="text-sm text-gray-500 mt-1">
-          <strong>Region:</strong> {project.region.name ?? "N/A"}
+          <strong>Region:</strong>{" "}
+          {regions.find((region) => region._id === project.regionId)?.name ||
+            "N/A"}
         </p>
         <p className="text-sm text-gray-600 mt-4 line-clamp-3">
           {project.description ?? "No description available."}
@@ -44,7 +46,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           View Details
         </Button>
       </CardContent>
-      <EditProjectDialog triggerClassName="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1 mb-10"></EditProjectDialog>
+      <EditProjectDialog
+        triggerClassName="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1 mb-10"
+        categories={categories}
+        regions={regions}
+      ></EditProjectDialog>
     </Card>
   );
 };

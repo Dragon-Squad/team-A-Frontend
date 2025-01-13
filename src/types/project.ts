@@ -159,10 +159,33 @@ export type EditProjectDialogProps = {
 
 export type CreateProject = {
   charityId: string;
+  description: string;
   categoryIds: string[];
   regionId: string;
   title: string;
   goalAmount: number;
   startDate: string;
   endDate: string;
+};
+
+export type EditProject = {
+  charityId: string;
+  description: string;
+  categoryIds: string[];
+  regionId: string;
+  title: string;
+  goalAmount: number;
+  startDate: string;
+  endDate: string;
+};
+
+export type FetchProjectCardProps = {
+  categories: Category[];
+  regions: Region[];
+};
+
+export type ProjectsCardProps = {
+  project: Project;
+  categories: Category[];
+  regions: Region[];
 };

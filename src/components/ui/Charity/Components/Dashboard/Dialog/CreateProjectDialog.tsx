@@ -34,17 +34,17 @@ export function CreateProjectDialog({
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
   const [selectedRegion, setSelectedRegion] = useState<string | undefined>();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]); // Track selected categories
-  const [name, setName] = useState<string>(""); // Track name input
-  const [goalAmount, setGoalAmount] = useState<string>(""); // Track goal amount input
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [goalAmount, setGoalAmount] = useState<string>("");
 
   const handleCategoryChange = (categoryId: string, isChecked: boolean) => {
-    // Only toggle the category in the selectedCategories array
     setSelectedCategories((prev) => {
       if (isChecked) {
-        return [...prev, categoryId]; // Select category
+        return [...prev, categoryId];
       } else {
-        return prev.filter((id) => id !== categoryId); // Unselect category
+        return prev.filter((id) => id !== categoryId);
       }
     });
   };
@@ -59,6 +59,7 @@ export function CreateProjectDialog({
     const projectData: CreateProject = {
       charityId: getLocalStorageItem("charityId") ?? "",
       categoryIds: selectedCategories,
+      description: description,
       regionId: selectedRegion ?? "",
       title: name,
       goalAmount: parseFloat(goalAmount),
@@ -92,6 +93,18 @@ export function CreateProjectDialog({
               value={name}
               onChange={(e) => setName(e.target.value)} // Update name state on input change
               placeholder="Enter project name"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="description" className="text-black">
+              Description
+            </Label>
+            <Input
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Enter project's description"
               className="col-span-3"
             />
           </div>
