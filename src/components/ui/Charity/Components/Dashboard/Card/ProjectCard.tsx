@@ -1,125 +1,46 @@
-import { useState } from "react";
+import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { updateProjectResponseObject } from "@/types/project";
-// import { useUpdateProject } from "@/hooks/use-project";
-// import { EditProjectDialog } from "../EditProjectDialog";
+import { Project } from "@/types/project";
 
-function ProjectCard({
-  id,
-  name,
-  type,
-  category,
-  region,
-}: updateProjectResponseObject) {
-  // const { updateProject } = useUpdateProject();
+interface ProjectCardProps {
+  project: Project;
+}
 
-  const [projectData] = useState({
-    name,
-    type,
-    category,
-    region,
-  });
-
-  // const handleSaveChanges = (
-  //   name: string,
-  //   type: string,
-  //   category: string[],
-  //   region: string[],
-  // ) => {
-  //   const updatedProjectData = { name, type, category, region };
-  //   // updateProject(updatedProjectData);
-
-  //   setProjectData(updatedProjectData);
-  // };
-
+const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
-    <Card
-      key={id}
-      className="p-6 shadow-md border rounded-lg w-full max-w-3xl mx-auto"
-    >
-      <CardHeader className="pb-4">
-        <CardTitle className="text-xl font-bold text-gray-800">
-          Project Details
+    <Card className="bg-white border border-gray-200 rounded-lg shadow-lg">
+      <img
+        src={project.images?.[0] ?? "path/to/fallback.jpg"}
+        alt={project.title}
+        className="w-full h-48 object-cover rounded-t-lg"
+      />
+      <CardHeader className="p-6">
+        <CardTitle className="text-lg font-bold text-black">
+          {project.title}
         </CardTitle>
       </CardHeader>
-      <CardContent>
-        <form className="space-y-6">
-          <div>
-            <Label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Project Name
-            </Label>
-            <Input
-              id="name"
-              value={projectData.name}
-              disabled
-              className="mt-1"
-            />
+      <CardContent className="p-6">
+        <p className="text-sm text-gray-500 mt-1">
+          <strong>Region:</strong> {project.regionId?.name ?? "N/A"}
+        </p>
+        <p className="text-sm text-gray-600 mt-4 line-clamp-3">
+          {project.description ?? "No description available."}
+        </p>
+        <div className="mt-4">
+          <div className="flex justify-between text-sm text-gray-600">
+            <span>Goal: ${project.goalAmount.toLocaleString()}</span>
+            <span>Raised: ${project.raisedAmount.toLocaleString()}</span>
           </div>
-          <div>
-            <Label
-              htmlFor="type"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Type
-            </Label>
-            <Input
-              id="type"
-              value={projectData.type}
-              disabled
-              className="mt-1"
-            />
-          </div>
-          <div>
-            <Label
-              htmlFor="category"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Categories
-            </Label>
-            <Input
-              id="category"
-              value={projectData.category.join(", ")}
-              disabled
-              className="mt-1 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-          <div>
-            <Label
-              htmlFor="region"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Regions
-            </Label>
-            <Input
-              id="region"
-              value={projectData.region.join(", ")}
-              disabled
-              className="mt-1 bg-gray-50 border-gray-300 focus:ring-blue-500 focus:border-blue-500"
-            />
-          </div>
-
-          <div className="flex">
-            {/* <EditProjectDialog
-              buttonText="Edit Project"
-              title="Edit Project"
-              buttonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
-              submitButtonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
-              name={projectData.name}
-              type={projectData.type}
-              category={projectData.category}
-              region={projectData.region}
-              onSaveChanges={handleSaveChanges}
-            /> */}
-          </div>
-        </form>
+        </div>
+        <button
+          className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
+          onClick={() => (window.location.href = `/details/${project._id}`)}
+        >
+          View Details
+        </button>
       </CardContent>
     </Card>
   );
-}
+};
 
 export default ProjectCard;

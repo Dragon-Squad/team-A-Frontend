@@ -67,7 +67,6 @@ const LatestProjectsSection: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                {/* Progress Bar (only if you have raisedAmount) */}l
                 {/* View Details Button */}
                 <button
                   className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"

@@ -5,7 +5,6 @@ import Logo from "../logo";
 import { Transition } from "@headlessui/react";
 import { IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
 import useLogout, { useFetchUser } from "@/hooks/use-user";
-import { getLocalStorageItem } from "@/utils/helper";
 
 const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,15 +12,13 @@ const NavigationBar: React.FC = () => {
 
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "Projects", path: "/projects" },
+    { name: "Projects", path: "/projects_landing" },
     { name: "About Us", path: "/about" },
     { name: "Contact Us", path: "/contact" },
   ];
 
   const { user, loading, error } = useFetchUser();
   const { logout } = useLogout();
-
-  const userRole = getLocalStorageItem<string>("userRole");
 
   return (
     <div className="w-full bg-black fixed top-0 left-0 z-50 shadow-lg">
@@ -71,7 +68,7 @@ const NavigationBar: React.FC = () => {
                     : `Hello, ${user.username}`}
               </span>
               <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
-                <Link to={`/dashboard?role=${userRole}`}>Dashboard</Link>
+                <Link to={`/dashboard`}>Dashboard</Link>
               </Button>
               <Button className="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1">
                 <Link to={`/test-api`}>Test API</Link>

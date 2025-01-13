@@ -73,3 +73,11 @@ export type updateProject = {
   type: string;
   region: string[];
 };
+
+export type ProjectCardProps = {
+  id: string;
+  name: string;
+  type: string;
+  category: string[];
+  region: string[];
+};
