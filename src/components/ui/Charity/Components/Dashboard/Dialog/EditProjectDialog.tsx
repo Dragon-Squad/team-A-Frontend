@@ -52,8 +52,6 @@ export function EditProjectDialog({
     project.goalAmount?.toString() || "",
   );
 
-  console.log(project.categories);
-
   useEffect(() => {
     if (project.categories) {
       setSelectedCategories(project.categories.map((cat) => cat.id || cat._id));
@@ -70,7 +68,7 @@ export function EditProjectDialog({
 
   const handleSubmit = async () => {
     const projectData: EditProject = {
-      ...project,
+      id: project.id,
       categories: selectedCategories,
       description,
       regionId: selectedRegion ?? "",
@@ -79,7 +77,7 @@ export function EditProjectDialog({
       startDate: startDate?.toISOString() ?? "",
       endDate: endDate?.toISOString() ?? "",
     };
-    await updateProject(project._id, projectData); // Pass project ID and updated data
+    await updateProject(project.id, projectData);
   };
 
   return (
@@ -89,7 +87,7 @@ export function EditProjectDialog({
           variant="outline"
           className={triggerClassName}
           onClick={() => {
-            console.log(project.categories);
+            console.log(project.id);
           }}
         >
           Edit Project

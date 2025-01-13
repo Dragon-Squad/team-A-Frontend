@@ -3,6 +3,7 @@ import {
   ApiResponse,
   CreateProject,
   createProjectResponse,
+  EditProject,
   Project,
   ProjectByIdDetail,
   updatedProjectObject,
@@ -119,7 +120,7 @@ export const useUpdateProject = () => {
 
   const updateProject = async (
     projectId: string,
-    updateData: updatedProjectObject,
+    updateData: EditProject,
   ): Promise<void> => {
     setLoading(true);
     setError(null);
