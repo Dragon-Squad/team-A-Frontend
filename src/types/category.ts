@@ -1,4 +1,5 @@
 import { CreateProjectDialogProps } from "./project";
+import { Region } from "./region";
 
 export type Category = {
   id: string;
@@ -18,4 +19,5 @@ export type AllCategoryResponse = {
 
 export type Props = CreateProjectDialogProps & {
   categories: Category[];
+  regions: Region[];
 };

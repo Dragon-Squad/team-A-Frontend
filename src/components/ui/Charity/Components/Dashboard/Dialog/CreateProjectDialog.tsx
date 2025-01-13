@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Category, Props } from "@/types/category";
 import { Region } from "@/types/region";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 export function CreateProjectDialog({
   triggerClassName,
@@ -44,6 +45,16 @@ export function CreateProjectDialog({
               className="col-span-3"
             />
           </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="goalAmount" className="text-black">
+              Goal Amount
+            </Label>
+            <Input
+              id="goalAmount"
+              placeholder="Enter the project's goal amount"
+              className="col-span-3"
+            />
+          </div>
           <Label htmlFor="category" className="text-black ">
             Category
           </Label>
@@ -62,8 +73,11 @@ export function CreateProjectDialog({
           <RadioGroup>
             {regions.map((region: Region) => (
               <div key={region.id} className="flex items-center space-x-2">
-                <RadioGroupItem id={`region-${region.id}`} value={region.id} />
-                <Label className="text-black" htmlFor={`region-${region.id}`}>
+                <RadioGroupItem
+                  id={`region-${region._id}`}
+                  value={region._id}
+                />
+                <Label className="text-black" htmlFor={`region-${region._id}`}>
                   {region.name}
                 </Label>
               </div>

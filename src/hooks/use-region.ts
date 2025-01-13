@@ -13,8 +13,8 @@ export const useRegion = () => {
     setError(null);
     try {
       const response: AllRegionResponse = await RegionService.getAllRegions();
-      setData(response.regions);
-      setTotal(response.regions.length);
+      setData(response);
+      setTotal(response.length);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred.");
     } finally {
