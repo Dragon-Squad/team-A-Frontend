@@ -12,7 +12,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Category, Props } from "@/types/category";
-import { Region } from "@/types/region";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,59 +19,79 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DateTimePicker24h } from "@/components/datetimepicker";
-import { useState } from "react";
-import { getLocalStorageItem } from "@/utils/helper";
+import { useEffect, useState } from "react";
 import { EditProject } from "@/types/project";
-import { useCreateProject } from "@/hooks/use-project";
+import { useUpdateProject } from "@/hooks/use-project";
 
 export function EditProjectDialog({
   triggerClassName,
   categories,
   regions,
-}: Props) {
-  const { createProject } = useCreateProject();
-  const [startDate, setStartDate] = useState<Date | undefined>();
-  const [endDate, setEndDate] = useState<Date | undefined>();
-  const [selectedRegion, setSelectedRegion] = useState<string | undefined>();
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [goalAmount, setGoalAmount] = useState<string>("");
+  project,
+}: Props & { project: EditProject }) {
+  const { updateProject } = useUpdateProject();
+  const [startDate, setStartDate] = useState<Date | undefined>(
+    project.startDate ? new Date(project.startDate) : undefined,
+  );
+  const [endDate, setEndDate] = useState<Date | undefined>(
+    project.endDate ? new Date(project.endDate) : undefined,
+  );
+  const [selectedRegion, setSelectedRegion] = useState<string | undefined>(
+    project.region.id,
+  );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>(
+    project.categories
+      ? project.categories.map((cat) => cat.id || cat._id)
+      : [],
+  );
+  const [name, setName] = useState<string>(project.title || "");
+  const [description, setDescription] = useState<string>(
+    project.description || "",
+  );
+  const [goalAmount, setGoalAmount] = useState<string>(
+    project.goalAmount?.toString() || "",
+  );
+
+  console.log(project.categories);
+
+  useEffect(() => {
+    if (project.categories) {
+      setSelectedCategories(project.categories.map((cat) => cat.id || cat._id));
+    }
+  }, [project.categories]);
 
   const handleCategoryChange = (categoryId: string, isChecked: boolean) => {
-    setSelectedCategories((prev) => {
-      if (isChecked) {
-        return [...prev, categoryId];
-      } else {
-        return prev.filter((id) => id !== categoryId);
-      }
-    });
+    setSelectedCategories((prev) =>
+      isChecked
+        ? [...prev, categoryId]
+        : prev.filter((id) => id !== categoryId),
+    );
   };
 
   const handleSubmit = async () => {
-    console.log("Name:", name);
-    console.log("Goal Amount:", goalAmount);
-    console.log("Start Date:", startDate);
-    console.log("End Date:", endDate);
-    console.log("Selected Region ID:", selectedRegion);
-    console.log("Selected Categories IDs:", selectedCategories);
     const projectData: EditProject = {
-      charityId: getLocalStorageItem("charityId") ?? "",
-      categoryIds: selectedCategories,
-      description: description,
+      ...project,
+      categories: selectedCategories,
+      description,
       regionId: selectedRegion ?? "",
       title: name,
       goalAmount: parseFloat(goalAmount),
-      startDate: startDate?.toString() ?? "",
-      endDate: endDate?.toString() ?? "",
+      startDate: startDate?.toISOString() ?? "",
+      endDate: endDate?.toISOString() ?? "",
     };
-    await createProject(projectData);
+    await updateProject(project._id, projectData); // Pass project ID and updated data
   };
 
   return (
     <Dialog>
       <DialogTrigger asChild className="mx-5">
-        <Button variant="outline" className={triggerClassName}>
+        <Button
+          variant="outline"
+          className={triggerClassName}
+          onClick={() => {
+            console.log(project.categories);
+          }}
+        >
           Edit Project
         </Button>
       </DialogTrigger>
@@ -121,7 +140,7 @@ export function EditProjectDialog({
             />
           </div>
 
-          <Label htmlFor="category" className="text-black ">
+          <Label htmlFor="category" className="text-black">
             Category
           </Label>
           <div className="grid grid-cols-2 gap-4">
@@ -153,16 +172,15 @@ export function EditProjectDialog({
                 <DropdownMenuTrigger asChild>
                   <Button className="w-full text-black" variant="outline">
                     {selectedRegion
-                      ? regions.find(
-                          (region: Region) => region._id === selectedRegion,
-                        )?.name
+                      ? regions.find((region) => region._id === selectedRegion)
+                          ?.name
                       : "Select Region"}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
-                  {regions.map((region: Region) => (
+                  {regions.map((region) => (
                     <DropdownMenuItem
-                      key={region._id}
+                      key={region.id}
                       onClick={() => setSelectedRegion(region._id)}
                     >
                       {region.name}
@@ -176,13 +194,16 @@ export function EditProjectDialog({
         <div className="grid grid-cols-4 items-center gap-4">
           <Label className="text-black">Start Time</Label>
           <div className="col-span-3">
-            <DateTimePicker24h onChange={setStartDate} />
+            <DateTimePicker24h
+              onChange={setStartDate}
+              initialDate={startDate}
+            />
           </div>
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label className="text-black">End Time</Label>
           <div className="col-span-3">
-            <DateTimePicker24h onChange={setEndDate} />
+            <DateTimePicker24h onChange={setEndDate} initialDate={endDate} />
           </div>
         </div>
         <DialogFooter>

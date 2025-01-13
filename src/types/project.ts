@@ -171,7 +171,7 @@ export type CreateProject = {
 export type EditProject = {
   charityId: string;
   description: string;
-  categoryIds: string[];
+  categories: string[];
   regionId: string;
   title: string;
   goalAmount: number;

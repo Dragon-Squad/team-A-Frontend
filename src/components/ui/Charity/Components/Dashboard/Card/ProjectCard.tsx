@@ -50,7 +50,8 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
         triggerClassName="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1 mb-10"
         categories={categories}
         regions={regions}
-      ></EditProjectDialog>
+        project={project}
+      />
     </Card>
   );
 };
