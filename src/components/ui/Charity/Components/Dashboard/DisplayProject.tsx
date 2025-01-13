@@ -18,7 +18,7 @@ const DisplayProject: React.FC = () => {
             regions={regions || []}
           ></CreateProjectDialog>
         </div>
-        {/* <FetchProjectCard></FetchProjectCard> */}
+        <FetchProjectCard></FetchProjectCard>
       </div>
     </div>
   );

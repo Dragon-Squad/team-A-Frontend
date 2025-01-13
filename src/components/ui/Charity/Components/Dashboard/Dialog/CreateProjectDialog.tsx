@@ -21,12 +21,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { DateTimePicker24h } from "@/components/datetimepicker";
 import { useState } from "react";
+import { getLocalStorageItem } from "@/utils/helper";
+import { CreateProject } from "@/types/project";
+import { useCreateProject } from "@/hooks/use-project";
 
 export function CreateProjectDialog({
   triggerClassName,
   categories,
   regions,
 }: Props) {
+  const { createProject } = useCreateProject();
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
   const [selectedRegion, setSelectedRegion] = useState<string | undefined>();
@@ -45,14 +49,23 @@ export function CreateProjectDialog({
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log("Name:", name);
     console.log("Goal Amount:", goalAmount);
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
     console.log("Selected Region ID:", selectedRegion);
     console.log("Selected Categories IDs:", selectedCategories);
-    // Send selectedRegion, selectedCategories (IDs), name, and goalAmount to the backend
+    const projectData: CreateProject = {
+      charityId: getLocalStorageItem("charityId") ?? "",
+      categoryIds: selectedCategories,
+      regionId: selectedRegion ?? "",
+      title: name,
+      goalAmount: parseFloat(goalAmount),
+      startDate: startDate?.toString() ?? "",
+      endDate: endDate?.toString() ?? "",
+    };
+    await createProject(projectData);
   };
 
   return (
