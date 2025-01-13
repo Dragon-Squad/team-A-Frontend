@@ -17,16 +17,18 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 export function DateTimePicker24h({
   onChange,
 }: {
-  onChange: (date: Date | undefined) => void;
+  onChange: (date: string | undefined) => void;
 }) {
   const [date, setDate] = React.useState<Date>();
   const [isOpen, setIsOpen] = React.useState(false);
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
+
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {
       setDate(selectedDate);
-      onChange(selectedDate);
+      const isoString = convertToCustomISOString(selectedDate);
+      onChange(isoString);
     }
   };
 
@@ -39,8 +41,14 @@ export function DateTimePicker24h({
         newDate.setMinutes(parseInt(value));
       }
       setDate(newDate);
-      onChange(newDate);
+      const isoString = convertToCustomISOString(newDate);
+      onChange(isoString);
     }
+  };
+
+  const convertToCustomISOString = (date: Date) => {
+    const isoString = date.toISOString();
+    return isoString.replace("Z", "+00:00");
   };
 
   return (
