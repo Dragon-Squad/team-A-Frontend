@@ -42,7 +42,6 @@ export default class ProjectService {
       const url = `${PROJECT_URL}/${id}`;
 
       const headers = new Headers({
-        "ngrok-skip-browser-warning": "69420",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json",
       });
