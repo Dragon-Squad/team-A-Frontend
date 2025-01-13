@@ -29,10 +29,24 @@ export function CreateProjectDialog({
 }: Props) {
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+  const [selectedRegion, setSelectedRegion] = useState<string | undefined>();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]); // Track selected categories
+
+  const handleCategoryChange = (categoryId: string) => {
+    setSelectedCategories(
+      (prev) =>
+        prev.includes(categoryId)
+          ? prev.filter((id) => id !== categoryId) // Unselect category
+          : [...prev, categoryId], // Select category
+    );
+  };
 
   const handleSubmit = () => {
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
+    console.log("Selected Region ID:", selectedRegion);
+    console.log("Selected Categories IDs:", selectedCategories);
+    // Send selectedRegion and selectedCategories (IDs) to the backend
   };
 
   return (
@@ -77,7 +91,11 @@ export function CreateProjectDialog({
           <div className="grid grid-cols-2 gap-4">
             {categories.map((category: Category) => (
               <div key={category.id} className="flex items-center space-x-2">
-                <Checkbox id={`category-${category.id}`} />
+                <Checkbox
+                  id={`category-${category.id}`}
+                  checked={selectedCategories.includes(category.id)}
+                  onCheckedChange={() => handleCategoryChange(category.id)} // Use onCheckedChange to update state
+                />
                 <Label
                   className="text-black"
                   htmlFor={`category-${category.id}`}
@@ -87,6 +105,7 @@ export function CreateProjectDialog({
               </div>
             ))}
           </div>
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="region" className="text-black ">
               Region
@@ -95,12 +114,19 @@ export function CreateProjectDialog({
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button className="w-full" variant="outline">
-                    Select Region
+                    {selectedRegion
+                      ? regions.find(
+                          (region: Region) => region._id === selectedRegion,
+                        )?.name
+                      : "Select Region"}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   {regions.map((region: Region) => (
-                    <DropdownMenuItem key={region._id} value={region._id}>
+                    <DropdownMenuItem
+                      key={region._id}
+                      onClick={() => setSelectedRegion(region._id)}
+                    >
                       {region.name}
                     </DropdownMenuItem>
                   ))}
