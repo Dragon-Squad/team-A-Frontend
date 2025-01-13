@@ -57,8 +57,7 @@ export function DateTimePicker24h({
         <Button
           variant="outline"
           className={cn(
-            "w-full justify-start text-left font-normal",
-            !date && "text-muted-foreground",
+            "w-full justify-start text-left font-normal text-black",
           )}
         >
           <IconCalendarMonthFilled className="mr-2 h-4 w-4" />

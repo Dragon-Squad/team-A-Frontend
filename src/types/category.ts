@@ -2,7 +2,7 @@ import { CreateProjectDialogProps } from "./project";
 import { Region } from "./region";
 
 export type Category = {
-  id: string;
+  _id: string;
   name: string;
   subscriptionList: string[];
   notificationList: {

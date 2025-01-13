@@ -29,10 +29,30 @@ export function CreateProjectDialog({
 }: Props) {
   const [startDate, setStartDate] = useState<Date | undefined>();
   const [endDate, setEndDate] = useState<Date | undefined>();
+  const [selectedRegion, setSelectedRegion] = useState<string | undefined>();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]); // Track selected categories
+  const [name, setName] = useState<string>(""); // Track name input
+  const [goalAmount, setGoalAmount] = useState<string>(""); // Track goal amount input
+
+  const handleCategoryChange = (categoryId: string, isChecked: boolean) => {
+    // Only toggle the category in the selectedCategories array
+    setSelectedCategories((prev) => {
+      if (isChecked) {
+        return [...prev, categoryId]; // Select category
+      } else {
+        return prev.filter((id) => id !== categoryId); // Unselect category
+      }
+    });
+  };
 
   const handleSubmit = () => {
+    console.log("Name:", name);
+    console.log("Goal Amount:", goalAmount);
     console.log("Start Date:", startDate);
     console.log("End Date:", endDate);
+    console.log("Selected Region ID:", selectedRegion);
+    console.log("Selected Categories IDs:", selectedCategories);
+    // Send selectedRegion, selectedCategories (IDs), name, and goalAmount to the backend
   };
 
   return (
@@ -56,6 +76,8 @@ export function CreateProjectDialog({
             </Label>
             <Input
               id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)} // Update name state on input change
               placeholder="Enter project name"
               className="col-span-3"
             />
@@ -66,6 +88,8 @@ export function CreateProjectDialog({
             </Label>
             <Input
               id="goalAmount"
+              value={goalAmount}
+              onChange={(e) => setGoalAmount(e.target.value)} // Update goalAmount state on input change
               placeholder="Enter the project's goal amount"
               className="col-span-3"
             />
@@ -76,17 +100,24 @@ export function CreateProjectDialog({
           </Label>
           <div className="grid grid-cols-2 gap-4">
             {categories.map((category: Category) => (
-              <div key={category.id} className="flex items-center space-x-2">
-                <Checkbox id={`category-${category.id}`} />
+              <div key={category._id} className="flex items-center space-x-2">
+                <Checkbox
+                  id={`category-${category._id}`}
+                  checked={selectedCategories.includes(category._id)}
+                  onCheckedChange={(isChecked) =>
+                    handleCategoryChange(category._id, isChecked)
+                  }
+                />
                 <Label
                   className="text-black"
-                  htmlFor={`category-${category.id}`}
+                  htmlFor={`category-${category._id}`}
                 >
                   {category.name}
                 </Label>
               </div>
             ))}
           </div>
+
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="region" className="text-black ">
               Region
@@ -94,13 +125,20 @@ export function CreateProjectDialog({
             <div className="col-span-3">
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button className="w-full" variant="outline">
-                    Select Region
+                  <Button className="w-full text-black" variant="outline">
+                    {selectedRegion
+                      ? regions.find(
+                          (region: Region) => region._id === selectedRegion,
+                        )?.name
+                      : "Select Region"}
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   {regions.map((region: Region) => (
-                    <DropdownMenuItem key={region._id} value={region._id}>
+                    <DropdownMenuItem
+                      key={region._id}
+                      onClick={() => setSelectedRegion(region._id)}
+                    >
                       {region.name}
                     </DropdownMenuItem>
                   ))}
