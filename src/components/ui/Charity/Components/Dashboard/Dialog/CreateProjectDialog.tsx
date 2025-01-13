@@ -14,6 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Category, Props } from "@/types/category";
 import { Region } from "@/types/region";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { DateTimePicker24h } from "@/components/datetimepicker";
 
 export function CreateProjectDialog({
   triggerClassName,
@@ -55,38 +56,49 @@ export function CreateProjectDialog({
               className="col-span-3"
             />
           </div>
-          <Label htmlFor="category" className="text-black ">
-            Category
-          </Label>
-          {categories.map((category: Category) => (
-            <div key={category.id} className="flex items-center space-x-2">
-              <Checkbox id={`category-${category.id}`} />
-              <Label className="text-black" htmlFor={`category-${category.id}`}>
-                {category.name}
+          <div className="flex flex-row">
+            <div className="flex flex-col">
+              <Label htmlFor="category" className="text-black ">
+                Category
               </Label>
+              {categories.map((category: Category) => (
+                <div key={category.id} className="flex items-center space-x-2">
+                  <Checkbox id={`category-${category.id}`} />
+                  <Label
+                    className="text-black"
+                    htmlFor={`category-${category.id}`}
+                  >
+                    {category.name}
+                  </Label>
+                </div>
+              ))}
+              <Label htmlFor="region" className="text-black ">
+                Region
+              </Label>
+              <RadioGroup>
+                {regions.map((region: Region) => (
+                  <div key={region._id} className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      id={`region-${region._id}`}
+                      value={region._id}
+                    />
+                    <Label
+                      className="text-black"
+                      htmlFor={`region-${region._id}`}
+                    >
+                      {region.name}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
             </div>
-          ))}
-
-          <Label htmlFor="region" className="text-black ">
-            Region
-          </Label>
-          <RadioGroup>
-            {regions.map((region: Region) => (
-              <div key={region._id} className="flex items-center space-x-2">
-                <RadioGroupItem
-                  id={`region-${region._id}`}
-                  value={region._id}
-                />
-                <Label className="text-black" htmlFor={`region-${region._id}`}>
-                  {region.name}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
+            <Label className="text-black">Start Time</Label>
+            <DateTimePicker24h></DateTimePicker24h>
+          </div>
+          <DialogFooter>
+            <Button type="submit">Save changes</Button>
+          </DialogFooter>
         </div>
-        <DialogFooter>
-          <Button type="submit">Save changes</Button>
-        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
