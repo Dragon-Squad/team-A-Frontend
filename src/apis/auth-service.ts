@@ -49,8 +49,7 @@ export default class AuthService {
 
       const headers = new Headers({
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin":
-          "https://crack-rightly-cow.ngrok-free.app",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
         Authorization: encryptedHeader,
       });
 
@@ -78,8 +77,7 @@ export default class AuthService {
 
       const headers = new Headers({
         "Content-Type": "application/json",
-        "Access-Control-Allow-Origin":
-          "https://crack-rightly-cow.ngrok-free.app",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
       });
 
       const body = JSON.stringify({ email, otp });
