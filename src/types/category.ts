@@ -9,3 +9,7 @@ export type Category = {
   }[];
   __v: number;
 };
+
+export type AllCategoryResponse = {
+  categories: Category[];
+};

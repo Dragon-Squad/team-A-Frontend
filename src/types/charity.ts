@@ -42,3 +42,20 @@ export type updateCharityResponse = {
   message: string;
   charity: updateCharityReponseObject;
 };
+
+export type EditCharityDialogProps = {
+  buttonText: string;
+  title: string;
+  buttonStyle: string;
+  submitButtonStyle: string;
+  name: string;
+  type: string;
+  category: string[];
+  region: string[];
+  onSaveChanges: (
+    name: string,
+    type: string,
+    category: string[],
+    region: string[],
+  ) => void;
+};

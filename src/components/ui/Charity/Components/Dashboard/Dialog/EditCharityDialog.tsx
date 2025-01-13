@@ -12,23 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-
-interface EditCharityDialogProps {
-  buttonText: string;
-  title: string;
-  buttonStyle: string;
-  submitButtonStyle: string;
-  name: string;
-  type: string;
-  category: string[];
-  region: string[];
-  onSaveChanges: (
-    name: string,
-    type: string,
-    category: string[],
-    region: string[],
-  ) => void;
-}
+import { EditCharityDialogProps } from "@/types/charity";
 
 export function EditCharityDialog({
   buttonText,

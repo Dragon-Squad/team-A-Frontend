@@ -1,8 +1,8 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Project } from "@/types/project";
-import { EditCharityDialog } from "../Dialog/EditCharityDialog";
 import { Button } from "@headlessui/react";
+import { CreateProjectDialog } from "../Dialog/CreateProjectDialog";
 
 interface ProjectCardProps {
   project: Project;
@@ -44,17 +44,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
           View Details
         </Button>
       </CardContent>
-      {/* <EditCharityDialog
-        buttonText="Edit Charity"
-        title="Edit Charity"
-        buttonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
-        submitButtonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
-        name={charityData.name}
-        type={charityData.type}
-        category={charityData.category}
-        region={charityData.region}
-        onSaveChanges={handleSaveChanges}
-      /> */}
+      <CreateProjectDialog triggerClassName="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"></CreateProjectDialog>
     </Card>
   );
 };

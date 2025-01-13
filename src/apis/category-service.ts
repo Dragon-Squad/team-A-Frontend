@@ -1,11 +1,11 @@
-import { PROJECT_URL } from "@/config/httpConfig";
-import { ApiResponse } from "@/types/project";
+import { CATEGORY_URL } from "@/config/httpConfig";
+import { AllCategoryResponse } from "@/types/category";
 import { httpRequest } from "@/utils/http-request";
 
 export default class CategoryService {
-  static getAllCagetories = async (): Promise<ApiResponse> => {
+  static getAllCategories = async (): Promise<AllCategoryResponse> => {
     try {
-      const url = `${PROJECT_URL}/all`;
+      const url = `${CATEGORY_URL}/all`;
 
       const headers = new Headers({
         "ngrok-skip-browser-warning": "69420",
@@ -22,7 +22,7 @@ export default class CategoryService {
         );
       }
 
-      const data = (await response.json()) as ApiResponse;
+      const data = (await response.json()) as AllCategoryResponse;
       return data;
     } catch (err) {
       const message =

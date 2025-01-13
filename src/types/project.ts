@@ -114,3 +114,7 @@ export type ProjectCardProps = {
   category: string[];
   region: string[];
 };
+
+export type CreateProjectDialogProps = {
+  triggerClassName: string;
+};
