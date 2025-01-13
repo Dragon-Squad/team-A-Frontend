@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateCharityReponseObject } from "@/types/charity";
 import { useUpdateCharity } from "@/hooks/use-charity";
-import { EditCharityDialog } from "../EditCharityDialog";
+import { EditCharityDialog } from "../Dialog/EditCharityDialog";
 
 function CharityCard({
   id,

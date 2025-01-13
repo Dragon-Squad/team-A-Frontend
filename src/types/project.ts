@@ -54,22 +54,67 @@ export type updateProjectResponseObject = {
   region: string[];
 };
 
-export type updateProjectResponse = {
-  message: string;
-  project: updateProjectResponseObject;
-};
-
 export type updatedProjectObject = {
-  id: string;
-  name: string;
-  category: string[];
-  type: string;
-  region: string[];
+  charityId: string;
+  cagetoryIds: string[];
+  regionId: string;
+  title: string;
+  goalAmount: number;
+  startDate: string;
+  endDate: string;
 };
 
 export type updateProject = {
+  charityId: string;
+  cagetoryIds: string[];
+  regionId: string;
+  title: string;
+  goalAmount: number;
+  startDate: string;
+  endDate: string;
+};
+
+export type updateProjectResponse = {
+  id: string;
+  title: string;
+  goalAmount: number;
+  raisedAmount: number;
+  startDate: string;
+  endDate: string;
+  status: string;
+  charity: {
+    _id: string;
+    userId: string;
+    name: string;
+    address: string[];
+    region: string[];
+    category: string[];
+    type: string;
+    hashedStripeId: string;
+    taxCode: string;
+    __v: number;
+  };
+  categories: {
+    id: string;
+    name: string;
+  }[];
+  region: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
+  images: string[];
+  videos: string[];
+};
+
+export type ProjectCardProps = {
+  id: string;
   name: string;
-  category: string[];
   type: string;
+  category: string[];
   region: string[];
+};
+
+export type CreateProjectDialogProps = {
+  triggerClassName: string;
 };

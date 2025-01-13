@@ -4,12 +4,12 @@ import OTPPage from "./pages/auth/OTPPage";
 import AboutUsPage from "./pages/AboutUs";
 import PaymentSuccessPage from "./pages/payment/PaymentSuccessPage";
 import ProjectDetailsPage from "./pages/project/ProjectDetails";
-import ProjectsPage from "./pages/project/ProjectPage";
 import ContactUsPage from "./pages/ContactUsPage";
 import DashboardView from "./pages/Charity/CharityView";
 import DonationRecord from "./components/ui/Charity/Pages/RecentDonations";
 import CreateProjectForm from "./components/ui/Charity/Components/CreateProjectForm";
 import TestUpdateCharityPage from "./components/ui/Charity/Pages/testpages";
+import ProjectsPageDashboard from "./components/ui/Charity/Pages/ProjectsPage";
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
 const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));
@@ -28,7 +28,7 @@ const App: React.FC = () => {
         <Route path="/about" element={<AboutUsPage />} />
         <Route path="/details/:id" element={<ProjectDetailsPage />} />
         <Route path="/success" element={<PaymentSuccessPage />} />
-        <Route path="/projects" element={<ProjectsPage />} />
+        <Route path="/projects" element={<ProjectsPageDashboard />} />
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/dashboard" element={<DashboardView />} />
         <Route path="/donations" element={<DonationRecord />} />

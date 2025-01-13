@@ -15,6 +15,7 @@ export default class ProjectService {
       const headers = new Headers({
         "ngrok-skip-browser-warning": "69420",
         "Cache-Control": "no-cache",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
         "Content-Type": "application/json",
       });
 
@@ -64,7 +65,7 @@ export default class ProjectService {
 
   static getProjectByCharityIds = async (
     charityId: string,
-  ): Promise<ProjectByIdDetail> => {
+  ): Promise<ApiResponse> => {
     try {
       const url = `${PROJECT_URL}/all?charityIds=${charityId}`;
 
@@ -72,6 +73,7 @@ export default class ProjectService {
         "ngrok-skip-browser-warning": "69420",
         "Cache-Control": "no-cache",
         "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
       });
 
       const response = await httpRequest(url, "GET", headers);
@@ -82,7 +84,7 @@ export default class ProjectService {
         );
       }
 
-      const data = (await response.json()) as ProjectByIdDetail;
+      const data = (await response.json()) as ApiResponse;
       return data;
     } catch (err) {
       const message =

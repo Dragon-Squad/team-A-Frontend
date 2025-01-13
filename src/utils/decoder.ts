@@ -1,4 +1,5 @@
 import { jwtDecode } from "jwt-decode";
+import { getLocalStorageItem } from "./helper";
 
 interface JwtPayload {
   userID: string;
@@ -19,7 +20,7 @@ const decodeToken = (token: string): JwtPayload => {
   }
 };
 
-const accessToken = localStorage.getItem("accessToken");
+const accessToken = getLocalStorageItem<string>("accessToken");
 if (accessToken) {
   const payload = decodeToken(accessToken);
   console.log("UserID:", payload.userID);
