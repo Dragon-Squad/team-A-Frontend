@@ -6,6 +6,8 @@ export const PROJECT_URL: string = `${TEAM_A_BACKEND}/projects`;
 
 export const CATEGORY_URL: string = `${TEAM_A_BACKEND}/category`;
 
+export const CHARITY_STATISTIC_URL: string = `${TEAM_A_BACKEND}/statistic/charity`;
+
 const TEAM_B_BACKEND: string =
   "https://team-b-backend.tail8c88ab.ts.net:3000/api";
 
@@ -14,3 +16,5 @@ export const AUTH_URL: string = `${TEAM_B_BACKEND}/auth`;
 export const USER_URL: string = `${TEAM_B_BACKEND}/users`;
 
 export const CHARITY_URL: string = `${TEAM_B_BACKEND}/charities`;
+
+export const DONOR_STATISTIC_URL: string = `${TEAM_B_BACKEND}/donors`;

@@ -8,7 +8,6 @@ export default class CategoryService {
       const url = `${CATEGORY_URL}/all`;
 
       const headers = new Headers({
-        "ngrok-skip-browser-warning": "69420",
         "Cache-Control": "no-cache",
         "Access-Control-Allow-Origin": "http://localhost:5173",
         "Content-Type": "application/json",
