@@ -1,5 +1,10 @@
 import { PROJECT_URL } from "@/config/httpConfig";
-import { ApiResponse, ProjectByIdDetail } from "@/types/project";
+import {
+  ApiResponse,
+  ProjectByIdDetail,
+  updateProject,
+  updateProjectResponse,
+} from "@/types/project";
 import { httpRequest } from "@/utils/http-request";
 
 export default class ProjectService {
@@ -85,4 +90,33 @@ export default class ProjectService {
       throw new Error(message);
     }
   };
+
+  static async updateProjectById(
+    charityId: string,
+    updateData: updateProject,
+  ): Promise<updateProjectResponse> {
+    try {
+      const url = `${PROJECT_URL}/${charityId}`;
+
+      const headers = new Headers({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+      });
+      const body = JSON.stringify(updateData);
+      const response = await httpRequest(url, "PUT", headers, body);
+
+      if (!response.ok) {
+        throw new Error(
+          `Failed to update charity by user id: ${response.status} ${response.statusText}`,
+        );
+      }
+
+      const data = (await response.json()) as updateProjectResponse;
+      return data;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      throw new Error(message);
+    }
+  }
 }

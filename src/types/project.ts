@@ -45,3 +45,31 @@ type Region = {
   id: string;
   name: string;
 };
+
+export type updateProjectResponseObject = {
+  id: string;
+  name: string;
+  category: string[];
+  type: string;
+  region: string[];
+};
+
+export type updateProjectResponse = {
+  message: string;
+  project: updateProjectResponseObject;
+};
+
+export type updatedProjectObject = {
+  id: string;
+  name: string;
+  category: string[];
+  type: string;
+  region: string[];
+};
+
+export type updateProject = {
+  name: string;
+  category: string[];
+  type: string;
+  region: string[];
+};

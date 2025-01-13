@@ -1,11 +1,11 @@
 import React from "react";
-import FetchCharityCard from "./FetchCharityCard";
+import FetchCharityCard from "./Card/FetchCharityCard";
 
 function CharityDashboard() {
   return (
-    <div className="bg-white w-full h-full">
+    <div className="flex flex-col h-screen w-full bg-gray-100">
       <div className="m-10">
-        <FetchCharityCard></FetchCharityCard>
+        <FetchCharityCard />
       </div>
     </div>
   );

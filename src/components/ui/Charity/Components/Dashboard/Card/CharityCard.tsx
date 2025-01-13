@@ -3,8 +3,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateCharityReponseObject } from "@/types/charity";
-import { EditCharityDialog } from "./EditCharityDialog";
 import { useUpdateCharity } from "@/hooks/use-charity";
+import { EditCharityDialog } from "../EditCharityDialog";
 
 function CharityCard({
   id,
