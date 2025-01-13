@@ -14,8 +14,9 @@ export const useCategory = () => {
     try {
       const response: AllCategoryResponse =
         await CategoryService.getAllCategories();
-      setData(response.categories);
-      setTotal(response.categories.length);
+      setData(response);
+      console.log(response);
+      setTotal(response.length);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred.");
     } finally {

@@ -10,147 +10,49 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
-import { useToast } from "@/hooks/use-toast";
+import { EditProjectDialogProps } from "@/types/project";
 
-interface EditCharityDialogProps {
-  buttonText: string;
-  title: string;
-  buttonStyle: string;
-  submitButtonStyle: string;
-  name: string;
-  type: string;
-  category: string[];
-  region: string[];
-  onSaveChanges: (
-    name: string,
-    type: string,
-    category: string[],
-    region: string[],
-  ) => void;
-}
-
-export function EditCharityDialog({
-  buttonText,
-  title,
-  buttonStyle,
-  submitButtonStyle,
-  name,
-  type,
-  category,
-  region,
-  onSaveChanges,
-}: EditCharityDialogProps) {
-  const { toast } = useToast();
-  const [nameInput, setNameInput] = useState(name);
-  const [typeInput, setTypeInput] = useState(type);
-  const [categoryInput, setCategoryInput] = useState(category.join(", "));
-  const [regionInput, setRegionInput] = useState(region.join(", "));
-  const [isOpen, setIsOpen] = useState(false); // Track dialog open/close state
-
-  const handleSaveChanges = async () => {
-    const updatedCategory = categoryInput.split(",").map((cat) => cat.trim());
-    const updatedRegion = regionInput.split(",").map((reg) => reg.trim());
-    try {
-      await onSaveChanges(nameInput, typeInput, updatedCategory, updatedRegion);
-
-      toast({
-        description: "The changes have been saved successfully",
-        variant: "success",
-      });
-
-      setIsOpen(false);
-    } catch (error) {
-      toast({
-        description: `Failed to save the changes: ${error}`,
-        variant: "destructive",
-      });
-    }
-  };
-
+export function EditProjectDialog({
+  triggerClassName,
+}: EditProjectDialogProps) {
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild>
-        <Button className={buttonStyle} onClick={() => setIsOpen(true)}>
-          {buttonText}
+    <Dialog>
+      <DialogTrigger asChild className="mx-5">
+        <Button variant="outline" className={triggerClassName}>
+          Edit Project
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="mt-1 block text-sm font-medium text-gray-700">
-            {title}
-          </DialogTitle>
+          <DialogTitle>Edit project</DialogTitle>
           <DialogDescription>
-            Make changes to your charity details here. Click save when you're
-            done.
+            Make changes to your project here. Click save when you're done.
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-1 gap-4">
-            <Label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
-            >
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="name" className="text-right">
               Name
             </Label>
             <Input
               id="name"
-              value={nameInput}
-              onChange={(e) => setNameInput(e.target.value)}
-              className="mt-1 w-full text-sm font-medium text-gray-700"
+              defaultValue="Pedro Duarte"
+              className="col-span-3"
             />
           </div>
-          <div className="grid grid-cols-1 gap-4">
-            <Label
-              htmlFor="type"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Type
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="username" className="text-right">
+              Username
             </Label>
             <Input
-              id="type"
-              value={typeInput}
-              onChange={(e) => setTypeInput(e.target.value)}
-              className="mt-1 w-full text-sm font-medium text-gray-700"
-            />
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            <Label
-              htmlFor="category"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Categories
-            </Label>
-            <Input
-              id="category"
-              value={categoryInput}
-              onChange={(e) => setCategoryInput(e.target.value)}
-              className="mt-1 w-full text-sm font-medium text-gray-700"
-            />
-          </div>
-          <div className="grid grid-cols-1 gap-4">
-            <Label
-              htmlFor="region"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Regions
-            </Label>
-            <Input
-              id="region"
-              value={regionInput}
-              onChange={(e) => setRegionInput(e.target.value)}
-              className="mt-1 w-full text-sm font-medium text-gray-700"
+              id="username"
+              defaultValue="@peduarte"
+              className="col-span-3"
             />
           </div>
         </div>
         <DialogFooter>
-          <Button
-            className={submitButtonStyle}
-            type="button"
-            onClick={handleSaveChanges}
-          >
-            Save changes
-          </Button>
+          <Button type="submit">Save changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

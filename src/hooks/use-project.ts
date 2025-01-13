@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import {
   ApiResponse,
+  CreateProject,
+  createProjectResponse,
   Project,
   ProjectByIdDetail,
   updatedProjectObject,
@@ -136,4 +138,30 @@ export const useUpdateProject = () => {
   };
 
   return { updatedProject, loading, error, updateProject };
+};
+
+export const useCreateProject = () => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [createdProject, setCreatedProject] =
+    useState<createProjectResponse | null>(null);
+
+  const createProject = async (updateData: CreateProject): Promise<void> => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      const data: createProjectResponse =
+        await ProjectService.create(updateData);
+      setCreatedProject(data);
+    } catch (err) {
+      setError(
+        err instanceof Error ? err.message : "An unexpected error occurred",
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return { createdProject, loading, error, createProject };
 };

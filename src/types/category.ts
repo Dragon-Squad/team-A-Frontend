@@ -1,5 +1,7 @@
+import { CreateProjectDialogProps } from "./project";
+
 export type Category = {
-  _id: string;
+  id: string;
   name: string;
   subscriptionList: string[];
   notificationList: {
@@ -11,5 +13,9 @@ export type Category = {
 };
 
 export type AllCategoryResponse = {
+  categories: Category[];
+};
+
+export type Props = CreateProjectDialogProps & {
   categories: Category[];
 };
