@@ -6,6 +6,8 @@ export const PROJECT_URL: string = `${TEAM_A_BACKEND}/projects`;
 
 export const CATEGORY_URL: string = `${TEAM_A_BACKEND}/category`;
 
+export const REGION_URL: string = `${TEAM_A_BACKEND}/region`;
+
 const TEAM_B_BACKEND: string =
   "https://team-b-backend.tail8c88ab.ts.net:3000/api";
 
