@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { CalendarIcon } from "@radix-ui/react-icons";
+import { IconCalendarMonthFilled } from "@tabler/icons-react";
 import { format } from "date-fns";
 
 import { cn } from "@/lib/utils";
@@ -47,7 +47,7 @@ export function DateTimePicker24h() {
             !date && "text-muted-foreground",
           )}
         >
-          <CalendarIcon className="mr-2 h-4 w-4" />
+          <IconCalendarMonthFilled className="mr-2 h-4 w-4" />
           {date ? (
             format(date, "MM/dd/yyyy hh:mm")
           ) : (

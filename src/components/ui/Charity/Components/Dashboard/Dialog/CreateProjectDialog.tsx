@@ -72,7 +72,7 @@ export function CreateProjectDialog({
           </Label>
           <RadioGroup>
             {regions.map((region: Region) => (
-              <div key={region.id} className="flex items-center space-x-2">
+              <div key={region._id} className="flex items-center space-x-2">
                 <RadioGroupItem
                   id={`region-${region._id}`}
                   value={region._id}
