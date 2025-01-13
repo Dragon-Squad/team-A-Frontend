@@ -5,6 +5,7 @@ import {
   updateCharityResponse,
   updatedCharityObject,
 } from "@/types/charity";
+import { getLocalStorageItem, setLocalStorageItem } from "@/utils/helper";
 import { useEffect, useState } from "react";
 
 export const useFetchCharityByKeyword = () => {
@@ -45,7 +46,7 @@ export const useUpdateCharity = () => {
     setError(null);
 
     try {
-      const storedUserId = localStorage.getItem("userId");
+      const storedUserId = getLocalStorageItem<string>("userId");
       if (!storedUserId) {
         throw new Error("The user is not logged in ");
       }
@@ -83,7 +84,7 @@ export const useFetchCharity = () => {
         try {
           const data: Charity = await CharityService.getCharity(storedUserId);
           window.console.log(data.id);
-          localStorage.setItem("charityId", data.id);
+          setLocalStorageItem<string>("charityId", data.id);
           setCharity(data);
         } catch (err) {
           setError(

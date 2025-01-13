@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useLocation, Navigate } from "react-router-dom";
 import DonorDashboard from "./DonorDashboard";
 import CharityDashboard from "./CharityDashboard";
+import { showToast } from "@/components/ui/showToast";
+import { getLocalStorageItem } from "@/utils/helper";
 
 const DashboardView: React.FC = () => {
   const location = useLocation();
@@ -12,12 +14,13 @@ const DashboardView: React.FC = () => {
 
   useEffect(() => {
     if (!userRole) {
-      const storedRole = localStorage.getItem("userRole");
+      const storedRole = getLocalStorageItem<string>("userRole");
       setUserRole(storedRole);
     }
   }, [userRole]);
 
   if (!userRole) {
+    showToast(`Please login to access this page`, "destructive");
     return <Navigate to="/signin" />;
   }
 

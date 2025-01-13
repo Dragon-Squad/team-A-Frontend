@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useRegister, useLogin, useOTP } from "@/hooks/use-user";
 import { useNavigate } from "react-router-dom";
-import { toast, useToast } from "./use-toast";
+import { showToast } from "@/components/ui/showToast";
 
 //Signup
 export const useRegisterForm = () => {
@@ -30,18 +30,14 @@ export const useRegisterForm = () => {
         transformedRole,
       );
       console.log("Registration successful:", response);
-
-      toast({
-        description: `You have been successfully signed up , Welcome ${email}`,
-        variant: "success",
-      });
+      showToast(
+        `You have been successfully signed up , Welcome ${email}`,
+        "success",
+      );
 
       navigate("/otp", { state: { email } });
     } catch (err) {
-      toast({
-        description: `Signed in failed please try again: ${error}`,
-        variant: "destructive",
-      });
+      showToast(`Signed in failed please try again: ${error}`, "destructive");
       console.error("Registration error:", err);
     } finally {
       setLoading(false);
@@ -57,7 +53,6 @@ export const useRegisterForm = () => {
 
 //Login
 export const useLoginForm = () => {
-  const { toast } = useToast();
   const { loginUser } = useLogin();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -74,17 +69,14 @@ export const useLoginForm = () => {
       const { email, password } = data;
       const response = await loginUser(email, password);
 
-      toast({
-        description: `You have been successfully logged in , Welcome ${email}`,
-        variant: "success",
-      });
+      showToast(
+        `You have been successfully signed up , Welcome ${email}`,
+        "success",
+      );
       console.log("Login successful:", response);
       navigate("/", { state: { email } });
     } catch (err) {
-      toast({
-        description: `Logged in failed please try again: ${error}`,
-        variant: "destructive",
-      });
+      showToast(`Logged in failed please try again: ${error}`, "destructive");
       console.error("Login error:", err);
     } finally {
       setLoading(false);
@@ -113,17 +105,13 @@ export const useOTPForm = () => {
       const { email, otpCode } = data;
       const response = await otpUser(email, otpCode);
       console.log("OTP verification successful:", response);
-      toast({
-        description: `You have been successfully verified your email please log in.`,
-        variant: "success",
-      });
-
+      showToast(
+        `You have been successfully verified your email please log in.`,
+        "success",
+      );
       navigate("/signin");
     } catch (err) {
-      toast({
-        description: `Logged in failed please try again: ${err}`,
-        variant: "destructive",
-      });
+      showToast(`Logged in failed please try again: ${err}.`, "destructive");
       console.error("OTP verification error:", err);
     } finally {
       setLoading(false);

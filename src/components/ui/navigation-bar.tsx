@@ -5,6 +5,7 @@ import Logo from "../logo";
 import { Transition } from "@headlessui/react";
 import { IconMenu2, IconX, IconSearch } from "@tabler/icons-react";
 import useLogout, { useFetchUser } from "@/hooks/use-user";
+import { getLocalStorageItem } from "@/utils/helper";
 
 const NavigationBar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,7 +21,7 @@ const NavigationBar: React.FC = () => {
   const { user, loading, error } = useFetchUser();
   const { logout } = useLogout();
 
-  const userRole = localStorage.getItem("userRole");
+  const userRole = getLocalStorageItem<string>("userRole");
 
   return (
     <div className="w-full bg-black fixed top-0 left-0 z-50 shadow-lg">

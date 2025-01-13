@@ -6,7 +6,8 @@ import {
   User,
 } from "@/types/auth";
 import AuthService from "@/apis/auth-service";
-import { useToast } from "./use-toast";
+import { showToast } from "@/components/ui/showToast";
+import { setLocalStorageItem } from "@/utils/helper";
 
 //register hook
 export function useRegister() {
@@ -59,13 +60,11 @@ export function useLogin() {
       const data = await AuthService.login(email, password);
 
       if (data) {
-        console.log("Saving userId:", data.userId);
-        localStorage.setItem("userId", data.userId);
+        setLocalStorageItem<string>("userId", data.userId);
       }
 
       if (data.accessToken) {
-        console.log("Saving access token:", data.accessToken);
-        localStorage.setItem("accessToken", data.accessToken);
+        setLocalStorageItem<string>("accessToken", data.accessToken);
       }
 
       return data;
@@ -145,13 +144,9 @@ export const useFetchUser = () => {
 };
 
 const useLogout = () => {
-  const { toast } = useToast();
   const logout = useCallback(() => {
     localStorage.clear();
-    toast({
-      description: `You have successfully logged out`,
-      variant: "success",
-    });
+    showToast(`You have been successfully logged out`, "success");
 
     window.location.href = "/";
   }, []);

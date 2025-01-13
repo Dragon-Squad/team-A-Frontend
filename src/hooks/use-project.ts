@@ -7,6 +7,7 @@ import {
   updateProjectResponse,
 } from "@/types/project";
 import ProjectService from "@/apis/project-service";
+import { getLocalStorageItem } from "@/utils/helper";
 
 export const useProjects = () => {
   const [data, setData] = useState<Project[]>([]);
@@ -120,7 +121,7 @@ export const useUpdateCharity = () => {
     setError(null);
 
     try {
-      const storedUserId = localStorage.getItem("userId");
+      const storedUserId = getLocalStorageItem<string>("userId");
       if (!storedUserId) {
         throw new Error("The user is not logged in ");
       }
