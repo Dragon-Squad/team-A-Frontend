@@ -1,21 +1,19 @@
 import { useState, useEffect, useCallback } from "react";
-import { AllCategoryResponse, Category } from "@/types/category";
-import CategoryService from "@/apis/category-service";
+import { AllRegionResponse, Region } from "@/types/region";
+import RegionService from "@/apis/region-service";
 
-export const useCategory = () => {
-  const [data, setData] = useState<Category[] | undefined>(undefined);
+export const useRegion = () => {
+  const [data, setData] = useState<Region[] | undefined>(undefined);
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchCategories = useCallback(async () => {
+  const fetchRegions = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const response: AllCategoryResponse =
-        await CategoryService.getAllCategories();
+      const response: AllRegionResponse = await RegionService.getAllRegions();
       setData(response);
-      console.log(response);
       setTotal(response.length);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred.");
@@ -25,14 +23,14 @@ export const useCategory = () => {
   }, []);
 
   useEffect(() => {
-    fetchCategories();
-  }, [fetchCategories]);
+    fetchRegions();
+  }, [fetchRegions]);
 
   return {
     data,
     total,
     loading,
     error,
-    refresh: fetchCategories,
+    refresh: fetchRegions,
   };
 };

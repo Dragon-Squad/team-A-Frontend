@@ -8,7 +8,7 @@ export type Project = {
   status: string;
   goalAmount: number;
   raisedAmount: number;
-  regionId: {
+  region: {
     name: string;
   };
   categoryId: string[];
@@ -107,6 +107,39 @@ export type updateProjectResponse = {
   videos: string[];
 };
 
+export type createProjectResponse = {
+  id: string;
+  title: string;
+  goalAmount: number;
+  raisedAmount: number;
+  startDate: string;
+  endDate: string;
+  status: string;
+  charity: {
+    _id: string;
+    userId: string;
+    name: string;
+    address: string[];
+    region: string[];
+    category: string[];
+    type: string;
+    hashedStripeId: string;
+    taxCode: string;
+    __v: number;
+  };
+  categories: {
+    id: string;
+    name: string;
+  }[];
+  region: {
+    id: string;
+    name: string;
+  };
+  createdAt: string;
+  images: string[];
+  videos: string[];
+};
+
 export type ProjectCardProps = {
   id: string;
   name: string;
@@ -117,4 +150,19 @@ export type ProjectCardProps = {
 
 export type CreateProjectDialogProps = {
   triggerClassName: string;
+  categories: Category[];
+};
+
+export type EditProjectDialogProps = {
+  triggerClassName: string;
+};
+
+export type CreateProject = {
+  charityId: string;
+  categoryIds: string[];
+  regionId: string;
+  title: string;
+  goalAmount: number;
+  startDate: string;
+  endDate: string;
 };

@@ -1,6 +1,8 @@
 import { PROJECT_URL } from "@/config/httpConfig";
 import {
   ApiResponse,
+  CreateProject,
+  createProjectResponse,
   ProjectByIdDetail,
   updateProject,
   updateProjectResponse,
@@ -114,6 +116,35 @@ export default class ProjectService {
       }
 
       const data = (await response.json()) as updateProjectResponse;
+      return data;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      throw new Error(message);
+    }
+  }
+
+  static async create(
+    projectData: CreateProject,
+  ): Promise<createProjectResponse> {
+    try {
+      const url = `${PROJECT_URL}/`;
+
+      const headers = new Headers({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+      });
+
+      const body = JSON.stringify({ projectData });
+
+      const response = await httpRequest(url, "POST", headers, body);
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as { message: string };
+        throw new Error(errorData.message || "Failed to create project");
+      }
+
+      const data = (await response.json()) as createProjectResponse;
       return data;
     } catch (err) {
       const message =
