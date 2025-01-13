@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import FetchProjectCard from "./Card/FetchProjectCard";
 import { CreateProjectDialog } from "./Dialog/CreateProjectDialog";
 import { useCategory } from "@/hooks/use-category";
@@ -18,7 +18,10 @@ const DisplayProject: React.FC = () => {
             regions={regions || []}
           ></CreateProjectDialog>
         </div>
-        {/* <FetchProjectCard></FetchProjectCard> */}
+        <FetchProjectCard
+          categories={categories || []}
+          regions={regions || []}
+        />
       </div>
     </div>
   );

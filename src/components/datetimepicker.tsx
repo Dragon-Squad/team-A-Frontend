@@ -16,13 +16,21 @@ import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export function DateTimePicker24h({
   onChange,
+  initialDate,
 }: {
   onChange: (date: string | undefined) => void;
+  initialDate?: Date;
 }) {
-  const [date, setDate] = React.useState<Date>();
+  const [date, setDate] = React.useState<Date | undefined>(initialDate);
   const [isOpen, setIsOpen] = React.useState(false);
 
   const hours = Array.from({ length: 24 }, (_, i) => i);
+
+  React.useEffect(() => {
+    if (initialDate) {
+      setDate(initialDate);
+    }
+  }, [initialDate]);
 
   const handleDateSelect = (selectedDate: Date | undefined) => {
     if (selectedDate) {

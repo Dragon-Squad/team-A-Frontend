@@ -93,11 +93,11 @@ export default class ProjectService {
   };
 
   static async updateProjectById(
-    charityId: string,
+    projectId: string,
     updateData: updateProject,
   ): Promise<updateProjectResponse> {
     try {
-      const url = `${PROJECT_URL}/${charityId}`;
+      const url = `${PROJECT_URL}/${projectId}`;
 
       const headers = new Headers({
         "Content-Type": "application/json",
@@ -132,7 +132,7 @@ export default class ProjectService {
         "Access-Control-Allow-Origin": "http://localhost:5173",
       });
 
-      const body = JSON.stringify({ projectData });
+      const body = JSON.stringify(projectData);
 
       const response = await httpRequest(url, "POST", headers, body);
 
