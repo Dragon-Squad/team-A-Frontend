@@ -19,7 +19,7 @@ export default class CharityService {
 
       if (!response.ok) {
         throw new Error(
-          `Failed to fetch user: ${response.status} ${response.statusText}`,
+          `Failed to fetch charity: ${response.status} ${response.statusText}`,
         );
       }
 

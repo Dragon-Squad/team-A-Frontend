@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useRegister, useLogin, useOTP } from "@/hooks/use-user";
 import { useNavigate } from "react-router-dom";
+import { toast, useToast } from "./use-toast";
 
 //Signup
 export const useRegisterForm = () => {
@@ -30,9 +31,17 @@ export const useRegisterForm = () => {
       );
       console.log("Registration successful:", response);
 
+      toast({
+        description: `You have been successfully signed up , Welcome ${email}`,
+        variant: "success",
+      });
+
       navigate("/otp", { state: { email } });
     } catch (err) {
-      setError("Registration failed. Please try again.");
+      toast({
+        description: `Signed in failed please try again: ${error}`,
+        variant: "destructive",
+      });
       console.error("Registration error:", err);
     } finally {
       setLoading(false);
@@ -48,6 +57,7 @@ export const useRegisterForm = () => {
 
 //Login
 export const useLoginForm = () => {
+  const { toast } = useToast();
   const { loginUser } = useLogin();
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -63,10 +73,18 @@ export const useLoginForm = () => {
     try {
       const { email, password } = data;
       const response = await loginUser(email, password);
+
+      toast({
+        description: `You have been successfully logged in , Welcome ${email}`,
+        variant: "success",
+      });
       console.log("Login successful:", response);
       navigate("/", { state: { email } });
     } catch (err) {
-      setError("Login failed. Please check your credentials and try again.");
+      toast({
+        description: `Logged in failed please try again: ${error}`,
+        variant: "destructive",
+      });
       console.error("Login error:", err);
     } finally {
       setLoading(false);
@@ -85,6 +103,7 @@ export const useOTPForm = () => {
   const { otpUser } = useOTP();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleOTPSubmit = async (data: { email: string; otpCode: string }) => {
     setLoading(true);
@@ -94,8 +113,17 @@ export const useOTPForm = () => {
       const { email, otpCode } = data;
       const response = await otpUser(email, otpCode);
       console.log("OTP verification successful:", response);
+      toast({
+        description: `You have been successfully verified your email please log in.`,
+        variant: "success",
+      });
+
+      navigate("/signin");
     } catch (err) {
-      setError("OTP verification failed. Please try again.");
+      toast({
+        description: `Logged in failed please try again: ${err}`,
+        variant: "destructive",
+      });
       console.error("OTP verification error:", err);
     } finally {
       setLoading(false);

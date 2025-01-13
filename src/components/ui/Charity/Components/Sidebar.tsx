@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
   IconLayoutDashboard,
   IconFolder,
@@ -12,6 +12,7 @@ import {
 } from "@tabler/icons-react";
 import { useFetchUser } from "@/hooks/use-user";
 import useLogout from "@/hooks/use-user";
+import { Avatar, AvatarFallback, AvatarImage } from "../../avatar";
 
 interface SidebarProps {
   activeTab: string;
@@ -19,7 +20,6 @@ interface SidebarProps {
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
-  const location = useLocation();
   const { user, loading, error } = useFetchUser();
   const { logout } = useLogout();
 
@@ -91,14 +91,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
 
       {/* User Profile */}
       <div className="border-t border-orange-600 mt-auto p-4 flex items-center">
-        <div className="w-10 h-10 bg-gray-300 rounded-full overflow-hidden">
-          {/* Display user's avatar or fallback image */}
-          <img
-            src={user?.avatar || "https://via.placeholder.com/40"}
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-        </div>
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+
         <div className="ml-3">
           <p className="text-sm font-medium">
             {loading

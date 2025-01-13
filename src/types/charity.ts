@@ -1,5 +1,5 @@
 export type Charity = {
-  _id: string;
+  id: string;
   userId: string;
   name: string;
   address: string[];
