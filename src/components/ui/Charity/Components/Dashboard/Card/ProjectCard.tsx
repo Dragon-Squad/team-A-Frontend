@@ -1,6 +1,8 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Project } from "@/types/project";
+import { EditCharityDialog } from "../Dialog/EditCharityDialog";
+import { Button } from "@headlessui/react";
 
 interface ProjectCardProps {
   project: Project;
@@ -8,7 +10,10 @@ interface ProjectCardProps {
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
-    <Card className="bg-white border border-gray-200 rounded-lg shadow-lg">
+    <Card
+      key={project._id}
+      className="bg-white border border-gray-200 rounded-lg shadow-lg"
+    >
       <img
         src={project.images?.[0] ?? "path/to/fallback.jpg"}
         alt={project.title}
@@ -32,13 +37,24 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <span>Raised: ${project.raisedAmount.toLocaleString()}</span>
           </div>
         </div>
-        <button
+        <Button
           className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800"
           onClick={() => (window.location.href = `/details/${project._id}`)}
         >
           View Details
-        </button>
+        </Button>
       </CardContent>
+      {/* <EditCharityDialog
+        buttonText="Edit Charity"
+        title="Edit Charity"
+        buttonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
+        submitButtonStyle="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
+        name={charityData.name}
+        type={charityData.type}
+        category={charityData.category}
+        region={charityData.region}
+        onSaveChanges={handleSaveChanges}
+      /> */}
     </Card>
   );
 };
