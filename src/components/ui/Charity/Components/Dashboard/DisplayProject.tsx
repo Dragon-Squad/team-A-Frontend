@@ -13,7 +13,7 @@ const DisplayProject: React.FC = () => {
       <div className="m-10">
         <div className="flex justify-end mt-10">
           <CreateProjectDialog
-            triggerClassName="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1"
+            triggerClassName="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1 my-4"
             categories={categories || []}
             regions={regions || []}
           ></CreateProjectDialog>
