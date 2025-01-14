@@ -1,16 +1,31 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
-import OTPPage from "./pages/auth/OTPPage";
-import AboutUsPage from "./pages/AboutUs";
-import PaymentSuccessPage from "./pages/payment/PaymentSuccessPage";
-import ProjectDetailsPage from "./pages/project/ProjectDetails";
-import ContactUsPage from "./pages/ContactUsPage";
-import DashboardView from "./pages/Charity/CharityView";
-import DonationRecord from "./components/ui/Charity/Pages/RecentDonations";
-import CreateProjectForm from "./components/ui/Charity/Components/CreateProjectForm";
-import TestUpdateCharityPage from "./components/ui/Charity/Pages/testpages";
-import ProjectsPageDashboard from "./components/ui/Charity/Pages/ProjectsPage";
-import CharityDonationStatistic from "./components/ui/Charity/Pages/CharityDonationStatistic";
+
+const OTPPage = React.lazy(() => import("./pages/auth/OTPPage"));
+const AboutUsPage = React.lazy(() => import("./pages/AboutUs"));
+const PaymentSuccessPage = React.lazy(
+  () => import("./pages/payment/PaymentSuccessPage"),
+);
+const ProjectDetailsPage = React.lazy(
+  () => import("./pages/project/ProjectDetails"),
+);
+const ContactUsPage = React.lazy(() => import("./pages/ContactUsPage"));
+const DashboardView = React.lazy(() => import("./pages/Charity/CharityView"));
+const DonationRecord = React.lazy(
+  () => import("./components/ui/Charity/Pages/RecentDonations"),
+);
+const CreateProjectForm = React.lazy(
+  () => import("./components/ui/Charity/Components/CreateProjectForm"),
+);
+const TestUpdateCharityPage = React.lazy(
+  () => import("./components/ui/Charity/Pages/testpages"),
+);
+const ProjectsPageDashboard = React.lazy(
+  () => import("./components/ui/Charity/Pages/ProjectsPage"),
+);
+const CharityDonationStatistic = React.lazy(
+  () => import("./components/ui/Charity/Pages/CharityDonationStatistic"),
+);
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
 const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));

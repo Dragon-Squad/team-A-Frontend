@@ -51,9 +51,9 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
         <img
           src={project.images?.[0] ?? "public/img/default-fallback-image.png"}
           alt={project.title}
-          className="w-full h-48 object-cover rounded-t-lg"
+          className="w-full h-48 object-cover rounded-t-lg sm:h-64 md:h-72 lg:h-80"
         />
-        <CardHeader className="p-6">
+        <CardHeader className="p-4 sm:p-6">
           <CardTitle
             className="text-lg font-bold text-black truncate hover:whitespace-normal"
             title={project.title}
@@ -61,7 +61,7 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
             {project.title}
           </CardTitle>
         </CardHeader>
-        <CardContent className="p-6">
+        <CardContent className="p-4 sm:p-6">
           <p className="text-sm text-gray-500 mt-1">
             <strong>Charity Name:</strong> {project.charity.name ?? "N/A"}
           </p>
@@ -84,7 +84,7 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
           </div>
         </CardContent>
       </div>
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         <Progress value={progressPercentage} className="mt-2" />
         {userRole === "Donor" && (
           <Button
