@@ -231,3 +231,26 @@ export const useResumeProject = (projectId: string) => {
     resumeProject,
   };
 };
+
+export const useDeleteProject = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const deleteProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await ProjectService.delete(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    deleteProject,
+  };
+};
