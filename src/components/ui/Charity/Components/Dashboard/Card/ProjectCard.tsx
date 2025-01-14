@@ -5,6 +5,7 @@ import { EditProjectDialog } from "../Dialog/EditProjectDialog";
 import { ProjectsCardProps } from "@/types/project";
 import { getLocalStorageItem } from "@/utils/helper";
 import { Progress } from "@/components/ui/progress";
+import { useHaltProject, useResumeProject } from "@/hooks/use-project";
 
 const ProjectCard: React.FC<ProjectsCardProps> = ({
   project,
@@ -12,13 +13,34 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
   regions,
 }) => {
   const [userRole, setUserRole] = useState<string | null>(null);
+  const {
+    data: haltData,
+    loading: haltLoading,
+    error: haltError,
+    haltProject,
+  } = useHaltProject(project.id);
+  const {
+    data: resumeData,
+    loading: resumeLoading,
+    error: resumeError,
+    resumeProject,
+  } = useResumeProject(project.id);
 
   useEffect(() => {
     const role = getLocalStorageItem<string>("userRole");
     setUserRole(role);
   }, []);
 
+  const handleHaltProject = async () => {
+    await haltProject();
+  };
+
+  const handleResumeProject = async () => {
+    await resumeProject();
+  };
+
   const progressPercentage = (project.raisedAmount / project.goalAmount) * 100;
+  console.log(project.status);
 
   return (
     <Card
@@ -64,19 +86,53 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
       </div>
       <div className="p-6">
         <Progress value={progressPercentage} className="mt-2" />
-        <Button
-          className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 mt-4"
-          onClick={() => (window.location.href = `/details/${project.id}`)}
-        >
-          View Details
-        </Button>
+        {userRole === "Donor" && (
+          <Button
+            className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 mt-4"
+            onClick={() => (window.location.href = `/details/${project.id}`)}
+          >
+            View Details
+          </Button>
+        )}
         {userRole === "Charity" && (
-          <EditProjectDialog
-            triggerClassName="bg-primary-orange text-white hover:bg-orange-600 ml-0 mt-4"
-            categories={categories}
-            regions={regions}
-            project={project}
-          />
+          <div>
+            <EditProjectDialog
+              triggerClassName="bg-primary-orange text-white hover:bg-orange-600 ml-0 mt-4"
+              categories={categories}
+              regions={regions}
+              project={project}
+            />
+            <Button
+              className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-800 mt-4"
+              onClick={handleHaltProject}
+              disabled={haltLoading}
+            >
+              {haltLoading ? "Halting..." : "Halt Project"}
+            </Button>
+            {haltError && (
+              <p className="text-red-500 mt-2">
+                {haltError === "Project not found"
+                  ? "Cannot halt non active project"
+                  : haltError}
+              </p>
+            )}
+            {project.status !== "active" && (
+              <Button
+                className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-800 mt-4"
+                onClick={handleResumeProject}
+                disabled={resumeLoading}
+              >
+                {resumeLoading ? "Resuming..." : "Resume Project"}
+              </Button>
+            )}
+            {resumeError && (
+              <p className="text-red-500 mt-2">
+                {resumeError === "Project not found"
+                  ? "Cannot resume active project"
+                  : resumeError}
+              </p>
+            )}
+          </div>
         )}
       </div>
     </Card>
