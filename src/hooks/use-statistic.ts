@@ -33,7 +33,9 @@ export const useDonorStatistic = () => {
 };
 
 export const useCharityStatistic = () => {
-  const [statistic, setStatistic] = useState<CharityStatistic | null>(null);
+  const [CharityStatistic, setStatistic] = useState<CharityStatistic | null>(
+    null,
+  );
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -56,7 +58,7 @@ export const useCharityStatistic = () => {
   }, [fetchCharityStatistic]);
 
   return {
-    statistic,
+    CharityStatistic,
     loading,
     error,
     refresh: fetchCharityStatistic,

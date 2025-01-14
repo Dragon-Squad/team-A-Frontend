@@ -5,9 +5,9 @@ import CharitySidebar from "../Components/Dashboard/Sidebar/CharitySidebar";
 import Header from "../Components/Header";
 import { getLocalStorageItem } from "@/utils/helper";
 import { showToast } from "../../showToast";
-import DisplayDonorStatistic from "../Components/Dashboard/DisplayDonorStatistic";
+import DisplayCharityStatistic from "../Components/Dashboard/DisplayCharityStatistic";
 
-const RecentDonations: React.FC = () => {
+const CharityDonationStatistic: React.FC = () => {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const roleFromUrl = queryParams.get("role");
@@ -64,11 +64,11 @@ const RecentDonations: React.FC = () => {
       <div className="flex flex-col h-screen w-full bg-gray-100 overflow-auto">
         <Header onToggleSidebar={handleToggleSidebar} />
         <div>
-          <DisplayDonorStatistic></DisplayDonorStatistic>
+          <DisplayCharityStatistic></DisplayCharityStatistic>
         </div>
       </div>
     </div>
   );
 };
 
-export default RecentDonations;
+export default CharityDonationStatistic;

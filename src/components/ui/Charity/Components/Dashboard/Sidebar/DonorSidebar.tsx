@@ -26,8 +26,8 @@ const DonorSidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
       icon: <IconLayoutDashboard size={20} />,
     },
     {
-      name: "Donations Record",
-      path: "/donations",
+      name: "Statistics",
+      path: "/statistics",
       icon: <IconArrowsExchange size={20} />,
     },
   ];
