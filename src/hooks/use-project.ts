@@ -182,7 +182,7 @@ export const useCreateProject = () => {
 
 export const useHaltProject = (projectId: string) => {
   const [data, setData] = useState<ProjectPatch | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const haltProject = useCallback(async () => {
@@ -198,22 +198,17 @@ export const useHaltProject = (projectId: string) => {
     }
   }, [projectId]);
 
-  useEffect(() => {
-    haltProject();
-  }, [haltProject]);
-
   return {
     data,
     loading,
     error,
-    refresh: haltProject,
+    haltProject,
   };
 };
 
-
 export const useResumeProject = (projectId: string) => {
   const [data, setData] = useState<ProjectPatch | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   const resumeProject = useCallback(async () => {
@@ -229,14 +224,10 @@ export const useResumeProject = (projectId: string) => {
     }
   }, [projectId]);
 
-  useEffect(() => {
-    resumeProject();
-  }, [resumeProject]);
-
   return {
     data,
     loading,
     error,
-    refresh: resumeProject,
+    resumeProject,
   };
 };
