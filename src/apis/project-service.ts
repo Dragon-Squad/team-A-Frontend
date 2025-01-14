@@ -22,7 +22,7 @@ export default class ProjectService {
       let url = `${PROJECT_URL}/all?status=active&`;
 
       if (name) {
-        url += `name=${name}&`;
+        url += `search=${name}&`;
       }
 
       if (charityName) {

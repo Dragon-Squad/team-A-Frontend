@@ -1,14 +1,16 @@
 import React from "react";
 import ProjectCard from "./ProjectCard";
-import { useProjects } from "@/hooks/use-project";
 
-const FetchActiveProjectCard: React.FC = () => {
-  const { data: projects, error } = useProjects();
-  if (error) return <div>Error loading projects</div>;
+interface FetchActiveProjectCardProps {
+  activeProjects: any;
+}
 
-  const activeProjects = projects.filter(
-    (project) => project.status === "active",
-  );
+const FetchActiveProjectCard: React.FC<FetchActiveProjectCardProps> = ({
+  activeProjects,
+}) => {
+  if (!activeProjects) return <div>Loading...</div>;
+  if (activeProjects.length === 0) return <div>No projects found</div>;
+  console.log(activeProjects);
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">

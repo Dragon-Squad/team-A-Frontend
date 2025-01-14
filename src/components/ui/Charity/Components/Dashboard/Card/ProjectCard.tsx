@@ -41,6 +41,9 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
         </CardHeader>
         <CardContent className="p-6">
           <p className="text-sm text-gray-500 mt-1">
+            <strong>Charity Name:</strong> {project.charity.name ?? "N/A"}
+          </p>
+          <p className="text-sm text-gray-500 mt-1">
             <strong>Region:</strong> {project.region?.name ?? "N/A"}
           </p>
           <p className="text-sm text-gray-600 mt-4 line-clamp-3">
