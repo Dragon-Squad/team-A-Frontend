@@ -26,6 +26,7 @@ const ProjectsPageDashboard = React.lazy(
 const CharityDonationStatistic = React.lazy(
   () => import("./components/ui/Charity/Pages/CharityDonationStatistic"),
 );
+const CategoryPage = React.lazy(() => import("./pages/category/CategoryPage"));
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
 const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));
@@ -45,6 +46,7 @@ const App: React.FC = () => {
         <Route path="/details/:id" element={<ProjectDetailsPage />} />
         <Route path="/success" element={<PaymentSuccessPage />} />
         <Route path="/projects" element={<ProjectsPageDashboard />} />
+        <Route path="/projects/:category" element={<CategoryPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/dashboard" element={<DashboardView />} />
         <Route path="/statistics" element={<DonationRecord />} />
