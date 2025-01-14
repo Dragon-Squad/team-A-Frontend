@@ -36,3 +36,95 @@ export const useCategory = () => {
     refresh: fetchCategories,
   };
 };
+
+export const useSubscribeCategory = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await CategoryService.subscribe(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};
+
+export const useUnsubscribeCategory = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await CategoryService.unsubscribe(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};
+
+export const useNotificationOnCategory = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await CategoryService.notificationOn(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};
+
+export const useNotificationOffCategory = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await CategoryService.notificationOff(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};

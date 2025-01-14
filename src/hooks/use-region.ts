@@ -34,3 +34,95 @@ export const useRegion = () => {
     refresh: fetchRegions,
   };
 };
+
+export const useSubscribeRegion = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await RegionService.subscribe(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};
+
+export const useUnsubscribeRegion = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await RegionService.unsubscribe(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};
+
+export const useNotificationOnRegion = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await RegionService.notificationOn(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};
+
+export const useNotificationOffRegion = (projectId: string) => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      await RegionService.notificationOff(projectId);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  return {
+    loading,
+    error,
+    haltProject,
+  };
+};
