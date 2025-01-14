@@ -224,12 +224,14 @@ const ProjectDetailsPage: React.FC = () => {
                 Donate Now
               </button>
             )}
-            <button
-              onClick={handleGuestDonate}
-              className="w-full mt-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
-            >
-              Donate As Guest
-            </button>
+            {!userId && (
+              <button
+                onClick={handleGuestDonate}
+                className="w-full mt-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+              >
+                Donate As Guest
+              </button>
+            )}
           </div>
         </div>
         <div className="md:col-span-4 space-y-6">
