@@ -27,7 +27,7 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
     >
       <div>
         <img
-          src={project.images?.[0] ?? "path/to/fallback.jpg"}
+          src={project.images?.[0] ?? "public/img/default-fallback-image.png"}
           alt={project.title}
           className="w-full h-48 object-cover rounded-t-lg"
         />
@@ -72,7 +72,7 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
         </Button>
         {userRole === "Charity" && (
           <EditProjectDialog
-            triggerClassName="bg-primary-orange text-white hover:bg-orange-600 px-4 py-1 mt-4"
+            triggerClassName="bg-primary-orange text-white hover:bg-orange-600 ml-0 mt-4"
             categories={categories}
             regions={regions}
             project={project}
