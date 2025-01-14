@@ -3,55 +3,16 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { useProjectById } from "@/hooks/use-project";
 import { useDonate, useDonateGuest } from "@/hooks/use-donate";
 import { getLocalStorageItem } from "@/utils/helper";
-
-const categories = [
-  {
-    name: "Food",
-    path: "/projects/Food",
-    description: "Providing meals and food supplies for those in need.",
-  },
-  {
-    name: "Health",
-    path: "/projects/Health",
-    description: "Improving access to healthcare and wellness.",
-  },
-  {
-    name: "Education",
-    path: "/projects/Education",
-    description: "Supporting education for underserved communities.",
-  },
-  {
-    name: "Environment",
-    path: "/projects/Environment",
-    description: "Promoting environmental sustainability.",
-  },
-  {
-    name: "Religion",
-    path: "/projects/Religion",
-    description: "Supporting religious institutions and activities.",
-  },
-  {
-    name: "Humanitarian",
-    path: "/projects/Humanitarian",
-    description: "Providing humanitarian aid worldwide.",
-  },
-  {
-    name: "Housing",
-    path: "/projects/Housing",
-    description: "Helping build and provide safe housing.",
-  },
-  {
-    name: "Other",
-    path: "/projects/Other",
-    description: "Supporting miscellaneous causes and projects.",
-  },
-];
+import { useCategory } from "@/hooks/use-category";
+import { useRegion } from "@/hooks/use-region";
 
 const ProjectDetailsPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { donate } = useDonate();
   const { donateGuest } = useDonateGuest();
+  const { data: categories } = useCategory();
+  const { data: regions } = useRegion();
 
   const { data: project, loading, error } = useProjectById(id!);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -275,31 +236,35 @@ const ProjectDetailsPage: React.FC = () => {
           <div className="p-6 bg-gray-100 rounded-lg shadow-lg">
             <h3 className="text-lg font-bold text-gray-800">Categories</h3>
             <ul className="mt-4 text-gray-600">
-              {categories.map((category) => (
+              {categories?.map((category) => (
                 <li key={category.name} className="py-2">
                   <Link
-                    to={category.path}
+                    to={`/projects/category/${category.name}?categoryId=${category._id}`}
                     className="text-orange-500 hover:underline"
                   >
                     {category.name}
                   </Link>
-                  <p className="text-sm text-gray-500">
-                    {category.description}
-                  </p>
                 </li>
               ))}
             </ul>
           </div>
-          {userId && (
-            <div className="p-6 bg-gray-100 rounded-lg shadow-lg text-center">
-              <h3 className="text-lg font-bold text-gray-800 mb-4">
-                Subscribe
-              </h3>
-              <button className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
-                Subscribe
-              </button>
-            </div>
-          )}
+        </div>
+        <div className="md:col-span-4 space-y-6">
+          <div className="p-6 bg-gray-100 rounded-lg shadow-lg">
+            <h3 className="text-lg font-bold text-gray-800">Regions</h3>
+            <ul className="mt-4 text-gray-600">
+              {regions?.map((region) => (
+                <li key={region.name} className="py-2">
+                  <Link
+                    to={`/projects/region/${region.name}?regionId=${region._id}`}
+                    className="text-orange-500 hover:underline"
+                  >
+                    {region.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

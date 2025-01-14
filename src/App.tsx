@@ -1,5 +1,6 @@
 import React, { Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
+import RegionPage from "./pages/category/RegionPage";
 
 const OTPPage = React.lazy(() => import("./pages/auth/OTPPage"));
 const AboutUsPage = React.lazy(() => import("./pages/AboutUs"));
@@ -26,6 +27,8 @@ const ProjectsPageDashboard = React.lazy(
 const CharityDonationStatistic = React.lazy(
   () => import("./components/ui/Charity/Pages/CharityDonationStatistic"),
 );
+const CategoryPage = React.lazy(() => import("./pages/category/CategoryPage"));
+const RegionPage = React.lazy(() => import("./pages/category/RegionPage"));
 
 const LandingPage = React.lazy(() => import("./pages/landing/LandingPage"));
 const LoginPage = React.lazy(() => import("./pages/auth/SignInPage"));
@@ -45,6 +48,8 @@ const App: React.FC = () => {
         <Route path="/details/:id" element={<ProjectDetailsPage />} />
         <Route path="/success" element={<PaymentSuccessPage />} />
         <Route path="/projects" element={<ProjectsPageDashboard />} />
+        <Route path="/projects/category/:category" element={<CategoryPage />} />
+        <Route path="/projects/region/:region" element={<RegionPage />} />
         <Route path="/contact" element={<ContactUsPage />} />
         <Route path="/dashboard" element={<DashboardView />} />
         <Route path="/statistics" element={<DonationRecord />} />
