@@ -13,6 +13,18 @@ export type Project = {
     name: string;
   };
   categoryId: string[];
+  charity: {
+    _id: string;
+    userId: string;
+    name: string;
+    address: string[];
+    region: string[];
+    category: string[];
+    type: string;
+    hashedStripeId: string;
+    taxCode: string;
+    __v: number;
+  };
 };
 
 export type ApiResponse = {
