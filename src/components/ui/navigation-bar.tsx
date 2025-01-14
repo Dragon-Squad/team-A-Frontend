@@ -28,7 +28,7 @@ const NavigationBar: React.FC = () => {
           <Link to="/">
             <Logo type="logo4" width={110} height="auto" />
           </Link>
-          <ul className="hidden md:flex space-x-4 text-white font-medium">
+          <ul className="hidden md:flex space-x-4 text-white font-medium gap-4">
             {navLinks.map((link) => (
               <li key={link.name}>
                 <Link
@@ -116,14 +116,6 @@ const NavigationBar: React.FC = () => {
                   </Link>
                 </li>
               ))}
-              <div className="flex items-center px-4 py-1">
-                <IconSearch size={24} className="text-white mr-2" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="focus:outline-none text-white placeholder-white bg-transparent w-full"
-                />
-              </div>
             </ul>
           </div>
         </Transition>
