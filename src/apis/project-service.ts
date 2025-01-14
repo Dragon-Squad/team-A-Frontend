@@ -16,6 +16,7 @@ export default class ProjectService {
     charityName?: string,
     categoryIds?: string[],
     regionId?: string,
+    country?: string,
   ): Promise<ApiResponse> => {
     try {
       let url = `${PROJECT_URL}/all?status=active&`;
@@ -36,6 +37,10 @@ export default class ProjectService {
 
       if (regionId) {
         url += `regionId=${regionId}&`;
+      }
+
+      if (country) {
+        url += `country=${country}&`;
       }
 
       const headers = new Headers({
