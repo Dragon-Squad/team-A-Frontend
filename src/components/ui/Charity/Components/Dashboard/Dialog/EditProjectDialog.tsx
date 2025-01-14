@@ -46,6 +46,7 @@ export function EditProjectDialog({
       : [],
   );
   const [name, setName] = useState<string>(project.title || "");
+  const [country, setCountry] = useState<string>(project.country || "");
   const [description, setDescription] = useState<string>(
     project.description || "",
   );
@@ -71,7 +72,8 @@ export function EditProjectDialog({
     const projectData: EditProject = {
       id: project.id,
       categories: selectedCategories,
-      description,
+      country: country,
+      description: description,
       regionId: selectedRegion ?? "",
       title: name,
       goalAmount: parseFloat(goalAmount),
@@ -124,6 +126,18 @@ export function EditProjectDialog({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter project's description"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="country" className="text-black">
+              Country
+            </Label>
+            <Input
+              id="country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)}
+              placeholder="Enter project name"
               className="col-span-3"
             />
           </div>

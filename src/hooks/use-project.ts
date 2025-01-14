@@ -16,6 +16,7 @@ export const useProjects = (
   charityName?: string,
   categoryIds?: string[],
   regionId?: string,
+  country?: string,
 ) => {
   const [data, setData] = useState<Project[]>([]);
   const [total, setTotal] = useState<number>(0);
@@ -31,6 +32,7 @@ export const useProjects = (
         charityName,
         categoryIds,
         regionId,
+        country,
       );
       setData(data.projects || []);
       setTotal(data.total || 0);
@@ -39,7 +41,7 @@ export const useProjects = (
     } finally {
       setLoading(false);
     }
-  }, [name, charityName, categoryIds, regionId]);
+  }, [name, charityName, categoryIds, regionId, country]);
 
   useEffect(() => {
     fetchProjects();

@@ -46,6 +46,11 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
           <p className="text-sm text-gray-500 mt-1">
             <strong>Region:</strong> {project.region?.name ?? "N/A"}
           </p>
+          {project?.country && (
+            <p className="text-sm text-gray-500 mt-1">
+              <strong>Country:</strong> {project.country}
+            </p>
+          )}
           <p className="text-sm text-gray-600 mt-4 line-clamp-3">
             {project.description ?? "No description available."}
           </p>

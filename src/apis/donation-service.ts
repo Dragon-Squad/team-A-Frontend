@@ -41,4 +41,47 @@ export default class DonationService {
       throw new Error(message);
     }
   };
+
+  static donateGuest = async (
+    guestFirstName: string,
+    guestLastName: string,
+    guestEmail: string,
+    guestAddress: string,
+    amount: number,
+    projectId: string,
+    message?: string,
+  ): Promise<DonateResponse> => {
+    try {
+      const url = `${DONATION_URL}/guest/new`;
+
+      const body = JSON.stringify({
+        guestFirstName,
+        guestLastName,
+        guestEmail,
+        guestAddress,
+        amount,
+        projectId,
+        message,
+      });
+
+      const headers = new Headers({
+        "Cache-Control": "no-cache",
+        "Content-Type": "application/json",
+      });
+
+      const response = await httpRequest(url, "POST", headers, body);
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as { message: string };
+        throw new Error(errorData.message || "Failed to donate");
+      }
+
+      const data = (await response.json()) as DonateResponse;
+      return data;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      throw new Error(message);
+    }
+  };
 }
