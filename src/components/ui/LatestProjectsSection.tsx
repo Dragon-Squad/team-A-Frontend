@@ -35,7 +35,9 @@ const LatestProjectsSection: React.FC = () => {
             >
               {/* If you really need an image, provide a fallback or remove this */}
               <img
-                src={project.images?.[0] ?? "path/to/fallback.jpg"}
+                src={
+                  project.images?.[0] ?? "public/img/default-fallback-image.png"
+                }
                 alt={project.title}
                 className="w-full h-48 object-cover rounded-t-lg"
               />
