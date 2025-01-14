@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import CustomText from "../ui/text";
-import { Checkbox } from "../ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 
 const LoginSchema = z.object({
   email: z.string().email("Invalid email address."),
@@ -21,9 +21,7 @@ const LoginSchema = z.object({
 
 const RegisterSchema = LoginSchema.extend({
   username: z.string().min(2, "Username must be at least 2 characters."),
-  role: z
-    .array(z.enum(["Donor", "Charity"]))
-    .min(1, "Please select at least one role."),
+  role: z.enum(["Donor", "Charity"]),
 });
 
 const OTPSchema = z.object({
@@ -106,36 +104,18 @@ export function AuthForm({ mode, onSubmit, loading, error }: AuthFormProps) {
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Select your roles</FormLabel>
+                  <FormLabel>Select your role</FormLabel>
                   <FormControl>
-                    <div className="flex gap-4">
-                      <label className="flex items-center gap-2">
-                        <Checkbox
-                          checked={field.value.includes("Donor")}
-                          onCheckedChange={(checked) => {
-                            const newRoles = checked
-                              ? [...field.value, "Donor"]
-                              : field.value.filter((role) => role !== "Donor");
-                            field.onChange(newRoles);
-                          }}
-                        />
-                        <span>Donor</span>
-                      </label>
-                      <label className="flex items-center gap-2">
-                        <Checkbox
-                          checked={field.value.includes("Charity")}
-                          onCheckedChange={(checked) => {
-                            const newRoles = checked
-                              ? [...field.value, "Charity"]
-                              : field.value.filter(
-                                  (role) => role !== "Charity",
-                                );
-                            field.onChange(newRoles);
-                          }}
-                        />
-                        <span>Charity</span>
-                      </label>
-                    </div>
+                    <RadioGroup
+                      value={field.value}
+                      onValueChange={field.onChange}
+                      className="flex gap-4"
+                    >
+                      <RadioGroupItem value="Donor" id="donor" />
+                      <label htmlFor="donor">Donor</label>
+                      <RadioGroupItem value="Charity" id="charity" />
+                      <label htmlFor="charity">Charity</label>
+                    </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

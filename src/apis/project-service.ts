@@ -3,6 +3,7 @@ import {
   ApiResponse,
   CreateProject,
   createProjectResponse,
+  EditProject,
   ProjectByIdDetail,
   updateProject,
   updateProjectResponse,
@@ -117,7 +118,7 @@ export default class ProjectService {
 
   static async updateProjectById(
     projectId: string,
-    updateData: updateProject,
+    updateData: EditProject,
   ): Promise<updateProjectResponse> {
     try {
       const url = `${PROJECT_URL}/${projectId}`;
