@@ -38,6 +38,7 @@ export function CreateProjectDialog({
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
   const [goalAmount, setGoalAmount] = useState<string>("");
 
   const handleCategoryChange = (categoryId: string, isChecked: boolean) => {
@@ -54,12 +55,14 @@ export function CreateProjectDialog({
     console.log("Name:", name);
     console.log("Goal Amount:", goalAmount);
     console.log("Start Date:", startDate);
+    console.log("Country:", country);
     console.log("End Date:", endDate);
     console.log("Selected Region ID:", selectedRegion);
     console.log("Selected Categories IDs:", selectedCategories);
     const projectData: CreateProject = {
       charityId: getLocalStorageItem("charityId") ?? "",
       categoryIds: selectedCategories,
+      country: country,
       description: description,
       regionId: selectedRegion ?? "",
       title: name,
@@ -107,6 +110,18 @@ export function CreateProjectDialog({
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Enter project's description"
+              className="col-span-3"
+            />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="country" className="text-black">
+              Country
+            </Label>
+            <Input
+              id="country"
+              value={country}
+              onChange={(e) => setCountry(e.target.value)} // Update name state on input change
+              placeholder="Enter project country"
               className="col-span-3"
             />
           </div>

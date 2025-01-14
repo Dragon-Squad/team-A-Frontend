@@ -172,6 +172,7 @@ export type EditProjectDialogProps = {
 
 export type CreateProject = {
   charityId: string;
+  country: string;
   description: string;
   categoryIds: string[];
   regionId: string;
@@ -184,6 +185,7 @@ export type CreateProject = {
 export type EditProject = {
   id: string;
   description: string;
+  country: string;
   categories: string[];
   regionId: string;
   title: string;
