@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useProjectById } from "@/hooks/use-project";
-import { useDonate } from "@/hooks/use-donate";
+import { useDonate, useDonateGuest } from "@/hooks/use-donate";
 import { getLocalStorageItem } from "@/utils/helper";
 
 const categories = [
@@ -51,6 +51,7 @@ const ProjectDetailsPage: React.FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const { donate } = useDonate();
+  const { donateGuest } = useDonateGuest();
 
   const { data: project, loading, error } = useProjectById(id!);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -82,7 +83,6 @@ const ProjectDetailsPage: React.FC = () => {
       return;
     }
 
-    // Clear error and proceed with donation
     setErrorMessage("");
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount!;
     donate(localStorage.getItem("userId")!, amount, id!, donationType, message)
@@ -95,6 +95,27 @@ const ProjectDetailsPage: React.FC = () => {
       .catch((error) => {
         console.error("Donation failed:", error);
         setErrorMessage("Donation failed. Please try again.");
+      });
+  };
+
+  const handleGuestDonate = () => {
+    if (!selectedAmount && !customAmount) {
+      setErrorMessage("Please fill in all fields before donating.");
+      return;
+    }
+
+    setErrorMessage("");
+    const amount = customAmount ? parseFloat(customAmount) : selectedAmount!;
+    donateGuest(firstName, lastName, email, address, amount, id!, message)
+      .then((response) => {
+        console.log("Donation successful:", response);
+        if (response.checkoutUrl) {
+          window.location.href = response.checkoutUrl;
+        }
+      })
+      .catch((error) => {
+        console.error("Donation as guest failed:", error);
+        setErrorMessage("Donation as guest failed. Please try again.");
       });
   };
 
@@ -198,28 +219,28 @@ const ProjectDetailsPage: React.FC = () => {
                   placeholder="First Name"
                   value={firstName}
                   onChange={(e) => setFirstName(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                  className="bg-white w-full px-4 py-2 border rounded-lg focus:outline-none"
                 />
                 <input
                   type="text"
                   placeholder="Last Name"
                   value={lastName}
                   onChange={(e) => setLastName(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                  className="bg-white w-full px-4 py-2 border rounded-lg focus:outline-none"
                 />
                 <input
                   type="text"
                   placeholder="Address"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                  className="bg-white w-full px-4 py-2 border rounded-lg focus:outline-none"
                 />
                 <input
                   type="email"
                   placeholder="Email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                  className="bg-white w-full px-4 py-2 border rounded-lg focus:outline-none"
                 />
               </div>
             )}
@@ -234,11 +255,19 @@ const ProjectDetailsPage: React.FC = () => {
                   ? selectedAmount
                   : 0}
             </div>
+            {userId && (
+              <button
+                onClick={handleDonate}
+                className="w-full mt-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+              >
+                Donate Now
+              </button>
+            )}
             <button
-              onClick={handleDonate}
+              onClick={handleGuestDonate}
               className="w-full mt-4 py-3 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
             >
-              Donate Now
+              Donate As Guest
             </button>
           </div>
         </div>
