@@ -45,17 +45,6 @@ const NavigationBar: React.FC = () => {
             ))}
           </ul>
         </div>
-
-        {/* Middle Section: Search Bar */}
-        <div className="hidden md:flex items-center bg-transparent px-4 py-1">
-          <IconSearch size={24} className="text-white mr-2" />
-          <input
-            type="text"
-            placeholder="Search..."
-            className="focus:outline-none text-white placeholder-white bg-transparent w-32 md:w-48"
-          />
-        </div>
-
         {/* Right Section: User Info or Buttons */}
         <div className="hidden md:flex items-center space-x-3">
           {user ? (

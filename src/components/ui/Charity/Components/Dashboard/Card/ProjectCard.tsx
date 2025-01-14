@@ -58,7 +58,7 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
         <Progress value={progressPercentage} className="mt-2" />
         <Button
           className="w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 mt-4"
-          onClick={() => (window.location.href = `/details/${project._id}`)}
+          onClick={() => (window.location.href = `/details/${project.id}`)}
         >
           View Details
         </Button>
