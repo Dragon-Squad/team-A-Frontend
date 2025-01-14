@@ -39,7 +39,7 @@ export const useSubscribeRegion = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const subscribe = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -54,7 +54,7 @@ export const useSubscribeRegion = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    subscribe,
   };
 };
 
@@ -62,7 +62,7 @@ export const useUnsubscribeRegion = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const unsubscribe = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -77,7 +77,7 @@ export const useUnsubscribeRegion = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    unsubscribe,
   };
 };
 
@@ -85,7 +85,7 @@ export const useNotificationOnRegion = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const notificationOn = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -100,7 +100,7 @@ export const useNotificationOnRegion = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    notificationOn,
   };
 };
 
@@ -108,7 +108,7 @@ export const useNotificationOffRegion = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const notificationOff = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -123,6 +123,6 @@ export const useNotificationOffRegion = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    notificationOff,
   };
 };

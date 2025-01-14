@@ -41,7 +41,7 @@ export const useSubscribeCategory = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const subscribe = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -56,7 +56,7 @@ export const useSubscribeCategory = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    subscribe,
   };
 };
 
@@ -64,7 +64,7 @@ export const useUnsubscribeCategory = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const unsubscribe = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -79,7 +79,7 @@ export const useUnsubscribeCategory = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    unsubscribe,
   };
 };
 
@@ -87,7 +87,7 @@ export const useNotificationOnCategory = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const notificationOn = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -102,7 +102,7 @@ export const useNotificationOnCategory = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    notificationOn,
   };
 };
 
@@ -110,7 +110,7 @@ export const useNotificationOffCategory = (projectId: string) => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const haltProject = useCallback(async () => {
+  const notificationOff = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
@@ -125,6 +125,6 @@ export const useNotificationOffCategory = (projectId: string) => {
   return {
     loading,
     error,
-    haltProject,
+    notificationOff,
   };
 };
