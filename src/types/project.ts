@@ -9,6 +9,7 @@ export type Project = {
   goalAmount: number;
   raisedAmount: number;
   region: {
+    id: string;
     name: string;
   };
   categoryId: string[];

@@ -14,7 +14,7 @@ import { httpRequest } from "@/utils/http-request";
 export default class StatisticService {
   static getDonorStatistic = async (): Promise<DonorStatistic> => {
     try {
-      const userId = getLocalStorageItem("userId");
+      const userId = getLocalStorageItem<string>("userId");
       const url = `${DONOR_STATISTIC_URL}/${userId}`;
 
       const headers = new Headers({
@@ -41,7 +41,7 @@ export default class StatisticService {
 
   static getCharityStatistic = async (): Promise<CharityStatistic> => {
     try {
-      const charityId = getLocalStorageItem("charityId");
+      const charityId = getLocalStorageItem<string>("charityId");
       const url = `${CHARITY_STATISTIC_URL}`;
 
       const headers = new Headers({

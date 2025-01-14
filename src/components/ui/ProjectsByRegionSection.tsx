@@ -1,29 +1,33 @@
+import { useProjects } from "@/hooks/use-project";
+import { useRegion } from "@/hooks/use-region";
 import React, { useState } from "react";
 
 const ProjectsByRegionSection: React.FC = () => {
-  const [activeRegion, setActiveRegion] = useState("Asia");
+  const { data: regions } = useRegion();
+  const [activeRegion, setActiveRegion] = useState(regions ? regions[0]._id : "");
+  const { data: projects } = useProjects(undefined, undefined, undefined, activeRegion);
 
-  const regions = [
-    "Asia",
-    "Africa",
-    "Antarctica",
-    "Australia",
-    "Europe",
-    "North America",
-    "South America",
-    "Global",
-  ];
+  // const regions = [
+  //   "Asia",
+  //   "Africa",
+  //   "Antarctica",
+  //   "Australia",
+  //   "Europe",
+  //   "North America",
+  //   "South America",
+  //   "Global",
+  // ];
 
-  const regionDetails = {
-    Asia: ["Project A", "Project B", "Project C"],
-    Africa: ["Project D", "Project E", "Project F"],
-    Antarctica: ["Project G"],
-    Australia: ["Project H", "Project I"],
-    Europe: ["Project J", "Project K"],
-    "North America": ["Project L", "Project M"],
-    "South America": ["Project N", "Project O"],
-    Global: ["Project P", "Project Q", "Project R", "Project S"],
-  };
+  // const regionDetails = {
+  //   Asia: ["Project A", "Project B", "Project C"],
+  //   Africa: ["Project D", "Project E", "Project F"],
+  //   Antarctica: ["Project G"],
+  //   Australia: ["Project H", "Project I"],
+  //   Europe: ["Project J", "Project K"],
+  //   "North America": ["Project L", "Project M"],
+  //   "South America": ["Project N", "Project O"],
+  //   Global: ["Project P", "Project Q", "Project R", "Project S"],
+  // };
 
   return (
     <section className="bg-gray-50 py-16">
@@ -40,17 +44,17 @@ const ProjectsByRegionSection: React.FC = () => {
 
         {/* Region Tabs */}
         <div className="flex justify-center space-x-6 mb-8">
-          {regions.map((region, index) => (
+          {regions?.map((region) => (
             <button
-              key={index}
-              onClick={() => setActiveRegion(region)}
+              key={region._id}
+              onClick={() => setActiveRegion(region._id)}
               className={`text-lg font-medium ${
-                activeRegion === region
+                activeRegion === region._id
                   ? "text-primary-orange border-b-2 border-primary-orange"
                   : "text-gray-600"
               } hover:text-primary-orange`}
             >
-              {region}
+              {region.name}
             </button>
           ))}
         </div>
@@ -73,13 +77,34 @@ const ProjectsByRegionSection: React.FC = () => {
 
         {/* Active Region Details */}
         <div className="mt-8 text-center">
-          <h3 className="text-2xl font-bold text-black">{activeRegion}</h3>
+          <h3 className="text-2xl font-bold text-black">{regions?.find(region => region._id === activeRegion)?.name}</h3>
           <ul className="mt-4 space-y-2">
-            {regionDetails[activeRegion]?.map((project, index) => (
+            {/* {projects?.map((project, index) => (
+              <>
+              {project.region.id === activeRegion && (
               <li key={index} className="text-gray-700 text-sm">
-                {project}
+                {project.title}
               </li>
+            )}
+            </>
             )) || (
+              <li className="text-gray-700 text-sm">
+                No projects available for this region.
+              </li>
+            )} */}
+            {projects && projects.length > 0 ? (
+              <>
+                {projects.map((project, index) => (
+                  <>
+                    {project.region.id === activeRegion && (
+                      <li key={`${project.region.id}-${index}`} className="text-gray-700 text-sm">
+                        {project.title}
+                      </li>
+                    )}
+                  </>
+                ))}
+              </>
+            ) : (
               <li className="text-gray-700 text-sm">
                 No projects available for this region.
               </li>

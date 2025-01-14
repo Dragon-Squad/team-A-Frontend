@@ -10,7 +10,12 @@ import {
 } from "@/types/project";
 import ProjectService from "@/apis/project-service";
 
-export const useProjects = () => {
+export const useProjects = (
+  name?: string,
+  charityName?: string,
+  categoryIds?: string[],
+  regionId?: string,
+) => {
   const [data, setData] = useState<Project[]>([]);
   const [total, setTotal] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
@@ -20,7 +25,12 @@ export const useProjects = () => {
     setLoading(true);
     setError(null);
     try {
-      const data: ApiResponse = await ProjectService.getAllProjects();
+      const data: ApiResponse = await ProjectService.getAllProjects(
+        name,
+        charityName,
+        categoryIds,
+        regionId,
+      );
       setData(data.projects || []);
       setTotal(data.total || 0);
     } catch (err) {
@@ -28,7 +38,7 @@ export const useProjects = () => {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [name, charityName, categoryIds, regionId]);
 
   useEffect(() => {
     fetchProjects();

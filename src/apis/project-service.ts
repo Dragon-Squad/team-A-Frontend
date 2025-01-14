@@ -10,9 +10,32 @@ import {
 import { httpRequest } from "@/utils/http-request";
 
 export default class ProjectService {
-  static getAllProjects = async (): Promise<ApiResponse> => {
+  static getAllProjects = async (
+    name?: string,
+    charityName?: string,
+    categoryIds?: string[],
+    regionId?: string,
+  ): Promise<ApiResponse> => {
     try {
-      const url = `${PROJECT_URL}/all`;
+      let url = `${PROJECT_URL}/all?status=active&`;
+
+      if (name) {
+        url += `name=${name}&`;
+      }
+
+      if (charityName) {
+        url += `charityName=${charityName}&`;
+      }
+
+      if (categoryIds) {
+        categoryIds.forEach((categoryId) => {
+          url += `categoryIds=${categoryId}&`;
+        });
+      }
+
+      if (regionId) {
+        url += `regionId=${regionId}&`;
+      }
 
       const headers = new Headers({
         "Cache-Control": "no-cache",
