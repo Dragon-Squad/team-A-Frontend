@@ -169,7 +169,7 @@ export type CreateProject = {
 };
 
 export type EditProject = {
-  charityId: string;
+  id: string;
   description: string;
   categories: string[];
   regionId: string;

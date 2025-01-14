@@ -22,6 +22,7 @@ import { DateTimePicker24h } from "@/components/datetimepicker";
 import { useEffect, useState } from "react";
 import { EditProject } from "@/types/project";
 import { useUpdateProject } from "@/hooks/use-project";
+import { showToast } from "@/components/ui/showToast";
 
 export function EditProjectDialog({
   triggerClassName,
@@ -52,8 +53,6 @@ export function EditProjectDialog({
     project.goalAmount?.toString() || "",
   );
 
-  console.log(project.categories);
-
   useEffect(() => {
     if (project.categories) {
       setSelectedCategories(project.categories.map((cat) => cat.id || cat._id));
@@ -70,7 +69,7 @@ export function EditProjectDialog({
 
   const handleSubmit = async () => {
     const projectData: EditProject = {
-      ...project,
+      id: project.id,
       categories: selectedCategories,
       description,
       regionId: selectedRegion ?? "",
@@ -79,7 +78,8 @@ export function EditProjectDialog({
       startDate: startDate?.toISOString() ?? "",
       endDate: endDate?.toISOString() ?? "",
     };
-    await updateProject(project._id, projectData); // Pass project ID and updated data
+    await updateProject(project.id, projectData);
+    showToast("Project updated successfully", "success");
   };
 
   return (
@@ -89,7 +89,7 @@ export function EditProjectDialog({
           variant="outline"
           className={triggerClassName}
           onClick={() => {
-            console.log(project.categories);
+            console.log(project.id);
           }}
         >
           Edit Project

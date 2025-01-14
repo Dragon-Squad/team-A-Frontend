@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { EditCharityDialogProps } from "@/types/charity";
+import { showToast } from "@/components/ui/showToast";
 
 export function EditCharityDialog({
   buttonText,
@@ -38,17 +39,11 @@ export function EditCharityDialog({
     try {
       await onSaveChanges(nameInput, typeInput, updatedCategory, updatedRegion);
 
-      toast({
-        description: "The changes have been saved successfully",
-        variant: "success",
-      });
+      showToast("The changes have been saved successfully", "success");
 
       setIsOpen(false);
     } catch (error) {
-      toast({
-        description: `Failed to save the changes: ${error}`,
-        variant: "destructive",
-      });
+      showToast(`Failed to save the changes : ${error}`, "destructive");
     }
   };
 
