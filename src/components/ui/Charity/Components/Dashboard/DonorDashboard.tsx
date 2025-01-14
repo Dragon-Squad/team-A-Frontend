@@ -11,11 +11,13 @@ function DonorDashboard() {
   const [charityName, setCharityName] = useState("");
   const [categoryIds, setCategoryIds] = useState<string[]>([]);
   const [regionId, setRegionId] = useState<string>("");
+  const [country, setCountry] = useState<string>("");
   const { data: projects } = useProjects(
     searchTerm,
     charityName,
     categoryIds,
     regionId,
+    country,
   );
 
   const { data: categories } = useCategory();
@@ -38,6 +40,13 @@ function DonorDashboard() {
           placeholder="Search for active projects based on charity name..."
           value={charityName}
           onChange={(e) => setCharityName(e.target.value)}
+          className="p-2 border border-gray-300 rounded-md w-full mb-4 text-black bg-white"
+        />
+        <input
+          type="text"
+          placeholder="Search for active projects based on country..."
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
           className="p-2 border border-gray-300 rounded-md w-full mb-4 text-black bg-white"
         />
 

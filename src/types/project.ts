@@ -25,6 +25,7 @@ export type Project = {
     taxCode: string;
     __v: number;
   };
+  country?: string;
 };
 
 export type ApiResponse = {
