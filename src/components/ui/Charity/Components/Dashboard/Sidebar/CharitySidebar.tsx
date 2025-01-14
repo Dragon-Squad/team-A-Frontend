@@ -36,7 +36,7 @@ const CharitySidebar: React.FC<SidebarProps> = ({
     },
     {
       name: "Projects Statistics",
-      path: "/statistics",
+      path: "/statistics_charity",
       icon: <IconChartBar size={20} />,
     },
   ];

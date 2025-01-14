@@ -51,7 +51,7 @@ export default class StatisticService {
 
       const body = JSON.stringify({ charityId });
 
-      const response = await httpRequest(url, "GET", headers, body);
+      const response = await httpRequest(url, "POST", headers, body);
 
       if (!response.ok) {
         const errorData = (await response.json()) as { message: string };

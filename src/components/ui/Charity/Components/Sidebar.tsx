@@ -31,8 +31,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activeTab, setActiveTab }) => {
     },
     { name: "Projects", path: "/projects", icon: <IconFolder size={20} /> },
     {
-      name: "Donations Record",
-      path: "/donations",
+      name: "Statistics",
+      path: "/statistics",
       icon: <IconArrowsExchange size={20} />,
     },
     {
