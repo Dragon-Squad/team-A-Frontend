@@ -5,6 +5,7 @@ import {
   createProjectResponse,
   EditProject,
   ProjectByIdDetail,
+  ProjectPatch,
   updateProject,
   updateProjectResponse,
 } from "@/types/project";
@@ -171,6 +172,56 @@ export default class ProjectService {
       }
 
       const data = (await response.json()) as createProjectResponse;
+      return data;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      throw new Error(message);
+    }
+  }
+
+  static async halt(projectId: string): Promise<ProjectPatch> {
+    try {
+      const url = `${PROJECT_URL}/halt/${projectId}`;
+
+      const headers = new Headers({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+      });
+
+      const response = await httpRequest(url, "PATCH", headers);
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as { message: string };
+        throw new Error(errorData.message || "Failed to halt project");
+      }
+
+      const data = (await response.json()) as ProjectPatch;
+      return data;
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "An unexpected error occurred";
+      throw new Error(message);
+    }
+  }
+
+  static async resume(projectId: string): Promise<ProjectPatch> {
+    try {
+      const url = `${PROJECT_URL}/resume/${projectId}`;
+
+      const headers = new Headers({
+        "Content-Type": "application/json",
+        "Access-Control-Allow-Origin": "http://localhost:5173",
+      });
+
+      const response = await httpRequest(url, "PATCH", headers);
+
+      if (!response.ok) {
+        const errorData = (await response.json()) as { message: string };
+        throw new Error(errorData.message || "Failed to halt project");
+      }
+
+      const data = (await response.json()) as ProjectPatch;
       return data;
     } catch (err) {
       const message =

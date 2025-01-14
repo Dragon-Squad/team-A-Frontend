@@ -6,6 +6,7 @@ import {
   EditProject,
   Project,
   ProjectByIdDetail,
+  ProjectPatch,
   updatedProjectObject,
   updateProjectResponse,
 } from "@/types/project";
@@ -177,4 +178,65 @@ export const useCreateProject = () => {
   };
 
   return { createdProject, loading, error, createProject };
+};
+
+export const useHaltProject = (projectId: string) => {
+  const [data, setData] = useState<ProjectPatch | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const haltProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data: ProjectPatch = await ProjectService.halt(projectId);
+      setData(data || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  useEffect(() => {
+    haltProject();
+  }, [haltProject]);
+
+  return {
+    data,
+    loading,
+    error,
+    refresh: haltProject,
+  };
+};
+
+
+export const useResumeProject = (projectId: string) => {
+  const [data, setData] = useState<ProjectPatch | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const resumeProject = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data: ProjectPatch = await ProjectService.resume(projectId);
+      setData(data || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "An error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  }, [projectId]);
+
+  useEffect(() => {
+    resumeProject();
+  }, [resumeProject]);
+
+  return {
+    data,
+    loading,
+    error,
+    refresh: resumeProject,
+  };
 };

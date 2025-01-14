@@ -216,3 +216,20 @@ export type ProjectsCardProps = {
   categories: Category[];
   regions: Region[];
 };
+
+export type ProjectPatch = {
+  _id: string;
+  charityId: string;
+  categoryIds: string[];
+  regionId: string;
+  title: string;
+  description: string;
+  goalAmount: number;
+  raisedAmount: number;
+  status: string;
+  images: string[];
+  videos: string[];
+  __v: number;
+  startDate: Date;
+  endDate: Date;
+}
