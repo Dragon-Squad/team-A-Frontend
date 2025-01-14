@@ -64,6 +64,10 @@ const LatestNewsAndBlogSection: React.FC = () => {
                 src={item.image}
                 alt={item.title}
                 className="w-full h-48 object-cover"
+                onError={(e) =>
+                  (e.currentTarget.src =
+                    "public/img/default-fallback-image.png")
+                }
               />
               {/* News Content */}
               <div className="p-6">

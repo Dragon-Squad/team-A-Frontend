@@ -65,6 +65,9 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
           src={project.images?.[0] ?? "public/img/default-fallback-image.png"}
           alt={project.title}
           className="w-full h-48 object-cover rounded-t-lg sm:h-64 md:h-72 lg:h-80"
+          onError={(e) =>
+            (e.currentTarget.src = "public/img/default-fallback-image.png")
+          }
         />
         <CardHeader className="p-4 sm:p-6">
           <CardTitle
