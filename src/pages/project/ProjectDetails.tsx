@@ -4,6 +4,7 @@ import { useProjectById } from "@/hooks/use-project";
 import { useDonate, useDonateGuest } from "@/hooks/use-donate";
 import { getLocalStorageItem } from "@/utils/helper";
 import { useCategory } from "@/hooks/use-category";
+import { useRegion } from "@/hooks/use-region";
 
 const ProjectDetailsPage: React.FC = () => {
   const { id } = useParams();
@@ -11,6 +12,7 @@ const ProjectDetailsPage: React.FC = () => {
   const { donate } = useDonate();
   const { donateGuest } = useDonateGuest();
   const { data: categories } = useCategory();
+  const { data: regions } = useRegion();
 
   const { data: project, loading, error } = useProjectById(id!);
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
@@ -237,14 +239,28 @@ const ProjectDetailsPage: React.FC = () => {
               {categories?.map((category) => (
                 <li key={category.name} className="py-2">
                   <Link
-                    to={`/projects/${category.name}?categoryId=${category._id}`}
+                    to={`/projects/category/${category.name}?categoryId=${category._id}`}
                     className="text-orange-500 hover:underline"
                   >
                     {category.name}
                   </Link>
-                  <p className="text-sm text-gray-500">
-                    {category.description}
-                  </p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <div className="md:col-span-4 space-y-6">
+          <div className="p-6 bg-gray-100 rounded-lg shadow-lg">
+            <h3 className="text-lg font-bold text-gray-800">Regions</h3>
+            <ul className="mt-4 text-gray-600">
+              {regions?.map((region) => (
+                <li key={region.name} className="py-2">
+                  <Link
+                    to={`/projects/region/${region.name}?regionId=${region._id}`}
+                    className="text-orange-500 hover:underline"
+                  >
+                    {region.name}
+                  </Link>
                 </li>
               ))}
             </ul>

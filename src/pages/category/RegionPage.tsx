@@ -6,32 +6,38 @@ import {
   useNotificationOnCategory,
   useNotificationOffCategory,
 } from "@/hooks/use-category";
+import {
+  useNotificationOffRegion,
+  useNotificationOnRegion,
+  useSubscribeRegion,
+  useUnsubscribeRegion,
+} from "@/hooks/use-region";
 
-const CategoryPage: React.FC = () => {
+const RegionPage: React.FC = () => {
   const { category } = useParams();
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
-  const categoryId = queryParams.get("categoryId") || "";
+  const regionId = queryParams.get("regionId") || "";
   const {
     subscribe,
     loading: subscribeLoading,
     error: subscribeError,
-  } = useSubscribeCategory(categoryId);
+  } = useSubscribeRegion(regionId);
   const {
     unsubscribe,
     loading: unsubscribeLoading,
     error: unsubscribeError,
-  } = useUnsubscribeCategory(categoryId);
+  } = useUnsubscribeRegion(regionId);
   const {
     notificationOn,
     loading: notificationOnLoading,
     error: notificationOnError,
-  } = useNotificationOnCategory(categoryId);
+  } = useNotificationOnRegion(regionId);
   const {
     notificationOff,
     loading: notificationOffLoading,
     error: notificationOffError,
-  } = useNotificationOffCategory(categoryId);
+  } = useNotificationOffRegion(regionId);
 
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
@@ -113,4 +119,4 @@ const CategoryPage: React.FC = () => {
   );
 };
 
-export default CategoryPage;
+export default RegionPage;
