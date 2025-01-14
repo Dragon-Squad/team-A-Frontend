@@ -5,7 +5,11 @@ import { EditProjectDialog } from "../Dialog/EditProjectDialog";
 import { ProjectsCardProps } from "@/types/project";
 import { getLocalStorageItem } from "@/utils/helper";
 import { Progress } from "@/components/ui/progress";
-import { useHaltProject, useResumeProject } from "@/hooks/use-project";
+import {
+  useHaltProject,
+  useResumeProject,
+  useDeleteProject,
+} from "@/hooks/use-project";
 
 const ProjectCard: React.FC<ProjectsCardProps> = ({
   project,
@@ -25,6 +29,11 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
     error: resumeError,
     resumeProject,
   } = useResumeProject(project.id);
+  const {
+    loading: deleteLoading,
+    error: deleteError,
+    deleteProject,
+  } = useDeleteProject(project.id);
 
   useEffect(() => {
     const role = getLocalStorageItem<string>("userRole");
@@ -37,6 +46,10 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
 
   const handleResumeProject = async () => {
     await resumeProject();
+  };
+
+  const handleDeleteProject = async () => {
+    await deleteProject();
   };
 
   const progressPercentage = (project.raisedAmount / project.goalAmount) * 100;
@@ -117,20 +130,36 @@ const ProjectCard: React.FC<ProjectsCardProps> = ({
               </p>
             )}
             {project.status !== "active" && (
-              <Button
-                className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-800 mt-4"
-                onClick={handleResumeProject}
-                disabled={resumeLoading}
-              >
-                {resumeLoading ? "Resuming..." : "Resume Project"}
-              </Button>
-            )}
-            {resumeError && (
-              <p className="text-red-500 mt-2">
-                {resumeError === "Project not found"
-                  ? "Cannot resume active project"
-                  : resumeError}
-              </p>
+              <>
+                <Button
+                  className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-800 mt-4"
+                  onClick={handleResumeProject}
+                  disabled={resumeLoading}
+                >
+                  {resumeLoading ? "Resuming..." : "Resume Project"}
+                </Button>
+                {resumeError && (
+                  <p className="text-red-500 mt-2">
+                    {resumeError === "Project not found"
+                      ? "Cannot resume active project"
+                      : resumeError}
+                  </p>
+                )}
+                <Button
+                  className="w-full bg-red-600 text-white py-2 rounded-md hover:bg-red-800 mt-4"
+                  onClick={handleDeleteProject}
+                  disabled={deleteLoading}
+                >
+                  {deleteLoading ? "Deleting..." : "Delete Project"}
+                </Button>
+                {deleteError && (
+                  <p className="text-red-500 mt-2">
+                    {deleteError === "Project not found"
+                      ? "Cannot delete non-existent project"
+                      : deleteError}
+                  </p>
+                )}
+              </>
             )}
           </div>
         )}
