@@ -1,28 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useProjectById } from "@/hooks/use-project";
 import { useDonate } from "@/hooks/use-donate";
-
-type Region = {
-  _id: string;
-  name: string;
-};
-
-type Category = {
-  id: string;
-  name: string;
-};
-
-type Project = {
-  _id: string;
-  title: string;
-  description: string;
-  images: string[];
-  goalAmount: number;
-  raisedAmount: number;
-  regionId: Region;
-  categories: Category[];
-};
+import { getLocalStorageItem } from "@/utils/helper";
 
 const categories = [
   {
@@ -77,7 +57,14 @@ const ProjectDetailsPage: React.FC = () => {
   const [customAmount, setCustomAmount] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string>("");
-  const [paymentType, setPaymentType] = useState<string>("one-time");
+  const [donationType, setdonationType] = useState<string>("one-time");
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [address, setAddress] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  const userId = getLocalStorageItem<string>("userId");
+  console.log("Payment type:", donationType);
 
   const handleAmountClick = (amount: number) => {
     setSelectedAmount(amount);
@@ -98,7 +85,7 @@ const ProjectDetailsPage: React.FC = () => {
     // Clear error and proceed with donation
     setErrorMessage("");
     const amount = customAmount ? parseFloat(customAmount) : selectedAmount!;
-    donate(localStorage.getItem("userId")!, amount, id!, "one-time", message)
+    donate(localStorage.getItem("userId")!, amount, id!, donationType, message)
       .then((response) => {
         console.log("Donation successful:", response);
         if (response.checkoutUrl) {
@@ -172,36 +159,70 @@ const ProjectDetailsPage: React.FC = () => {
                 placeholder="Custom Amount"
                 value={customAmount}
                 onChange={handleCustomAmountChange}
-                className="w-32 px-4 py-2 border rounded-lg focus:outline-none"
+                className="bg-white w-32 px-4 py-2 border rounded-lg focus:outline-none"
               />
             </div>
-            <div className="flex gap-4 mb-6">
-              <label className="flex items-center gap-2 text-black">
-                <input
-                  type="radio"
-                  value="one-time"
-                  checked={paymentType === "one-time"}
-                  onChange={() => setPaymentType("one-time")}
-                />
-                One-time
-              </label>
-              <label className="flex items-center gap-2 text-black">
-                <input
-                  type="radio"
-                  value="monthly"
-                  checked={paymentType === "monthly"}
-                  onChange={() => setPaymentType("monthly")}
-                />
-                Monthly
-              </label>
-            </div>
+            {userId && (
+              <div className="flex gap-4 mb-6">
+                <label className="flex items-center gap-2 text-black">
+                  <input
+                    type="radio"
+                    value="one-time"
+                    checked={donationType === "one-time"}
+                    onChange={() => setdonationType("one-time")}
+                  />
+                  One-time
+                </label>
+                <label className="flex items-center gap-2 text-black">
+                  <input
+                    type="radio"
+                    value="monthly"
+                    checked={donationType === "monthly"}
+                    onChange={() => setdonationType("monthly")}
+                  />
+                  Monthly
+                </label>
+              </div>
+            )}
             <textarea
               placeholder="Add a message (optional, up to 250 characters)"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               maxLength={250}
-              className="w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none"
+              className="bg-white w-full px-4 py-2 mb-4 border rounded-lg focus:outline-none"
             />
+            {!userId && (
+              <div className="space-y-4">
+                <input
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                />
+                <input
+                  type="text"
+                  placeholder="Address"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full px-4 py-2 border rounded-lg focus:outline-none"
+                />
+              </div>
+            )}
             {errorMessage && (
               <p className="text-red-500 text-sm">{errorMessage}</p>
             )}
@@ -240,12 +261,16 @@ const ProjectDetailsPage: React.FC = () => {
               ))}
             </ul>
           </div>
-          <div className="p-6 bg-gray-100 rounded-lg shadow-lg text-center">
-            <h3 className="text-lg font-bold text-gray-800 mb-4">Subscribe</h3>
-            <button className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
-              Subscribe
-            </button>
-          </div>
+          {userId && (
+            <div className="p-6 bg-gray-100 rounded-lg shadow-lg text-center">
+              <h3 className="text-lg font-bold text-gray-800 mb-4">
+                Subscribe
+              </h3>
+              <button className="px-6 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+                Subscribe
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

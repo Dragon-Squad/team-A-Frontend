@@ -27,6 +27,17 @@ export type Project = {
   };
 };
 
+export type ShortProject = {
+  _id: string;
+  title: string;
+  description: string;
+  images: string[];
+  goalAmount: number;
+  raisedAmount: number;
+  regionId: Region;
+  categories: Category[];
+};
+
 export type ApiResponse = {
   projects: Project[];
   total: number;

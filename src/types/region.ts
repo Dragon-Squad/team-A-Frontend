@@ -10,3 +10,13 @@ export type Region = {
 export type AllRegionResponse = {
   regions: Region[];
 };
+
+export type MockRegion = {
+  _id: string;
+  name: string;
+};
+
+export type MockCategory = {
+  id: string;
+  name: string;
+};

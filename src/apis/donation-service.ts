@@ -30,7 +30,7 @@ export default class DonationService {
 
       if (!response.ok) {
         const errorData = (await response.json()) as { message: string };
-        throw new Error(errorData.message || "Failed to register");
+        throw new Error(errorData.message || "Failed to donate");
       }
 
       const data = (await response.json()) as DonateResponse;
